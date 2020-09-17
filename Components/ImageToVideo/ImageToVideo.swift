@@ -13,14 +13,27 @@ import UIKit
 import Photos
 
 class ImageToVideo {
-    func create(images:Array<UIImage>, fps:Int32) {
+    static func create(images:Array<UIImage>, fps:Int32, completion: @escaping (String) -> ()) {
+        let group = DispatchGroup()
+        let settings = RenderSettings(width:images[0].size.width, height: images[0].size.height, fps:fps)
+        let imageAnimator = ImageAnimator(renderSettings: settings, imagearr: images)
+        group.enter()
         DispatchQueue.main.async {
-            let settings = RenderSettings(width:images[0].size.width, height: images[0].size.height, fps:fps)
-            let imageAnimator = ImageAnimator(renderSettings: settings, imagearr: images)
-            imageAnimator.render() {
-                print("Video Save Completed")
-            }
+            imageAnimator.render(image: images[0], dispatchGroup:group) {}
         }
+        group.notify(queue: .main) {
+            completion(imageAnimator.outputPath)
+        }
+    }
+    
+    static func savePreviewImage(image: UIImage) -> URL?{
+        if let data = image.jpegData(compressionQuality: 1) {
+            let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let filename = path.appendingPathComponent(UUID().uuidString+".jpg")
+            try? data.write(to: filename)
+            return filename
+        }
+        return nil
     }
 }
 
@@ -186,12 +199,13 @@ class VideoWriter {
 
 class ImageAnimator{
     
+    
     static let kTimescale: Int32 = 600
     
     let settings: RenderSettings
     let videoWriter: VideoWriter
     var images: [UIImage]!
-    
+    var outputPath: String
     var frameNum = 0
     
     class func removeFileAtURL(fileURL: NSURL) {
@@ -207,19 +221,21 @@ class ImageAnimator{
         settings = renderSettings
         videoWriter = VideoWriter(renderSettings: settings)
         images = imagearr
+        outputPath = ""
     }
     
-    func render(completion: @escaping ()->Void) {
+    func render(image:UIImage, dispatchGroup:DispatchGroup, completion: @escaping ()->Void) {
         // The VideoWriter will fail if a file exists at the URL, so clear it out first.
         ImageAnimator.removeFileAtURL(fileURL: settings.outputURL)
         videoWriter.start()
         videoWriter.render(appendPixelBuffers: appendPixelBuffers) {
-            self.saveToLibrary(path: self.settings.outputURL.path!)
+            self.saveToLibrary(path: self.settings.outputURL.path!, dispatchGroup: dispatchGroup)
+            //let imageURL = ImageToVideo.savePreviewImage(image: image)
+            //let fileURL = URL(fileURLWithPath: self.settings.outputURL.path!) as URL
         }
-        
     }
     
-    func saveToLibrary(path:String) {
+    func saveToLibrary(path:String, dispatchGroup:DispatchGroup) {
         PHPhotoLibrary.requestAuthorization { status in
             guard status == .authorized else { return }
             PHPhotoLibrary.shared().performChanges({
@@ -229,6 +245,8 @@ class ImageAnimator{
                     print("Could not save video to photo library:", error!)
                 } else {
                     print("Video saved to: \(path)")
+                    self.outputPath = path
+                    dispatchGroup.leave()
                 }
             }
         }

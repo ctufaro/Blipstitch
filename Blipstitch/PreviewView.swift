@@ -82,16 +82,20 @@ struct PreviewView: View {
     }
     
     func createVideo(){
-        print("Start Creating Video")
+        print("Process Video Starting")
         let serialQueue = DispatchQueue(label: "mySerialQueue")
         serialQueue.async {
-             var newDuration = Int32(self.duration)
-             if newDuration == 0 { newDuration = 1 }
-             var newFps = Int32(self.shots.count)/newDuration
-             if newFps == 0 { newFps = 1 }
-            ImageToVideo().create(images: self.shots+self.shots.reversed(), fps: newFps*2)
+            var newDuration = Int32(self.duration)
+            if newDuration == 0 { newDuration = 1 }
+            var newFps = Int32(self.shots.count)/newDuration
+            if newFps == 0 { newFps = 1 }
+            ImageToVideo.create(images: self.shots+self.shots.reversed(), fps: newFps*2) { fileUrl in
+                let imageUrl = ImageToVideo.savePreviewImage(image: self.shots[0])
+                RestAPI.UploadVideo(fileURL: URL(fileURLWithPath: fileUrl), imageUrl: imageUrl!){
+                    print("Process Video Completed")
+                }
+            }
         }
-        print("Video Upload Completed")
     }
     
     func calcBounds() -> Double{
@@ -105,10 +109,11 @@ struct PreviewView: View {
     
     struct PreviewView_Previews: PreviewProvider {
         static var images: Array<UIImage>! = [
-            UIImage(named: "0")!,
-            UIImage(named: "1")!,
-            UIImage(named: "2")!,
-            UIImage(named: "3")!
+            UIImage(named: "Us1")!,
+            UIImage(named: "Us2")!,
+            UIImage(named: "Us3")!,
+            UIImage(named: "Us4")!,
+            UIImage(named: "Us5")!
         ]
         @State static var shots:Array<UIImage>! = images + images.reversed()
         

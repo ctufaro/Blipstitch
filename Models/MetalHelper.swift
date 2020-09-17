@@ -14,6 +14,7 @@ class MetalHelper : ObservableObject{
     var shots: Array<UIImage>!
     var takePicture:Bool
     var capturedImage:UIImage?
+    var compressionQuality:CGFloat = 0.5
     @Published var flashText:Bool = false
     @Published var filterName : String = ""
     @Published var count:Int
@@ -42,7 +43,7 @@ class MetalHelper : ObservableObject{
         self.count += 1
         self.capturedImage = uiImage
         DispatchQueue.global(qos: .background).async {
-            let newImage = uiImage.jpegData(compressionQuality: 0.5)! as Data
+            let newImage = uiImage.jpegData(compressionQuality: self.compressionQuality)! as Data
             self.shots.append(UIImage(data: newImage)!)
         }
     }

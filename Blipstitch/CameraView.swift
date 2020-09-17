@@ -48,7 +48,7 @@ struct CameraView: View {
                     }
                 }.padding()
                 VStack {
-                    HStack(spacing: 15) {
+                    /*HStack(spacing: 15) {
                         Button(action: {
                             self.top = 0
                         }) {
@@ -65,7 +65,7 @@ struct CameraView: View {
                                 .fontWeight(self.top == 1 ? .bold : .none)
                                 .padding(.vertical)
                         }
-                    }
+                    }*/
                     Spacer()
                     HStack {
                         Spacer()
@@ -127,7 +127,7 @@ struct CameraView: View {
                     }
                     HStack(spacing: 0) {
                         Spacer()
-                        ButtonPress(method:self.metalHelper.captureShot)
+                        ButtonPress(method:self.metalHelper.captureShot).offset(y:-UIScreen.screenHeight / 15)
                         Spacer()
                     }.padding(.bottom, 5)
                 }

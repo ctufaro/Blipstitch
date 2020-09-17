@@ -13,12 +13,18 @@ struct FeedItem: Hashable, Codable, Identifiable {
     var smallText: String
     var largeText: String
     var imageName: String
+    var heartSelected: Bool
     
     init(id:Int, smallText: String, largeText: String, imageName: String){
         self.id = id
         self.smallText = smallText
         self.largeText = largeText
         self.imageName = imageName
+        self.heartSelected = false
+    }
+    
+    mutating func heartSelect(){
+        self.heartSelected.toggle()
     }
     
 }

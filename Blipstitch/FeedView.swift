@@ -47,14 +47,12 @@ struct FeedView: View {
 struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
         FeedView(viewRouter: ViewRouter())
-        //FeedItemRow(feedItem: FeedItem(id: 0, smallText: "Some Small Text Here", largeText: "Some Large Text Here", imageName: "Us1"))
-        //.previewLayout(.fixed(width: 500, height: 300))
     }
 }
 
 
 struct FeedItemRow: View{
-    var feedItem: FeedItem
+    @State var feedItem: FeedItem
     var body: some View{
         ZStack{
             Image(feedItem.imageName)
@@ -88,9 +86,9 @@ struct FeedItemRow: View{
                     Spacer()
                     VStack {
                         Button(action: {
-                            print("heart on")
+                            self.feedItem.heartSelect()
                         }) {
-                            Image(systemName:"heart")
+                            Image(systemName: feedItem.heartSelected ? "heart.fill" : "heart")
                                 .foregroundColor(.white)
                                 .font(.system(size: 35))
                         }
