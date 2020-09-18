@@ -8,11 +8,6 @@
 
 import SwiftUI
 
-struct TestContentView: View {
-    var body: some View {
-        Home()
-    }
-}
 
 struct TestContentView_Previews: PreviewProvider {
     static var previews: some View {
@@ -20,49 +15,15 @@ struct TestContentView_Previews: PreviewProvider {
     }
 }
 
-struct Home: View{
-    @State var edges = UIApplication.shared.windows.first?.safeAreaInsets
-    @State var width = UIScreen.main.bounds.width
-    @State var show = false
+struct TestContentView: View{
+
     @State var selectedIndex = ""
-    @State var min : CGFloat = 0
-    
-    
+    @State var show = false
+
     var body: some View{
         ZStack{
             VStack{
-                ZStack{
-                    HStack{
-                        Button(action:{}, label:{
-                            Image(systemName: "line.horizontal.3")
-                                .font(.system(size:22))
-                                .foregroundColor(.black)
-                        })
-                        Spacer(minLength: 0)
-                        Button(action:{
-                            
-                            withAnimation(.spring()){
-                                self.show.toggle()
-                            }
-                            
-                        }, label:{
-                            Image("Chris")
-                                .resizable()
-                                .renderingMode(.original)
-                                .frame(width:35, height: 35)
-                                .clipShape(Circle())
-                        })
-                    }
-                    
-                    Text("Home")
-                        .font(.title)
-                        .fontWeight(.semibold)
-                }
-                .padding()
-                    // since top edges are ignored
-                    .padding(.top,edges!.top)
-                    .background(Color.white)
-                    .shadow(color:Color.black.opacity(0.1), radius: 5, x:0, y:5)
+                TopMenu(show: $show)
                 
                 Spacer(minLength: 0)
                 
@@ -71,74 +32,125 @@ struct Home: View{
                 Spacer(minLength: 0)
             }
             
-            // Side Menu
-            HStack(spacing:0){
-                
-                Spacer(minLength: 0)
-                
-                VStack{
-                    HStack{
-                        Spacer(minLength: 0)
-                        Button(action:{
-                            withAnimation(.spring()){
-                                self.show.toggle()
-                            }
-                        }, label:{
-                            Image(systemName:"xmark")
-                                .font(.system(size:22, weight:.bold))
-                                .foregroundColor(.white)
-                        })
-                    }
-                    .padding()
-                    .padding(.top,edges!.top)
-                    
-                    HStack(spacing: 15){
-
-                        GeometryReader{reader in
-                            Image("Chris")
-                                .resizable()
-                                .frame(width:75, height:75)
-                                .clipShape(Circle())
-                                .onAppear(perform:{
-                                    self.min = reader.frame(in: .global).minY
-                            })
-                        }
-                        .frame(width:75, height:75)
-                        
-                        VStack(alignment: .leading, spacing: 5){
-                            Text("Chris")
-                                .font(.title)
-                                .fontWeight(.semibold)
-                            Text("ctufaro@gmail.com")
-                                .fontWeight(.semibold)
-                        }
-                        .foregroundColor(.white)
-                        Spacer(minLength: 0)
-                    }
-                    .padding(.horizontal)
-                    
-                    // Menu Buttons
-                    VStack(alignment: .leading){
-                        MenuButtons(image: "cart", title: "My Orders", selected: $selectedIndex, show: $show)
-                        MenuButtons(image: "person", title: "My Profile", selected: $selectedIndex, show: $show)
-                        MenuButtons(image: "mappin", title: "Delivery Address", selected: $selectedIndex, show: $show)
-                        MenuButtons(image: "creditcard", title: "Payment Methods", selected: $selectedIndex, show: $show)
-                        MenuButtons(image: "envelope", title: "Contact Us", selected: $selectedIndex, show: $show)
-                        MenuButtons(image: "gear", title: "Settings", selected: $selectedIndex, show: $show)
-                        MenuButtons(image: "info.circle", title: "Help & FAQs", selected: $selectedIndex, show: $show)
-                    }
-                    .padding(.top)
-                    .padding(.leading,45)
-                    
-                    Spacer(minLength: 0)
-                }
-                .frame(width: width - 100)
-                .background(Color("Bg").clipShape(CustomShape(min: $min)))
-                .offset(x: show ? 0 : width - 100)
-            }
-            .background(Color.black.opacity(show ? 0.3 : 0))
+            SideMenu(show: $show, selectedIndex: $selectedIndex)
+            
         }
         .edgesIgnoringSafeArea(.all)
+    }
+}
+
+struct SideMenu: View{
+    @State var edges = UIApplication.shared.windows.first?.safeAreaInsets
+    @State var width = UIScreen.main.bounds.width
+    @State var min : CGFloat = 0
+    @Binding var show : Bool
+    @Binding var selectedIndex : String
+    
+    var body: some View{
+        HStack(spacing:0){
+            
+            Spacer(minLength: 0)
+            
+            VStack{
+                HStack{
+                    Spacer(minLength: 0)
+                    Button(action:{
+                        withAnimation(.spring()){
+                            self.show.toggle()
+                        }
+                    }, label:{
+                        Image(systemName:"xmark")
+                            .font(.system(size:22, weight:.bold))
+                            .foregroundColor(.white)
+                    })
+                }
+                .padding()
+                .padding(.top,edges!.top)
+                
+                HStack(spacing: 15){
+
+                    GeometryReader{reader in
+                        Image("Chris")
+                            .resizable()
+                            .frame(width:75, height:75)
+                            .clipShape(Circle())
+                            .onAppear(perform:{
+                                self.min = reader.frame(in: .global).minY
+                        })
+                    }
+                    .frame(width:75, height:75)
+                    
+                    VStack(alignment: .leading, spacing: 5){
+                        Text("Chris")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                        Text("ctufaro@gmail.com")
+                            .fontWeight(.semibold)
+                    }
+                    .foregroundColor(.white)
+                    Spacer(minLength: 0)
+                }
+                .padding(.horizontal)
+                
+                // Menu Buttons
+                VStack(alignment: .leading){
+                    MenuButtons(image: "cart", title: "My Orders", selected: $selectedIndex, show: $show)
+                    MenuButtons(image: "person", title: "My Profile", selected: $selectedIndex, show: $show)
+                    MenuButtons(image: "mappin", title: "Delivery Address", selected: $selectedIndex, show: $show)
+                    MenuButtons(image: "creditcard", title: "Payment Methods", selected: $selectedIndex, show: $show)
+                    MenuButtons(image: "envelope", title: "Contact Us", selected: $selectedIndex, show: $show)
+                    MenuButtons(image: "gear", title: "Settings", selected: $selectedIndex, show: $show)
+                    MenuButtons(image: "info.circle", title: "Help & FAQs", selected: $selectedIndex, show: $show)
+                }
+                .padding(.top)
+                .padding(.leading,45)
+                
+                Spacer(minLength: 0)
+            }
+            .frame(width: width - 100)
+            .background(Color("Bg").clipShape(CustomShape(min: $min)))
+            .offset(x: show ? 0 : width - 100)
+        }
+        .background(Color.black.opacity(show ? 0.3 : 0))
+    }
+}
+
+struct TopMenu: View{
+    @State var edges = UIApplication.shared.windows.first?.safeAreaInsets
+    @Binding var show: Bool
+    var body: some View{
+        ZStack{
+            HStack{
+                Button(action:{}, label:{
+                    Image(systemName: "line.horizontal.3")
+                        .font(.system(size:22))
+                        .foregroundColor(.black)
+                })
+                Spacer(minLength: 0)
+                Button(action:{
+                    
+                    withAnimation(.spring()){
+                        self.show.toggle()
+                    }
+                    
+                }, label:{
+                    Image("Chris")
+                        .resizable()
+                        .renderingMode(.original)
+                        .frame(width:35, height: 35)
+                        .clipShape(Circle())
+                })
+            }
+            
+            Text("Home")
+                .font(.title)
+                .fontWeight(.semibold)
+        }
+        .padding()
+            // since top edges are ignored
+            .padding(.top,edges!.top)
+            .background(Color.white)
+            .shadow(color:Color.black.opacity(0.1), radius: 5, x:0, y:5)
     }
 }
 
@@ -173,8 +185,6 @@ struct MenuButtons: View{
             .foregroundColor(.white)
     }
 }
-
-// Custom Shape...
 
 struct CustomShape: Shape{
     @Binding var min : CGFloat
