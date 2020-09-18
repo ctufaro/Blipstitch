@@ -10,14 +10,15 @@ import SwiftUI
 
 struct FeedView: View {
     @ObservedObject var viewRouter : ViewRouter
+    @ObservedObject var networkManager = NetworkManager()
     var body: some View {
         GeometryReader { reader in
             NavigationView{
                 VStack {
-                    TopMenuView(viewRouter:self.viewRouter).padding(.top,15)
+                    TopMenuView(viewRouter:self.viewRouter)
                     List {
-                        ForEach(self.buildArray()) { item in
-                            NavigationLink(destination: TemplateView(viewRouter: self.viewRouter)) {
+                        ForEach(self.networkManager.feedItems) { item in
+                            NavigationLink(destination: VideoPlayerView(myVidUrl: item.postMotion)) {
                                 FeedItemRow(feedItem: item)
                                     .listRowInsets(EdgeInsets(top: -1, leading: 0, bottom: -1, trailing: 0)).offset(x:UIScreen.main.bounds.width-(UIScreen.main.bounds.width*1.05))
                                 
@@ -35,11 +36,11 @@ struct FeedView: View {
     
     func buildArray() -> [FeedItem]{
         var items = [FeedItem]()
-        items.append(FeedItem(id: 0, smallText: "Small Text Here", largeText: "LARGE TEXT HERE", imageName: "Us1"))
-        items.append(FeedItem(id: 1, smallText: "Small Text Here", largeText: "LARGE TEXT HERE", imageName: "Us2"))
-        items.append(FeedItem(id: 2, smallText: "Small Text Here", largeText: "LARGE TEXT HERE", imageName: "Us3"))
-        items.append(FeedItem(id: 3, smallText: "Small Text Here", largeText: "LARGE TEXT HERE", imageName: "Us4"))
-        items.append(FeedItem(id: 4, smallText: "Small Text Here", largeText: "LARGE TEXT HERE", imageName: "Us5"))
+        items.append(FeedItem(id: 0, postTitle: "Post Text Here", postImage: "Us1", userName: "@bliptester", postMotion: "postMotion"))
+        items.append(FeedItem(id: 1, postTitle: "Post Text Here", postImage: "Us2", userName: "@bliptester", postMotion: "postMotion"))
+        items.append(FeedItem(id: 2, postTitle: "Post Text Here", postImage: "Us3", userName: "@bliptester", postMotion: "postMotion"))
+        items.append(FeedItem(id: 3, postTitle: "Post Text Here", postImage: "Us4", userName: "@bliptester", postMotion: "postMotion"))
+        items.append(FeedItem(id: 4, postTitle: "Post Text Here", postImage: "Us5", userName: "@bliptester", postMotion: "postMotion"))
         return items
     }
 }
@@ -50,29 +51,20 @@ struct FeedView_Previews: PreviewProvider {
     }
 }
 
-
 struct FeedItemRow: View{
     @State var feedItem: FeedItem
     var body: some View{
         ZStack{
-            Image(feedItem.imageName)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: UIScreen.screenWidth+4, height: 200, alignment: .center)
-                .clipped()
+            FeedImageView(imageUrl: feedItem.postImage)
             VStack {
-                HStack {
-                    Spacer()
-                    AvatarView(size:35).padding()
-                }
                 Spacer()
                 HStack{
                     VStack(alignment: .leading, spacing: 0){
-                        Text(feedItem.smallText)
+                        Text(feedItem.userName)
                             .foregroundColor(.white)
                             .font(Font.custom("AvenirNext-Medium", size: 14.0))
                         
-                        Text(feedItem.largeText)
+                        Text(feedItem.postTitle)
                             .foregroundColor(.white)
                             .font(Font.custom("AvenirNext-Bold", size: 24.0))
                             .offset(y:-5)
@@ -86,9 +78,9 @@ struct FeedItemRow: View{
                     Spacer()
                     VStack {
                         Button(action: {
-                            self.feedItem.heartSelect()
+                            //self.feedItem.heartSelect()
                         }) {
-                            Image(systemName: feedItem.heartSelected ? "heart.fill" : "heart")
+                            Image(systemName: "heart")
                                 .foregroundColor(.white)
                                 .font(.system(size: 35))
                         }
@@ -100,5 +92,22 @@ struct FeedItemRow: View{
                 }.padding()
             }
         }
+    }
+}
+
+struct FeedImageView: View {
+    
+    @ObservedObject var imageLoader: ImageLoader
+    
+    init(imageUrl: String) {
+        imageLoader = ImageLoader(imageUrl: imageUrl)
+    }
+    
+    var body: some View {
+        Image(uiImage: (imageLoader.data.count == 0) ? UIImage(named: "Loading")! : UIImage(data: imageLoader.data)!)
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: UIScreen.screenWidth+4, height: 200, alignment: .center)
+            .clipped()
     }
 }

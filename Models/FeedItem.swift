@@ -9,23 +9,26 @@
 import SwiftUI
 
 struct FeedItem: Hashable, Codable, Identifiable {
-    var id: Int
-    var smallText: String
-    var largeText: String
-    var imageName: String
-    var heartSelected: Bool
+    let id: Int
+    let postTitle, postImage, userName, postMotion: String
     
-    init(id:Int, smallText: String, largeText: String, imageName: String){
+    init(id:Int, postTitle: String, postImage: String, userName: String, postMotion: String){
         self.id = id
-        self.smallText = smallText
-        self.largeText = largeText
-        self.imageName = imageName
-        self.heartSelected = false
+        self.postTitle = postTitle
+        self.postImage = postImage
+        self.userName = userName
+        self.postMotion = postMotion
     }
     
-    mutating func heartSelect(){
-        self.heartSelected.toggle()
+    init(){
+        self.id = 1
+        self.postTitle = "Test Post"
+        self.postImage = "avatar-chris"
+        self.userName = "@preview"
+        self.postMotion = "motion"
     }
     
 }
+
+
 
