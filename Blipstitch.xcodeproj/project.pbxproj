@@ -148,6 +148,7 @@
 				D9A98D10251028D200D0E386 /* PreviewView.swift */,
 				D9A98D12251028E000D0E386 /* ProfileView.swift */,
 				D9A98CCD251024EB00D0E386 /* SceneDelegate.swift */,
+				D9A550BB2514CF9A00B30EC3 /* TestContentView.swift */,
 				D9532DE22511A9BC0034000E /* VideoPlayerView.swift */,
 				D9A98CD9251024EC00D0E386 /* Info.plist */,
 				D9A98CD6251024EC00D0E386 /* LaunchScreen.storyboard */,
@@ -252,7 +253,6 @@
 				D9A98D1A2510292C00D0E386 /* TimerView.swift */,
 				D9532DE025115BE20034000E /* TopMenuView.swift */,
 				D9CFF5872512751E00ECA8D9 /* AvatarView.swift */,
-				D9A550BB2514CF9A00B30EC3 /* TestContentView.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";

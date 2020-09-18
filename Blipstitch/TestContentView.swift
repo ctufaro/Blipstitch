@@ -11,31 +11,54 @@ import SwiftUI
 
 struct TestContentView_Previews: PreviewProvider {
     static var previews: some View {
-        TestContentView()
+        TestContentView(viewRouter: ViewRouter())
     }
 }
 
 struct TestContentView: View{
-
+    @ObservedObject var viewRouter : ViewRouter
     @State var selectedIndex = ""
     @State var show = false
 
     var body: some View{
         ZStack{
-            VStack{
-                TopMenu(show: $show)
-                
-                Spacer(minLength: 0)
-                
-                Text(selectedIndex)
-                
-                Spacer(minLength: 0)
+            NavigationView{
+                VStack{
+                    TopMenu(show: $show)
+                    
+                    Spacer(minLength: 0)
+                    
+                    MyFeed()
+                    
+                    Spacer(minLength: 0)
+                    BottomMenuView(viewRouter: self.viewRouter)
+                }.edgesIgnoringSafeArea(.all)
             }
             
-            SideMenu(show: $show, selectedIndex: $selectedIndex)
+            SideMenu(show: $show, selectedIndex: $selectedIndex).edgesIgnoringSafeArea(.all)
             
         }
-        .edgesIgnoringSafeArea(.all)
+        //.edgesIgnoringSafeArea(.all)
+    }
+}
+
+struct MyFeed: View{
+    @ObservedObject var networkManager = NetworkManager()
+    var body: some View{
+        VStack {
+            List {
+                ForEach(self.networkManager.feedItems) { item in
+                    NavigationLink(destination: VideoPlayerView(myVidUrl: item.postMotion)) {
+                        FeedItemRow(feedItem: item)
+                            .listRowInsets(EdgeInsets(top: -1, leading: 0, bottom: -1, trailing: 0)).offset(x:UIScreen.main.bounds.width-(UIScreen.main.bounds.width*1.05))
+                        
+                    }.buttonStyle(PlainButtonStyle())
+                        .padding([.top,.bottom],-7)
+                }
+            }
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
+        }
     }
 }
 
@@ -142,11 +165,11 @@ struct TopMenu: View{
                 })
             }
             
-            Text("Home")
-                .font(.title)
+            Text("Feed")
+                .font(.system(size:22))
                 .fontWeight(.semibold)
         }
-        .padding()
+        .padding(7)
             // since top edges are ignored
             .padding(.top,edges!.top)
             .background(Color.white)
