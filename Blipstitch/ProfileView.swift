@@ -10,13 +10,18 @@ import SwiftUI
 
 struct ProfileView: View {
     @ObservedObject var viewRouter : ViewRouter
+    @State var selectedIndex = ""
+    @State var show = false
     var body: some View {
-        VStack {
-            TopMenuView(viewRouter:viewRouter)
-            Spacer()
-            Text("Profile View")
-            Spacer()
-            BottomMenuView(viewRouter: viewRouter)
+        ZStack{
+            VStack {
+                TopMenu(show: $show, viewRouter: viewRouter)
+                Spacer()
+                Text("Profile View")
+                Spacer()
+                BottomMenuView(viewRouter: viewRouter)
+            }.edgesIgnoringSafeArea(.all)
+            SideMenu(show: $show, selectedIndex: $selectedIndex).edgesIgnoringSafeArea(.all)
         }
     }
 }

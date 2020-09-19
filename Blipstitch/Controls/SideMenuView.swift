@@ -1,5 +1,5 @@
 //
-//  TestContentView.swift
+//  SideMenuView.swift
 //  Blipstitch
 //
 //  Created by Christopher Tufaro on 9/18/20.
@@ -8,59 +8,18 @@
 
 import SwiftUI
 
+struct SideMenuView: View {
+    var body: some View {
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    }
+}
 
-struct TestContentView_Previews: PreviewProvider {
+struct SideMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        TestContentView(viewRouter: ViewRouter())
+        SideMenuView()
     }
 }
 
-struct TestContentView: View{
-    @ObservedObject var viewRouter : ViewRouter
-    @State var selectedIndex = ""
-    @State var show = false
-
-    var body: some View{
-        ZStack{
-            NavigationView{
-                VStack{
-                    TopMenu(show: $show)
-                    
-                    Spacer(minLength: 0)
-                    
-                    MyFeed()
-                    
-                    Spacer(minLength: 0)
-                    BottomMenuView(viewRouter: self.viewRouter)
-                }.edgesIgnoringSafeArea(.all)
-            }
-            
-            SideMenu(show: $show, selectedIndex: $selectedIndex).edgesIgnoringSafeArea(.all)
-            
-        }
-        //.edgesIgnoringSafeArea(.all)
-    }
-}
-
-struct MyFeed: View{
-    @ObservedObject var networkManager = NetworkManager()
-    var body: some View{
-        VStack {
-            List {
-                ForEach(self.networkManager.feedItems) { item in
-                    NavigationLink(destination: VideoPlayerView(myVidUrl: item.postMotion)) {
-                        FeedItemRow(feedItem: item)
-                            .listRowInsets(EdgeInsets(top: -1, leading: 0, bottom: -1, trailing: 0)).offset(x:UIScreen.main.bounds.width-(UIScreen.main.bounds.width*1.05))
-                        
-                    }.buttonStyle(PlainButtonStyle())
-                        .padding([.top,.bottom],-7)
-                }
-            }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
-        }
-    }
-}
 
 struct SideMenu: View{
     @State var edges = UIApplication.shared.windows.first?.safeAreaInsets
@@ -135,45 +94,6 @@ struct SideMenu: View{
             .offset(x: show ? 0 : width - 100)
         }
         .background(Color.black.opacity(show ? 0.3 : 0))
-    }
-}
-
-struct TopMenu: View{
-    @State var edges = UIApplication.shared.windows.first?.safeAreaInsets
-    @Binding var show: Bool
-    var body: some View{
-        ZStack{
-            HStack{
-                Button(action:{}, label:{
-                    Image(systemName: "line.horizontal.3")
-                        .font(.system(size:22))
-                        .foregroundColor(.black)
-                })
-                Spacer(minLength: 0)
-                Button(action:{
-                    
-                    withAnimation(.spring()){
-                        self.show.toggle()
-                    }
-                    
-                }, label:{
-                    Image("Chris")
-                        .resizable()
-                        .renderingMode(.original)
-                        .frame(width:35, height: 35)
-                        .clipShape(Circle())
-                })
-            }
-            
-            Text("Feed")
-                .font(.system(size:22))
-                .fontWeight(.semibold)
-        }
-        .padding(7)
-            // since top edges are ignored
-            .padding(.top,edges!.top)
-            .background(Color.white)
-            .shadow(color:Color.black.opacity(0.1), radius: 5, x:0, y:5)
     }
 }
 
