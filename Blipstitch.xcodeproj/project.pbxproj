@@ -51,6 +51,8 @@
 		D9A98D1D2510294000D0E386 /* BottomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D1C2510294000D0E386 /* BottomMenuView.swift */; };
 		D9CFF5882512751E00ECA8D9 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CFF5872512751E00ECA8D9 /* AvatarView.swift */; };
 		D9CFF58A25129DB300ECA8D9 /* RestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CFF58925129DB300ECA8D9 /* RestAPI.swift */; };
+		D9EA19152519350500032184 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EA19142519350500032184 /* LoadingView.swift */; };
+		D9EA19172519353200032184 /* TemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EA19162519353200032184 /* TemplateView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +101,8 @@
 		D9A98D1C2510294000D0E386 /* BottomMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMenuView.swift; sourceTree = "<group>"; };
 		D9CFF5872512751E00ECA8D9 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		D9CFF58925129DB300ECA8D9 /* RestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestAPI.swift; sourceTree = "<group>"; };
+		D9EA19142519350500032184 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		D9EA19162519353200032184 /* TemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +154,7 @@
 				D9A98D10251028D200D0E386 /* PreviewView.swift */,
 				D9A98D12251028E000D0E386 /* ProfileView.swift */,
 				D9A98CCD251024EB00D0E386 /* SceneDelegate.swift */,
+				D9EA19162519353200032184 /* TemplateView.swift */,
 				D9532DE22511A9BC0034000E /* VideoPlayerView.swift */,
 				D9A98CD9251024EC00D0E386 /* Info.plist */,
 				D9A98CD6251024EC00D0E386 /* LaunchScreen.storyboard */,
@@ -251,6 +256,7 @@
 				D9A98D1C2510294000D0E386 /* BottomMenuView.swift */,
 				D9A98D14251028F900D0E386 /* ButtonPressView.swift */,
 				D9A98D0D251028BB00D0E386 /* FeedControlsView.swift */,
+				D9EA19142519350500032184 /* LoadingView.swift */,
 				D9A98D162510290B00D0E386 /* PopOverView.swift */,
 				D95359F12515A87C00F06FD7 /* SideMenuView.swift */,
 				D9A98D182510291C00D0E386 /* TextFlashView.swift */,
@@ -349,6 +355,7 @@
 				D9A98D042510274900D0E386 /* RosyEffect.metal in Sources */,
 				D9A98D192510291C00D0E386 /* TextFlashView.swift in Sources */,
 				D9A98CCC251024EB00D0E386 /* AppDelegate.swift in Sources */,
+				D9EA19152519350500032184 /* LoadingView.swift in Sources */,
 				D9A98D13251028E000D0E386 /* ProfileView.swift in Sources */,
 				D9A98D0C251028A900D0E386 /* CameraView.swift in Sources */,
 				D9A98D1D2510294000D0E386 /* BottomMenuView.swift in Sources */,
@@ -374,6 +381,7 @@
 				D9A98D1B2510292C00D0E386 /* TimerView.swift in Sources */,
 				D9CFF58A25129DB300ECA8D9 /* RestAPI.swift in Sources */,
 				D9A98CF4251026B900D0E386 /* ComicCIRenderer.swift in Sources */,
+				D9EA19172519353200032184 /* TemplateView.swift in Sources */,
 				D9A98CFA251026EF00D0E386 /* RosyCIRenderer.swift in Sources */,
 				D9A98CEA2510264800D0E386 /* DepthToGrayScaleConverter.swift in Sources */,
 				D9A98CFE2510271400D0E386 /* DepthToGrayscale.metal in Sources */,

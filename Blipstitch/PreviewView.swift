@@ -14,6 +14,8 @@ struct PreviewView: View {
     @Binding var shots: Array<UIImage>!
     @State var duration: Double = 1
     @State var showSpeed: Bool = false
+    @State var showLoading: Bool = false
+    @State var showingText = "Uploading..."
     var body: some View {
         ZStack{
             PlayerView(images: shots + shots.reversed(), duration: $duration).edgesIgnoringSafeArea(.all)
@@ -70,18 +72,19 @@ struct PreviewView: View {
                                         .foregroundColor(.white)
                                     Text("Post").foregroundColor(.white)
                                 }
-                            }
+                            }.opacity(self.showLoading ? 0 : 1)
                         }.padding(.trailing,UIScreen.screenWidth / 50)
                     }.padding(.bottom, 55).padding(.trailing)
                 }
             }
-
+            LoadingView(isShowing:$showLoading, showingText: $showingText)
         }.onAppear(){
             self.duration = Double(self.shots.count)/8
         }
     }
     
     func createVideo(){
+        self.showLoading = true
         print("Process Video Starting")
         let serialQueue = DispatchQueue(label: "mySerialQueue")
         serialQueue.async {
@@ -93,6 +96,7 @@ struct PreviewView: View {
                 let imageUrl = ImageToVideo.savePreviewImage(image: self.shots[0])
                 RestAPI.UploadVideo(fileURL: URL(fileURLWithPath: fileUrl), imageUrl: imageUrl!){
                     print("Process Video Completed")
+                    self.showLoading = false
                 }
             }
         }
@@ -105,7 +109,6 @@ struct PreviewView: View {
             return Double(shots.count/4)
         }
     }
-    
     
     struct PreviewView_Previews: PreviewProvider {
         static var images: Array<UIImage>! = [

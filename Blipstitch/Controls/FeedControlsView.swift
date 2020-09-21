@@ -26,7 +26,6 @@ struct FeedList: View {
             .navigationBarHidden(true)
         }
     }
-
     
     func buildArray() -> [FeedItem]{
         var items = [FeedItem]()
@@ -41,7 +40,11 @@ struct FeedList: View {
 
 struct FeedList_Previews: PreviewProvider {
     static var previews: some View {
-        FeedList()
+        ZStack{
+            Color.black
+            FeedItemRow(feedItem:FeedItem(id: 0, postTitle: "Post Text Here", postImage: "https://tufarostorage.blob.core.windows.net/kickspins/C7DD4A6E-B1F2-466E-B429-71E6D43D2516.jpg", userName: "@bliptester", postMotion: "postMotion"))
+                .frame(height:200)
+        }.edgesIgnoringSafeArea(.all)
     }
 }
 
@@ -49,7 +52,10 @@ struct FeedItemRow: View{
     @State var feedItem: FeedItem
     var body: some View{
         ZStack{
-            FeedImageView(imageUrl: feedItem.postImage)
+            VStack {
+                FeedImageView(imageUrl: feedItem.postImage)
+                //Text("hello").foregroundColor(.white)
+            }
             VStack {
                 Spacer()
                 HStack{
