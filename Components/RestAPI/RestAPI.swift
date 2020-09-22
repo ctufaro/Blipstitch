@@ -11,7 +11,7 @@ import Alamofire
 import UIKit
 
 class RestAPI{
-    static func UploadVideo(fileURL:URL, imageUrl:URL, completion: @escaping ()->Void) {
+    static func UploadVideo(fileURL:URL, imageUrl:URL, completion: @escaping ()->Void, working: @escaping (Double)->Void) {
         AF.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(Data("1".utf8), withName: "UserId")
             multipartFormData.append(Data("blipstitch post".utf8), withName: "Title")
@@ -22,6 +22,8 @@ class RestAPI{
             print("Upload Progress: \(progress.fractionCompleted)")
             if progress.fractionCompleted==1{
                 completion()
+            } else {
+                working(progress.fractionCompleted)
             }
         }
         .responseDecodable(of: HTTPBinResponse.self) { response in

@@ -15,7 +15,7 @@ struct PreviewView: View {
     @State var duration: Double = 1
     @State var showSpeed: Bool = false
     @State var showLoading: Bool = false
-    @State var showingText = "Uploading..."
+    @State var showingText = ""
     var body: some View {
         ZStack{
             PlayerView(images: shots + shots.reversed(), duration: $duration).edgesIgnoringSafeArea(.all)
@@ -80,7 +80,7 @@ struct PreviewView: View {
                                         .frame(width: UIScreen.screenWidth / 10, height: UIScreen.screenWidth / 10)
                                         .font(.title)
                                         .foregroundColor(.white)
-                                    Text("Post").foregroundColor(.white)
+                                    Text("Upload").foregroundColor(.white)
                                 }
                             }.opacity(self.showLoading ? 0 : 1)
                         }.padding(.trailing,UIScreen.screenWidth / 50)
@@ -104,10 +104,13 @@ struct PreviewView: View {
             if newFps == 0 { newFps = 1 }
             ImageToVideo.create(images: self.shots+self.shots.reversed(), fps: newFps*2) { fileUrl in
                 let imageUrl = ImageToVideo.savePreviewImage(image: self.shots[0])
-                RestAPI.UploadVideo(fileURL: URL(fileURLWithPath: fileUrl), imageUrl: imageUrl!){
+                RestAPI.UploadVideo(fileURL: URL(fileURLWithPath: fileUrl), imageUrl: imageUrl!,completion:{
                     print("Process Video Completed")
                     self.showLoading = false
-                }
+                    self.showingText = ""
+                }, working:{ percent in
+                    self.showingText = "Uploading: \(Int(percent*100))%"
+                })
             }
         }
     }
