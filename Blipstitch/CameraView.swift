@@ -123,7 +123,7 @@ struct CameraView: View {
                     .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
                     .padding(.bottom, (UIApplication.shared.windows.first?.safeAreaInsets.bottom)! + 5)
             }.background(Color.black.edgesIgnoringSafeArea(.all)).edgesIgnoringSafeArea(.all)
-        }
+        }.accentColor(.white)
     }
 }
 

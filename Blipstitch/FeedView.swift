@@ -33,7 +33,7 @@ struct FeedView: View{
                     Spacer(minLength: 0)
                     BottomMenuView(viewRouter: self.viewRouter)
                 }.edgesIgnoringSafeArea(.all)
-            }
+            }.accentColor(.white)
             
             SideMenu(show: $show, selectedIndex: $selectedIndex).edgesIgnoringSafeArea(.all)
             
