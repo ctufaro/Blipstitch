@@ -44,7 +44,7 @@ struct PreviewView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    VStack(alignment:.trailing,spacing: 35) {
+                    VStack(alignment:.center,spacing: 30) {
                         Group{
                             Button(action: {
                                 withAnimation(.spring()){
@@ -84,7 +84,7 @@ struct PreviewView: View {
                                 }
                             }.opacity(self.showLoading ? 0 : 1)
                         }.padding(.trailing,UIScreen.screenWidth / 50)
-                    }.padding(.bottom, 55).padding(.trailing)
+                    }.padding(.bottom, 55).padding(.trailing,3)
                 }
             }
             LoadingView(isShowing:$showLoading, showingText: $showingText)

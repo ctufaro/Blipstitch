@@ -48,19 +48,6 @@ struct CameraView: View {
                     }
                 }.padding()
                 VStack {
-                    HStack(spacing: 15) {
-                        Button(action: {
-                            self.viewRouter.currentPage = .feed
-                            self.viewRouter.showBottomNAV.toggle()
-                            self.viewRouter.index = 0
-                        }) {
-                            Image(systemName: "xmark")
-                                .foregroundColor(.white)
-                                .padding()
-                                .font(.system(size: 22))
-                        }
-                        Spacer()
-                    }
                     Spacer()
                     HStack {
                         Spacer()
@@ -121,7 +108,18 @@ struct CameraView: View {
                 }
                     // due to all edges are ignored...
                     .navigationBarTitle("")
-                    .navigationBarHidden(true)
+                    .navigationBarItems(leading:
+                        Button(action: {
+                            self.viewRouter.currentPage = .feed
+                            self.viewRouter.showBottomNAV.toggle()
+                            self.viewRouter.index = 0
+                        }) {
+                            Image(systemName: "xmark")
+                                .foregroundColor(.white)
+                                .font(.system(size: 22))
+                        }
+                    )
+                    //.navigationBarHidden(true)
                     .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
                     .padding(.bottom, (UIApplication.shared.windows.first?.safeAreaInsets.bottom)! + 5)
             }.background(Color.black.edgesIgnoringSafeArea(.all)).edgesIgnoringSafeArea(.all)
