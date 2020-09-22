@@ -48,35 +48,23 @@ struct CameraView: View {
                     }
                 }.padding()
                 VStack {
-                    /*HStack(spacing: 15) {
+                    HStack(spacing: 15) {
                         Button(action: {
-                            self.top = 0
+                            self.viewRouter.currentPage = .feed
+                            self.viewRouter.showBottomNAV.toggle()
+                            self.viewRouter.index = 0
                         }) {
-                            Text("Following")
-                                .foregroundColor(self.top == 0 ? .white : Color.white.opacity(0.45))
-                                .fontWeight(self.top == 0 ? .bold : .none)
-                                .padding(.vertical)
+                            Image(systemName: "xmark")
+                                .foregroundColor(.white)
+                                .padding()
+                                .font(.system(size: 22))
                         }
-                        Button(action: {
-                            self.top = 1
-                        }) {
-                            Text("For You")
-                                .foregroundColor(self.top == 1 ? .white : Color.white.opacity(0.45))
-                                .fontWeight(self.top == 1 ? .bold : .none)
-                                .padding(.vertical)
-                        }
-                    }*/
+                        Spacer()
+                    }
                     Spacer()
                     HStack {
                         Spacer()
                         VStack(alignment:.trailing,spacing: 35) {
-                            Button(action: {
-                                self.viewRouter.currentPage = .feed
-                                self.viewRouter.showBottomNAV.toggle()
-                                self.viewRouter.index = 0
-                            }) {
-                                AvatarView(size:55)
-                            }
                             Group{
                                 Button(action: {
                                     self.metalHelper.changeCamera()
@@ -132,6 +120,8 @@ struct CameraView: View {
                     }.padding(.bottom, 5)
                 }
                     // due to all edges are ignored...
+                    .navigationBarTitle("")
+                    .navigationBarHidden(true)
                     .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
                     .padding(.bottom, (UIApplication.shared.windows.first?.safeAreaInsets.bottom)! + 5)
             }.background(Color.black.edgesIgnoringSafeArea(.all)).edgesIgnoringSafeArea(.all)

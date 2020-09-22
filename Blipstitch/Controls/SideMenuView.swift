@@ -15,8 +15,11 @@ struct SideMenuView: View {
 }
 
 struct SideMenuView_Previews: PreviewProvider {
+    @State static var show = true
+    @State static var selectedIndex = ""
     static var previews: some View {
-        SideMenuView()
+        SideMenu(show:$show,selectedIndex: $selectedIndex)
+            .edgesIgnoringSafeArea(.all)
     }
 }
 
@@ -66,8 +69,8 @@ struct SideMenu: View{
                         Text("Chris")
                             .font(.title)
                             .fontWeight(.semibold)
-                        Text("ctufaro@gmail.com")
-                            .fontWeight(.semibold)
+                        //Text("ctufaro@gmail.com")
+                            //.fontWeight(.semibold)
                     }
                     .foregroundColor(.white)
                     Spacer(minLength: 0)

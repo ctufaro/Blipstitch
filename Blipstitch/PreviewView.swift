@@ -21,23 +21,23 @@ struct PreviewView: View {
             PlayerView(images: shots + shots.reversed(), duration: $duration).edgesIgnoringSafeArea(.all)
             VStack{
                 if self.showSpeed {
-                     Slider(value: $duration, in: 1...calcBounds(), step: 1)
-                     HStack{
-                         Text("Fast")
-                         .fontWeight(.bold)
-                         .foregroundColor(Color.white)
-                         .padding(5)
-                         .background(Color.black)
-                         .cornerRadius(10)
-                         Spacer()
-                         Text("Slow")
-                         .fontWeight(.bold)
-                         .foregroundColor(Color.white)
-                         .padding(5)
-                         .background(Color.black)
-                         .cornerRadius(10)
-                     }
-                 }
+                    Slider(value: $duration, in: 1...calcBounds(), step: 1)
+                    HStack{
+                        Text("Fast")
+                            .fontWeight(.bold)
+                            .foregroundColor(Color.white)
+                            .padding(5)
+                            .background(Color.black)
+                            .cornerRadius(10)
+                        Spacer()
+                        Text("Slow")
+                            .fontWeight(.bold)
+                            .foregroundColor(Color.white)
+                            .padding(5)
+                            .background(Color.black)
+                            .cornerRadius(10)
+                    }
+                }
                 Spacer()
             }.padding(40)
             VStack{
@@ -57,6 +57,16 @@ struct PreviewView: View {
                                         .font(.title)
                                         .foregroundColor(.white)
                                     Text("Speed")
+                                        .foregroundColor(.white)
+                                }
+                            }
+                            Button(action: {
+                            }) {
+                                VStack(spacing: 8) {
+                                    Image(systemName: "textformat")
+                                        .font(.system(size: 30))
+                                        .foregroundColor(.white)
+                                    Text("Text")
                                         .foregroundColor(.white)
                                 }
                             }
