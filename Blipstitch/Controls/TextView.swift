@@ -61,8 +61,7 @@ struct TextWrapper: UIViewRepresentable {
     }
     
     class Coordinator: NSObject, UITextViewDelegate, UIGestureRecognizerDelegate {
-        //var text: Binding<String>
-        var parent: 
+        var text: Binding<String>
         
         init(_ text: Binding<String>) {
             self.text = text
@@ -151,8 +150,16 @@ struct TextView: View {
                     self.position.height += value.translation.height
                     self.position.width += value.translation.width
                 })
-            )
-
+        )
+            /*.simultaneousGesture(MagnificationGesture()
+                .onChanged { amount in
+                    self.currentAmount = amount - 1
+            }
+            .onEnded { amount in
+                self.finalAmount += self.currentAmount
+                self.currentAmount = 0
+                }
+        )*/
     }
 }
 
