@@ -4,7 +4,7 @@
 //
 //  Created by Christopher Tufaro on 9/22/20.
 //  Copyright © 2020 Christopher Tufaro. All rights reserved.
-//
+//  https://stackoverflow.com/questions/56471973/how-do-i-create-a-multiline-textfield-in-swiftui/58639072#58639072
 
 import SwiftUI
 
@@ -16,7 +16,6 @@ struct TextWrapper: UIViewRepresentable {
     func makeUIView(context: Context) -> UITextView {
         let textView = UITextView(frame: .zero)
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        //textView.text = "Initialized"
         textView.delegate = context.coordinator
         textView.textAlignment = .center
         textView.font = UIFont(name: "Helvetica", size: 40)
@@ -29,31 +28,18 @@ struct TextWrapper: UIViewRepresentable {
         textView.autocorrectionType = .no
         textView.isScrollEnabled = false
         addGestures(view: textView, context: context)
-        //self.tempImageView.addSubview(textView)
         textView.becomeFirstResponder()
-        
         return textView
     }
     
     func addGestures(view: UIView, context: Context) {
         view.isUserInteractionEnabled = true
-        let panGesture = UIPanGestureRecognizer(target: context.coordinator,
-                                                action: #selector(Coordinator.panGesture(sender:)))
-        panGesture.minimumNumberOfTouches = 1
-        panGesture.maximumNumberOfTouches = 1
-        //view.addGestureRecognizer(panGesture)
         let pinchGesture = UIPinchGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handlePinch(sender:)))
         view.addGestureRecognizer(pinchGesture)
-        
-        //let rotationGesture = UIRotationGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.rotationGesture(sender:)))
-        //view.addGestureRecognizer(rotationGesture)
     }
     
     func updateUIView(_ uiView: UITextView, context: Context) {
         uiView.text = text
-        //uiView.font = UIFont.preferredFont(forTextStyle: textStyle)
-        //uiView.layer.borderColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0).cgColor
-        //uiView.layer.borderWidth = 2.0
     }
     
     func makeCoordinator() -> Coordinator {
@@ -103,27 +89,7 @@ struct TextWrapper: UIViewRepresentable {
                 sender.scale = 1
             }
         }
-        
-        @objc func rotationGesture(sender: UIRotationGestureRecognizer) {
-            if let view = sender.view {
-                if view is UITextView {
-                    view.transform = view.transform.rotated(by: sender.rotation)
-                    sender.rotation = 0
-                }
-            }
-        }
-        
-        @objc func panGesture(sender: UIPanGestureRecognizer) {
-            if let view = sender.view {
-                if view is UITextView {
-                    view.center = CGPoint(x: view.center.x + sender.translation(in: view).x,
-                                          y: view.center.y + sender.translation(in: view).y)
-                    sender.setTranslation(CGPoint.zero, in: view)
-                }
-            }
-        }
     }
-    
 }
 
 struct TextView: View {
@@ -137,7 +103,7 @@ struct TextView: View {
     
     var body: some View {
         TextWrapper(text:$text, textStyle: $textStyle)
-            .border(Color.red, width: 4)
+            .border(Color.red, width: 3)
             //.fixedSize()
             .offset(x: position.width + dragOffset.width, y: position.height + dragOffset.height)
             .scaleEffect(finalAmount + currentAmount)
