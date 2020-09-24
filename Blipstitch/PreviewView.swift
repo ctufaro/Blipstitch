@@ -15,10 +15,19 @@ struct PreviewView: View {
     @State var duration: Double = 1
     @State var showSpeed: Bool = false
     @State var showLoading: Bool = false
+    @State var showTextEdit: Bool = false
     @State var showingText = ""
+    @State private var numberOfRects = 0
+    @State private var desiredHeight: [CGFloat] = [0, 0]
+    
     var body: some View {
         ZStack{
             PlayerView(images: shots + shots.reversed(), duration: $duration).edgesIgnoringSafeArea(.all)
+            if showTextEdit{
+                ForEach(0 ..< numberOfRects, id: \.self) { _ in
+                    TextView()
+                }
+            }
             VStack{
                 if self.showSpeed {
                     Slider(value: $duration, in: 1...calcBounds(), step: 1)
@@ -61,6 +70,9 @@ struct PreviewView: View {
                                 }
                             }
                             Button(action: {
+                                self.showTextEdit = true
+                                self.showKeyboard()
+                                self.numberOfRects += 1
                             }) {
                                 VStack(spacing: 8) {
                                     Image(systemName: "textformat")
@@ -71,7 +83,8 @@ struct PreviewView: View {
                                 }
                             }
                             Button(action: {
-                                self.createVideo()
+                                //self.createVideo()
+                                print(self.showTextEdit)
                             }) {
                                 VStack(spacing: 8) {
                                     Image("Send")
@@ -88,9 +101,18 @@ struct PreviewView: View {
                 }
             }
             LoadingView(isShowing:$showLoading, showingText: $showingText)
+            
         }.onAppear(){
             self.duration = Double(self.shots.count)/8
-        }
+        }.navigationBarItems(trailing:
+            Button(action: {
+                self.hideKeyboard()
+            }) {
+                Text("Done")
+                    .foregroundColor(.white)
+                    .font(.system(size: 22))
+            }
+        )
     }
     
     func createVideo(){
@@ -139,3 +161,14 @@ struct PreviewView: View {
     }
 }
 
+///EXTENSIONS
+#if canImport(UIKit)
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    func showKeyboard(){
+        UIApplication.shared.sendAction(#selector(UIResponder.becomeFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+#endif

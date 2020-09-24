@@ -15,6 +15,7 @@
 		D96BD9362512A77E00F237BD /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = D96BD9352512A77E00F237BD /* Alamofire */; };
 		D96BD93D25142BEA00F237BD /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BD93C25142BEA00F237BD /* NetworkManager.swift */; };
 		D96BD93F25142C0F00F237BD /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BD93E25142C0F00F237BD /* ImageLoader.swift */; };
+		D97E926B251ADBC80045FC96 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97E926A251ADBC80045FC96 /* TextView.swift */; };
 		D9A550BC2514CF9A00B30EC3 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A550BB2514CF9A00B30EC3 /* FeedView.swift */; };
 		D9A98CCC251024EB00D0E386 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CCB251024EB00D0E386 /* AppDelegate.swift */; };
 		D9A98CCE251024EB00D0E386 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CCD251024EB00D0E386 /* SceneDelegate.swift */; };
@@ -63,6 +64,7 @@
 		D95359F12515A87C00F06FD7 /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
 		D96BD93C25142BEA00F237BD /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		D96BD93E25142C0F00F237BD /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		D97E926A251ADBC80045FC96 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		D9A550BB2514CF9A00B30EC3 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		D9A98CC8251024EB00D0E386 /* Blipstitch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blipstitch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9A98CCB251024EB00D0E386 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 				D9A98D182510291C00D0E386 /* TextFlashView.swift */,
 				D9A98D1A2510292C00D0E386 /* TimerView.swift */,
 				D9532DE025115BE20034000E /* TopMenuView.swift */,
+				D97E926A251ADBC80045FC96 /* TextView.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				D9A98CCE251024EB00D0E386 /* SceneDelegate.swift in Sources */,
 				D93AFA4E25102A260061A0B8 /* ViewRouter.swift in Sources */,
 				D9A98CEC2510265E00D0E386 /* FilterRenderer.swift in Sources */,
+				D97E926B251ADBC80045FC96 /* TextView.swift in Sources */,
 				D96BD93F25142C0F00F237BD /* ImageLoader.swift in Sources */,
 				D9A550BC2514CF9A00B30EC3 /* FeedView.swift in Sources */,
 				D9A98D11251028D200D0E386 /* PreviewView.swift in Sources */,

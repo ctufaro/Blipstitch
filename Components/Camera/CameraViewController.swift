@@ -516,7 +516,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         
         session.beginConfiguration()
         
-        session.sessionPreset = AVCaptureSession.Preset.photo
+        session.sessionPreset = AVCaptureSession.Preset.high
         
         // Add a video input.
         guard session.canAddInput(videoInput) else {
