@@ -23,7 +23,7 @@ struct PreviewView: View {
     var body: some View {
         ZStack{
             PlayerView(images: shots + shots.reversed(), duration: $duration).edgesIgnoringSafeArea(.all)
-            if showTextEdit{
+            if showTextEdit {
                 ForEach(0 ..< numberOfRects, id: \.self) { _ in
                     TextView()
                 }
@@ -83,7 +83,8 @@ struct PreviewView: View {
                                 }
                             }
                             Button(action: {
-                                self.createVideo()
+                                //self.createVideo()
+                                self.createVideoFromLayers()
                             }) {
                                 VStack(spacing: 8) {
                                     Image("Send")
@@ -92,7 +93,7 @@ struct PreviewView: View {
                                         .frame(width: UIScreen.screenWidth / 10, height: UIScreen.screenWidth / 10)
                                         .font(.title)
                                         .foregroundColor(.white)
-                                    Text("Upload").foregroundColor(.white)
+                                    Text("Post").foregroundColor(.white)
                                 }
                             }.opacity(self.showLoading ? 0 : 1)
                         }.padding(.trailing,UIScreen.screenWidth / 50)
@@ -112,6 +113,32 @@ struct PreviewView: View {
                     .font(.system(size: 22))
             }
         )
+    }
+    
+    func createVideoFromLayers(){
+        //TODO: How do I do this
+        self.showLoading = true
+        print("Process Video Starting")
+        let serialQueue = DispatchQueue(label: "mySerialQueue")
+        serialQueue.async {
+            var newDuration = Int32(self.duration)
+            if newDuration == 0 { newDuration = 1 }
+            var newFps = Int32(self.shots.count)/newDuration
+            if newFps == 0 { newFps = 1 }
+            ImageToVideo.create(images: self.shots+self.shots.reversed(), fps: newFps*2) { fileUrl in
+                let imageUrl = ImageToVideo.savePreviewImage(image: self.shots[0])
+                RestAPI.UploadVideo(fileURL: URL(fileURLWithPath: fileUrl), imageUrl: imageUrl!,completion:{
+                    print("Process Video Completed")
+                    
+                    //video url - fileURL
+                    
+                    self.showLoading = false
+                    self.showingText = ""
+                }, working:{ percent in
+                    self.showingText = "Uploading: \(Int(percent*100))%"
+                })
+            }
+        }
     }
     
     func createVideo(){

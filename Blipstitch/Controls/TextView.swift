@@ -104,7 +104,7 @@ struct TextView: View {
     
     var body: some View {
         TextWrapper(text:$text, textStyle: $textStyle)
-            //.border(Color.red, width: 3)
+            //.border(Color.red, width: 2)
             //.fixedSize()
             .offset(x: position.width + dragOffset.width, y: position.height + dragOffset.height)
             .scaleEffect(finalAmount + currentAmount)

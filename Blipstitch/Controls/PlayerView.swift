@@ -25,7 +25,6 @@ struct PlayerView: UIViewRepresentable {
     func updateUIView(_ uiView: ImageView, context: UIViewRepresentableContext<PlayerView>) {
         uiView.imageView.image = UIImage.animatedImage(with: images, duration: duration)
     }
-    
 }
 
 class ImageView: UIView {

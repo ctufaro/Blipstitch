@@ -79,6 +79,9 @@ struct SideMenu: View{
                 
                 // Menu Buttons
                 VStack(alignment: .leading){
+                    MenuButtons(image: "trash", title: "Empty Cache", selected: $selectedIndex, show: $show)
+                    MenuButtons(image: "xmark", title: "Delete All Posts", selected: $selectedIndex, show: $show)
+                    /*
                     MenuButtons(image: "cart", title: "My Orders", selected: $selectedIndex, show: $show)
                     MenuButtons(image: "person", title: "My Profile", selected: $selectedIndex, show: $show)
                     MenuButtons(image: "mappin", title: "Delivery Address", selected: $selectedIndex, show: $show)
@@ -86,6 +89,7 @@ struct SideMenu: View{
                     MenuButtons(image: "envelope", title: "Contact Us", selected: $selectedIndex, show: $show)
                     MenuButtons(image: "gear", title: "Settings", selected: $selectedIndex, show: $show)
                     MenuButtons(image: "info.circle", title: "Help & FAQs", selected: $selectedIndex, show: $show)
+                    */
                 }
                 .padding(.top)
                 .padding(.leading,45)
@@ -105,10 +109,18 @@ struct MenuButtons: View{
     var title: String
     @Binding var selected : String
     @Binding var show : Bool
+    @State private var showingAlert = false
     
     var body: some View{
         Button(action: {
-            
+            switch self.title{
+            case "Empty Cache":
+                self.showingAlert = Settings.clearCache()
+            case "Delete All Posts":
+                self.showingAlert = Settings.deleteAllPosts()
+            default:
+                print("Invalid Menu Choice")
+            }
             withAnimation(.spring()){
                 self.selected = self.title
                 self.show.toggle()
@@ -129,6 +141,8 @@ struct MenuButtons: View{
         })
             .padding(.top,UIScreen.main.bounds.width < 750 ? -5 : 5)
             .foregroundColor(.white)
+            .alert(isPresented: $showingAlert) {
+                Alert(title: Text("Command Executed"), message: Text("\(self.title) Completed"), dismissButton: .default(Text("Got it!")))}
     }
 }
 
