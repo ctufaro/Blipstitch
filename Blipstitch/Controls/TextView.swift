@@ -100,32 +100,27 @@ struct TextView: View {
     @State private var position = CGSize.zero
     @State private var currentAmount: CGFloat = 0
     @State private var finalAmount: CGFloat = 1
+    @State private var rotateState: Double = 0
     
     var body: some View {
         TextWrapper(text:$text, textStyle: $textStyle)
-            .border(Color.red, width: 3)
+            //.border(Color.red, width: 3)
             //.fixedSize()
             .offset(x: position.width + dragOffset.width, y: position.height + dragOffset.height)
             .scaleEffect(finalAmount + currentAmount)
+            .rotationEffect(Angle(degrees: self.rotateState))
             .simultaneousGesture(DragGesture()
                 .updating($dragOffset, body: { (value, state, transaction) in
-                    
                     state = value.translation
                 })
                 .onEnded({ (value) in
                     self.position.height += value.translation.height
                     self.position.width += value.translation.width
+                }))
+            .simultaneousGesture(RotationGesture()
+                .onChanged { value in
+                    self.rotateState = value.degrees
                 })
-        )
-            /*.simultaneousGesture(MagnificationGesture()
-                .onChanged { amount in
-                    self.currentAmount = amount - 1
-            }
-            .onEnded { amount in
-                self.finalAmount += self.currentAmount
-                self.currentAmount = 0
-                }
-        )*/
     }
 }
 

@@ -83,8 +83,7 @@ struct PreviewView: View {
                                 }
                             }
                             Button(action: {
-                                //self.createVideo()
-                                print(self.showTextEdit)
+                                self.createVideo()
                             }) {
                                 VStack(spacing: 8) {
                                     Image("Send")
