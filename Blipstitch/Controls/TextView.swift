@@ -11,14 +11,15 @@ import SwiftUI
 struct TextWrapper: UIViewRepresentable {
     
     @Binding var text: String
-    @Binding var textStyle: UIFont.TextStyle
+    @Binding var font: String
+    @Binding var fontSize: CGFloat
     
     func makeUIView(context: Context) -> UITextView {
         let textView = UITextView(frame: .zero)
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.delegate = context.coordinator
         textView.textAlignment = .center
-        textView.font = UIFont(name: "Helvetica", size: 40)
+        textView.font = UIFont(name: font, size: fontSize)
         textView.textColor = UIColor.white
         textView.layer.shadowColor = UIColor.black.cgColor
         textView.layer.shadowOffset = CGSize(width: 1.0, height: 0.0)
@@ -40,17 +41,20 @@ struct TextWrapper: UIViewRepresentable {
     
     func updateUIView(_ uiView: UITextView, context: Context) {
         uiView.text = text
+        uiView.font = UIFont(name: font, size: fontSize)
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator($text)
+        Coordinator(text: $text,fontSize: $fontSize)
     }
     
     class Coordinator: NSObject, UITextViewDelegate, UIGestureRecognizerDelegate {
         var text: Binding<String>
+        var fontSize: Binding<CGFloat>
         
-        init(_ text: Binding<String>) {
+        init(text: Binding<String>, fontSize:Binding<CGFloat>) {
             self.text = text
+            self.fontSize = fontSize
         }
         
         func textViewDidChange(_ textView: UITextView) {
@@ -81,7 +85,7 @@ struct TextWrapper: UIViewRepresentable {
                     
                     textView.bounds.size = CGSize(width: textView.intrinsicContentSize.width,
                                                   height: sizeToFit.height)
-                    
+                    self.fontSize.wrappedValue = textView.font!.pointSize
                     textView.setNeedsDisplay()
                 } else {
                     view.transform = view.transform.scaledBy(x: sender.scale, y: sender.scale)
@@ -93,22 +97,23 @@ struct TextWrapper: UIViewRepresentable {
 }
 
 struct TextView: View {
-    @State var text:String = ""
-    @State var textStyle:UIFont.TextStyle = .headline
+    @Binding var text:String
+    @Binding var font:String
+    @Binding var fontSize:CGFloat
+    @Binding var fontRotation:Double
     //gestures
     @GestureState private var dragOffset = CGSize.zero
     @State private var position = CGSize.zero
     @State private var currentAmount: CGFloat = 0
     @State private var finalAmount: CGFloat = 1
-    @State private var rotateState: Double = 0
     
     var body: some View {
-        TextWrapper(text:$text, textStyle: $textStyle)
+        TextWrapper(text:self.$text, font: self.$font, fontSize: self.$fontSize)
             //.border(Color.red, width: 2)
             //.fixedSize()
             .offset(x: position.width + dragOffset.width, y: position.height + dragOffset.height)
             .scaleEffect(finalAmount + currentAmount)
-            .rotationEffect(Angle(degrees: self.rotateState))
+            .rotationEffect(Angle(degrees: self.fontRotation))
             .simultaneousGesture(DragGesture()
                 .updating($dragOffset, body: { (value, state, transaction) in
                     state = value.translation
@@ -119,14 +124,18 @@ struct TextView: View {
                 }))
             .simultaneousGesture(RotationGesture()
                 .onChanged { value in
-                    self.rotateState = value.degrees
+                    self.fontRotation = value.degrees
                 })
     }
 }
 
 struct TextView_Previews: PreviewProvider {
+    @State static var text: String = ""
+    @State static var font: String = "Arial"
+    @State static var fontSize: CGFloat = 40
+    @State static var fontRotation: Double = 0
     static var previews: some View {
-        TextView()
+        TextView(text: $text, font: $font, fontSize: $fontSize, fontRotation: $fontRotation)
     }
 }
 

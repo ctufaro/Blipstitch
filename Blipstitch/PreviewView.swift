@@ -17,7 +17,12 @@ struct PreviewView: View {
     @State var showSpeed: Bool = false
     @State var showLoading: Bool = false
     @State var showTextEdit: Bool = false
+    //Text Fields this should be a model
     @State var showingText = ""
+    @State var font = "Arial-BoldMT"
+    @State var fontSize:CGFloat = 40.0
+    @State var fontRotation:Double = 0
+    
     @State private var numberOfRects = 0
     @State private var desiredHeight: [CGFloat] = [0, 0]
     
@@ -26,7 +31,7 @@ struct PreviewView: View {
             PlayerView(images: shots + shots.reversed(), duration: $duration).edgesIgnoringSafeArea(.all)
             if showTextEdit {
                 ForEach(0 ..< numberOfRects, id: \.self) { _ in
-                    TextView(text:self.showingText)
+                    TextView(text:self.$showingText, font:self.$font, fontSize: self.$fontSize, fontRotation: self.$fontRotation)
                 }
             }
             VStack{
@@ -57,6 +62,17 @@ struct PreviewView: View {
                     VStack(alignment:.center,spacing: 30) {
                         Group{
                             Button(action: {
+                                self.getTextInfo()
+                            }) {
+                                VStack(spacing: 8) {
+                                    Image(systemName: "info.circle")
+                                        .font(.system(size: 30))
+                                        .foregroundColor(.white)
+                                    Text("Info")
+                                        .foregroundColor(.white)
+                                }
+                            }
+                            Button(action: {
                                 withAnimation(.spring()){
                                     self.showSpeed.toggle()
                                 }
@@ -85,7 +101,7 @@ struct PreviewView: View {
                             }
                             Button(action: {
                                 //self.createVideo()
-                                self.createVideoFromLayers(text: "Some Text")
+                                self.createVideoFromLayers()
                             }) {
                                 VStack(spacing: 8) {
                                     Image("Send")
@@ -116,7 +132,16 @@ struct PreviewView: View {
         )
     }
     
-    func createVideoFromLayers(text:String){
+    func getTextInfo(){
+        print("Text Value: \(showingText)")//text
+        print("Font Value: \(font)")//font
+        print("Font Size: \(fontSize)")//font size
+        print("Font Rotation: \(fontRotation)")//font size
+        //rotation
+        //location
+    }
+    
+    func createVideoFromLayers(){
         print("Process Video Starting")
         let serialQueue = DispatchQueue(label: "mySerialQueue")
         serialQueue.async {
@@ -164,24 +189,24 @@ struct PreviewView: View {
                 imglayer.opacity = 0.6
                 
                 // create text Layer
-                let titleLayer = CATextLayer()
-                //titleLayer.backgroundColor = UIColor.red.cgColor
-                titleLayer.string = text
-                //titleLayer.font = UIFont(name: "Helvetica", size: 28)
-                //titleLayer.shadowOpacity = 0.5
-                //titleLayer.alignmentMode = CATextLayerAlignmentMode.center
-                titleLayer.frame = CGRect(x: 0, y: -700, width: size.width, height: size.height)
+                let textLayer = CATextLayer()
+                textLayer.string = self.showingText //
+                textLayer.frame = CGRect(x: 0, y: -700, width: size.width, height: size.height)
+                textLayer.alignmentMode = CATextLayerAlignmentMode.center
+                textLayer.font = UIFont(name: self.font, size: self.fontSize) //
+                textLayer.fontSize = self.fontSize*3 //
+                textLayer.foregroundColor = UIColor.white.cgColor
+                textLayer.shadowColor = UIColor.black.cgColor
+                textLayer.shadowOffset = CGSize(width: 1.0, height: 0.0)
+                textLayer.shadowOpacity = 0.2
+                textLayer.shadowRadius = 1.0
+                textLayer.backgroundColor = UIColor.clear.cgColor
                 
-                titleLayer.alignmentMode = CATextLayerAlignmentMode.center
-                titleLayer.font = UIFont(name: "Helvetica", size: 40)
-                titleLayer.fontSize = 200
-                
-                titleLayer.foregroundColor = UIColor.blue.cgColor
-                titleLayer.shadowColor = UIColor.black.cgColor
-                titleLayer.shadowOffset = CGSize(width: 1.0, height: 0.0)
-                titleLayer.shadowOpacity = 0.2
-                titleLayer.shadowRadius = 1.0
-                titleLayer.backgroundColor = UIColor.clear.cgColor
+                //rotation/position?
+                let degrees = self.fontRotation * -1
+                let radians = CGFloat(degrees * .pi / 180)
+                textLayer.transform = CATransform3DMakeRotation(CGFloat(degrees * .pi / 180), 0.0, 0.0, 1.0)
+                textLayer.transform = CATransform3DMakeTranslation(90, 50, 0)
 
                 let videolayer = CALayer()
                 videolayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
@@ -190,7 +215,7 @@ struct PreviewView: View {
                 parentlayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
                 parentlayer.addSublayer(videolayer)
                 //parentlayer.addSublayer(imglayer)
-                parentlayer.addSublayer(titleLayer)
+                parentlayer.addSublayer(textLayer)
                 
 
                 let layercomposition = AVMutableVideoComposition()
