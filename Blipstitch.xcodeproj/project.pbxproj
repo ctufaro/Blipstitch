@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D9047818251EB92B00CB2E2E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9047817251EB92B00CB2E2E /* Extensions.swift */; };
 		D93AFA4E25102A260061A0B8 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93AFA4D25102A260061A0B8 /* ViewRouter.swift */; };
 		D9532DDF25104D9A0034000E /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9532DDE25104D9A0034000E /* FeedItem.swift */; };
 		D9532DE125115BE20034000E /* TopMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9532DE025115BE20034000E /* TopMenuView.swift */; };
@@ -58,6 +59,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D9047817251EB92B00CB2E2E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D93AFA4D25102A260061A0B8 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
 		D9532DDE25104D9A0034000E /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 		D9532DE025115BE20034000E /* TopMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopMenuView.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 		D9A98CE12510252E00D0E386 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D9047817251EB92B00CB2E2E /* Extensions.swift */,
 				D96BD93E25142C0F00F237BD /* ImageLoader.swift */,
 				D9A98D072510285000D0E386 /* ImageToVideo.swift */,
 				D9A98D052510283000D0E386 /* MetalHelper.swift */,
@@ -356,6 +359,7 @@
 				D9A98D0A2510286E00D0E386 /* PlayerView.swift in Sources */,
 				D96BD93D25142BEA00F237BD /* NetworkManager.swift in Sources */,
 				D9A98CE8251025E000D0E386 /* CameraViewController.swift in Sources */,
+				D9047818251EB92B00CB2E2E /* Extensions.swift in Sources */,
 				D9A98D0E251028BB00D0E386 /* FeedControlsView.swift in Sources */,
 				D9A98CF6251026D000D0E386 /* EmptyRenderer.swift in Sources */,
 				D9A98D022510273800D0E386 /* PassThrough.metal in Sources */,

@@ -11,19 +11,19 @@ import SwiftUI
 
 class Settings{
     
-    static func clearCache() -> Bool{
+    static func clearDirectory(directory:FileManager.SearchPathDirectory) -> Bool{
         let fileManager = FileManager.default
-        let documentsUrl =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first! as NSURL
+        let documentsUrl =  FileManager.default.urls(for: directory, in: .userDomainMask).first! as NSURL
         let documentsPath = documentsUrl.path
 
         do {
             if let documentPath = documentsPath
             {
                 let fileNames = try fileManager.contentsOfDirectory(atPath: "\(documentPath)")
-                print("all files in cache: \(fileNames)")
+                print("all files in folder: \(fileNames)")
                 for fileName in fileNames {
 
-                    if (fileName.hasSuffix(".mp4"))
+                    if (fileName.hasSuffix(".mp4") || fileName.hasSuffix(".mov") || fileName.hasSuffix(".jpg"))
                     {
                         let filePathName = "\(documentPath)/\(fileName)"
                         try fileManager.removeItem(atPath: filePathName)
@@ -31,7 +31,7 @@ class Settings{
                 }
 
                 let files = try fileManager.contentsOfDirectory(atPath: "\(documentPath)")
-                print("all files in cache after deleting images: \(files)")
+                print("all files in folder after deletion: \(files)")
             }
 
         } catch {
