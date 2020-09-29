@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D9047818251EB92B00CB2E2E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9047817251EB92B00CB2E2E /* Extensions.swift */; };
 		D904781A252286B800CB2E2E /* FontListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9047819252286B800CB2E2E /* FontListView.swift */; };
+		D904781C2523477C00CB2E2E /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D904781B2523477C00CB2E2E /* TextField.swift */; };
 		D93AFA4E25102A260061A0B8 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93AFA4D25102A260061A0B8 /* ViewRouter.swift */; };
 		D9532DDF25104D9A0034000E /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9532DDE25104D9A0034000E /* FeedItem.swift */; };
 		D9532DE125115BE20034000E /* TopMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9532DE025115BE20034000E /* TopMenuView.swift */; };
@@ -62,6 +63,7 @@
 /* Begin PBXFileReference section */
 		D9047817251EB92B00CB2E2E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D9047819252286B800CB2E2E /* FontListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontListView.swift; sourceTree = "<group>"; };
+		D904781B2523477C00CB2E2E /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		D93AFA4D25102A260061A0B8 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
 		D9532DDE25104D9A0034000E /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 		D9532DE025115BE20034000E /* TopMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopMenuView.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				D9532DDE25104D9A0034000E /* FeedItem.swift */,
+				D904781B2523477C00CB2E2E /* TextField.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 				D904781A252286B800CB2E2E /* FontListView.swift in Sources */,
 				D9A98CEE2510267500D0E386 /* PreviewMetalView.swift in Sources */,
 				D9A98D0A2510286E00D0E386 /* PlayerView.swift in Sources */,
+				D904781C2523477C00CB2E2E /* TextField.swift in Sources */,
 				D96BD93D25142BEA00F237BD /* NetworkManager.swift in Sources */,
 				D9A98CE8251025E000D0E386 /* CameraViewController.swift in Sources */,
 				D9047818251EB92B00CB2E2E /* Extensions.swift in Sources */,

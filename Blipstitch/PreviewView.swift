@@ -17,11 +17,14 @@ struct PreviewView: View {
     @State var showSpeed: Bool = false
     @State var showLoading: Bool = false
     @State var showTextEdit: Bool = false
+    
     //Text Fields this should be a model
     @State var showingText = ""
     @State var font = "Arial-BoldMT"
-    @State var fontSize:CGFloat = 40.0
-    @State var fontRotation:Double = 0
+    @State var fontSize: CGFloat = 40.0
+    @State var fontRotation: Double = 0
+    @ObservedObject var textArray: TextFields = TextFields()
+    //Text Fields this should be a model
     
     @State private var numberOfRects = 0
     @State private var desiredHeight: [CGFloat] = [0, 0]
@@ -30,8 +33,8 @@ struct PreviewView: View {
         ZStack{
             PlayerView(images: shots + shots.reversed(), duration: $duration).edgesIgnoringSafeArea(.all)
             if showTextEdit {
-                ForEach(0 ..< numberOfRects, id: \.self) { _ in
-                    TextView(text:self.$showingText, font:self.$font, fontSize: self.$fontSize, fontRotation: self.$fontRotation)
+                ForEach(textArray.textFields){ txt in
+                    TextView(textField: txt, fontRotation: self.$fontRotation)
                 }
             }
             VStack{
@@ -90,6 +93,7 @@ struct PreviewView: View {
                                 self.showTextEdit = true
                                 self.showKeyboard()
                                 self.numberOfRects += 1
+                                self.textArray.add(textValue: "", fontName: "Arial-BoldMT", fontSize: 40.0)
                             }) {
                                 VStack(spacing: 8) {
                                     Image(systemName: "textformat")
@@ -133,10 +137,9 @@ struct PreviewView: View {
     }
     
     func getTextInfo(){
-        print("Text Value: \(showingText)")//text
-        print("Font Value: \(font)")//font
-        print("Font Size: \(fontSize)")//font size
-        print("Font Rotation: \(fontRotation)")//font size
+        for txt in self.textArray.textFields {
+            print("Text Layer - value:\(txt.textValue) font:\(txt.fontName) size:\(txt.fontSize)")
+        }
         //rotation
         //location
     }
@@ -203,10 +206,10 @@ struct PreviewView: View {
                 textLayer.backgroundColor = UIColor.clear.cgColor
                 
                 //rotation/position?
-                let degrees = self.fontRotation * -1
-                let radians = CGFloat(degrees * .pi / 180)
-                textLayer.transform = CATransform3DMakeRotation(CGFloat(degrees * .pi / 180), 0.0, 0.0, 1.0)
-                textLayer.transform = CATransform3DMakeTranslation(90, 50, 0)
+                //let degrees = self.fontRotation * -1
+                //let radians = CGFloat(degrees * .pi / 180)
+                //textLayer.transform = CATransform3DMakeRotation(CGFloat(degrees * .pi / 180), 0.0, 0.0, 1.0)
+                //textLayer.transform = CATransform3DMakeTranslation(90, 50, 0)
 
                 let videolayer = CALayer()
                 videolayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)

@@ -97,9 +97,7 @@ struct TextWrapper: UIViewRepresentable {
 }
 
 struct TextView: View {
-    @Binding var text:String
-    @Binding var font:String
-    @Binding var fontSize:CGFloat
+    @ObservedObject var textField:TextField
     @Binding var fontRotation:Double
     //gestures
     @GestureState private var dragOffset = CGSize.zero
@@ -108,12 +106,12 @@ struct TextView: View {
     @State private var finalAmount: CGFloat = 1
     
     var body: some View {
-        TextWrapper(text:self.$text, font: self.$font, fontSize: self.$fontSize)
-            //.border(Color.red, width: 2)
-            //.fixedSize()
+        TextWrapper(text:$textField.textValue, font: $textField.fontName, fontSize: $textField.fontSize)
+            .border(Color.red, width: 1)
+            .frame(width: UIScreen.main.bounds.width, height: 30)
             .offset(x: position.width + dragOffset.width, y: position.height + dragOffset.height)
             .scaleEffect(finalAmount + currentAmount)
-            .rotationEffect(Angle(degrees: self.fontRotation))
+            .rotationEffect(Angle(degrees: self.fontRotation), anchor: .center)
             .simultaneousGesture(DragGesture()
                 .updating($dragOffset, body: { (value, state, transaction) in
                     state = value.translation
@@ -135,7 +133,8 @@ struct TextView_Previews: PreviewProvider {
     @State static var fontSize: CGFloat = 40
     @State static var fontRotation: Double = 0
     static var previews: some View {
-        TextView(text: $text, font: $font, fontSize: $fontSize, fontRotation: $fontRotation)
+        //TextView(text: text, font: $font, fontSize: $fontSize, fontRotation: $fontRotation)
+        Text("Fix This")
     }
 }
 
