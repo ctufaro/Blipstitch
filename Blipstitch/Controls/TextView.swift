@@ -45,7 +45,7 @@ struct TextWrapper: UIViewRepresentable {
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(text: $text,fontSize: $fontSize)
+        Coordinator(text: $text, fontSize: $fontSize)
     }
     
     class Coordinator: NSObject, UITextViewDelegate, UIGestureRecognizerDelegate {
@@ -106,6 +106,11 @@ struct TextView: View {
     @State private var finalAmount: CGFloat = 1
     
     var body: some View {
+        /*
+        TextGestureView(text:$textField.textValue)
+        .edgesIgnoringSafeArea(.all)
+        */
+        
         TextWrapper(text:$textField.textValue, font: $textField.fontName, fontSize: $textField.fontSize)
             .border(Color.red, width: 1)
             .frame(width: UIScreen.main.bounds.width, height: 30)
@@ -124,6 +129,7 @@ struct TextView: View {
                 .onChanged { value in
                     self.fontRotation = value.degrees
                 })
+        
     }
 }
 

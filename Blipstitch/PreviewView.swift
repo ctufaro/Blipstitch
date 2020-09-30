@@ -76,20 +76,6 @@ struct PreviewView: View {
                                 }
                             }
                             Button(action: {
-                                withAnimation(.spring()){
-                                    self.showSpeed.toggle()
-                                }
-                            }) {
-                                VStack(spacing: 8) {
-                                    Image("Rabbit").resizable().scaledToFit()
-                                        .frame(width: UIScreen.screenWidth / 10, height: UIScreen.screenWidth / 10)
-                                        .font(.title)
-                                        .foregroundColor(.white)
-                                    Text("Speed")
-                                        .foregroundColor(.white)
-                                }
-                            }
-                            Button(action: {
                                 self.showTextEdit = true
                                 self.showKeyboard()
                                 self.numberOfRects += 1
@@ -100,6 +86,20 @@ struct PreviewView: View {
                                         .font(.system(size: 30))
                                         .foregroundColor(.white)
                                     Text("Text")
+                                        .foregroundColor(.white)
+                                }
+                            }
+                            Button(action: {
+                                withAnimation(.spring()){
+                                    self.showSpeed.toggle()
+                                }
+                            }) {
+                                VStack(spacing: 8) {
+                                    Image("Rabbit").resizable().scaledToFit()
+                                        .frame(width: UIScreen.screenWidth / 10, height: UIScreen.screenWidth / 10)
+                                        .font(.title)
+                                        .foregroundColor(.white)
+                                    Text("Speed")
                                         .foregroundColor(.white)
                                 }
                             }
