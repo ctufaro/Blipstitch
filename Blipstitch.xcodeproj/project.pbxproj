@@ -19,7 +19,6 @@
 		D96BD93D25142BEA00F237BD /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BD93C25142BEA00F237BD /* NetworkManager.swift */; };
 		D96BD93F25142C0F00F237BD /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BD93E25142C0F00F237BD /* ImageLoader.swift */; };
 		D97B2A9725266738004610FA /* GestureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97B2A9625266738004610FA /* GestureHelper.swift */; };
-		D97E926B251ADBC80045FC96 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97E926A251ADBC80045FC96 /* TextView.swift */; };
 		D9A550BC2514CF9A00B30EC3 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A550BB2514CF9A00B30EC3 /* FeedView.swift */; };
 		D9A98CCC251024EB00D0E386 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CCB251024EB00D0E386 /* AppDelegate.swift */; };
 		D9A98CCE251024EB00D0E386 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CCD251024EB00D0E386 /* SceneDelegate.swift */; };
@@ -56,7 +55,7 @@
 		D9A98D1D2510294000D0E386 /* BottomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D1C2510294000D0E386 /* BottomMenuView.swift */; };
 		D9CFF5882512751E00ECA8D9 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CFF5872512751E00ECA8D9 /* AvatarView.swift */; };
 		D9CFF58A25129DB300ECA8D9 /* RestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CFF58925129DB300ECA8D9 /* RestAPI.swift */; };
-		D9D410E72523A9C4000D2302 /* TextGestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D410E62523A9C4000D2302 /* TextGestureView.swift */; };
+		D9D410E72523A9C4000D2302 /* GestureControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D410E62523A9C4000D2302 /* GestureControlView.swift */; };
 		D9EA19152519350500032184 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EA19142519350500032184 /* LoadingView.swift */; };
 		D9EA19172519353200032184 /* TemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EA19162519353200032184 /* TemplateView.swift */; };
 		D9FD8447251E444600A41DED /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD8446251E444600A41DED /* Settings.swift */; };
@@ -74,7 +73,6 @@
 		D96BD93C25142BEA00F237BD /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		D96BD93E25142C0F00F237BD /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		D97B2A9625266738004610FA /* GestureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureHelper.swift; sourceTree = "<group>"; };
-		D97E926A251ADBC80045FC96 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		D9A550BB2514CF9A00B30EC3 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		D9A98CC8251024EB00D0E386 /* Blipstitch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blipstitch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9A98CCB251024EB00D0E386 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -113,7 +111,7 @@
 		D9A98D1C2510294000D0E386 /* BottomMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMenuView.swift; sourceTree = "<group>"; };
 		D9CFF5872512751E00ECA8D9 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		D9CFF58925129DB300ECA8D9 /* RestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestAPI.swift; sourceTree = "<group>"; };
-		D9D410E62523A9C4000D2302 /* TextGestureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextGestureView.swift; sourceTree = "<group>"; };
+		D9D410E62523A9C4000D2302 /* GestureControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureControlView.swift; sourceTree = "<group>"; };
 		D9EA19142519350500032184 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		D9EA19162519353200032184 /* TemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateView.swift; sourceTree = "<group>"; };
 		D9FD8446251E444600A41DED /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -249,13 +247,12 @@
 				D9A98D14251028F900D0E386 /* ButtonPressView.swift */,
 				D9A98D0D251028BB00D0E386 /* FeedControlsView.swift */,
 				D9047819252286B800CB2E2E /* FontListView.swift */,
+				D9D410E62523A9C4000D2302 /* GestureControlView.swift */,
 				D9EA19142519350500032184 /* LoadingView.swift */,
 				D9A98D092510286E00D0E386 /* PlayerView.swift */,
 				D9A98D162510290B00D0E386 /* PopOverView.swift */,
 				D95359F12515A87C00F06FD7 /* SideMenuView.swift */,
 				D9A98D182510291C00D0E386 /* TextFlashView.swift */,
-				D9D410E62523A9C4000D2302 /* TextGestureView.swift */,
-				D97E926A251ADBC80045FC96 /* TextView.swift */,
 				D9A98D1A2510292C00D0E386 /* TimerView.swift */,
 				D9532DE025115BE20034000E /* TopMenuView.swift */,
 			);
@@ -379,10 +376,9 @@
 				D9A98D022510273800D0E386 /* PassThrough.metal in Sources */,
 				D9CFF5882512751E00ECA8D9 /* AvatarView.swift in Sources */,
 				D9A98CCE251024EB00D0E386 /* SceneDelegate.swift in Sources */,
-				D9D410E72523A9C4000D2302 /* TextGestureView.swift in Sources */,
+				D9D410E72523A9C4000D2302 /* GestureControlView.swift in Sources */,
 				D93AFA4E25102A260061A0B8 /* ViewRouter.swift in Sources */,
 				D9A98CEC2510265E00D0E386 /* FilterRenderer.swift in Sources */,
-				D97E926B251ADBC80045FC96 /* TextView.swift in Sources */,
 				D96BD93F25142C0F00F237BD /* ImageLoader.swift in Sources */,
 				D97B2A9725266738004610FA /* GestureHelper.swift in Sources */,
 				D9A550BC2514CF9A00B30EC3 /* FeedView.swift in Sources */,

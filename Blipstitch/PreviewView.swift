@@ -17,7 +17,6 @@ struct PreviewView: View {
     @State var duration: Double = 1
     @State var showSpeed: Bool = false
     @State var showLoading: Bool = false
-    @State var showTextEdit: Bool = false
     @State var createText: Bool = false
     
     //Text Fields this should be a model
@@ -25,21 +24,14 @@ struct PreviewView: View {
     @State var font = "Arial-BoldMT"
     @State var fontSize: CGFloat = 40.0
     @State var fontRotation: Double = 0
-    @ObservedObject var textArray: TextFields = TextFields()
     //Text Fields this should be a model
     
-    @State private var numberOfRects = 0
     @State private var desiredHeight: [CGFloat] = [0, 0]
     
     var body: some View {
         ZStack{
             PlayerView(images: shots + shots.reversed(), duration: $duration).edgesIgnoringSafeArea(.all)
-            TextView(textField: TextField(), gestureHelper:self.gestureHelper, fontRotation: self.$fontRotation)
-            /*if showTextEdit {
-                ForEach(textArray.textFields){ txt in
-                    TextView(textField: txt, fontRotation: self.$fontRotation)
-                }
-            }*/
+            GestureControlView(text: $showingText, gestureHelper:self.gestureHelper).edgesIgnoringSafeArea(.all)
             VStack{
                 if self.showSpeed {
                     Slider(value: $duration, in: 1...calcBounds(), step: 1)
@@ -81,10 +73,6 @@ struct PreviewView: View {
                             Button(action: {
                                 self.showKeyboard()
                                 self.gestureHelper.createText()
-                                //self.createText.toggle()
-                                /*self.showTextEdit = true
-                                self.numberOfRects += 1
-                                self.textArray.add(textValue: "", fontName: "Arial-BoldMT", fontSize: 40.0)*/
                             }) {
                                 VStack(spacing: 8) {
                                     Image(systemName: "textformat")
@@ -142,9 +130,9 @@ struct PreviewView: View {
     }
     
     func getTextInfo(){
-        for txt in self.textArray.textFields {
+        /*for txt in self.textArray.textFields {
             print("Text Layer - value:\(txt.textValue) font:\(txt.fontName) size:\(txt.fontSize)")
-        }
+        }*/
         //rotation
         //location
     }

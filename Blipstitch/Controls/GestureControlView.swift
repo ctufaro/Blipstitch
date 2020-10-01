@@ -9,7 +9,7 @@
 import SwiftUI
 import UIKit
 
-struct TextGestureView: UIViewControllerRepresentable {
+struct GestureControlView: UIViewControllerRepresentable {
     @Binding var text: String
     var gestureHelper:GestureHelper
     
@@ -17,20 +17,20 @@ struct TextGestureView: UIViewControllerRepresentable {
         Coordinator(self)
     }
     
-    func makeUIViewController(context: Context) -> TextGestureController {
-        let textGestureController = TextGestureController($text, gestureHelper)
-        return textGestureController
+    func makeUIViewController(context: Context) -> GestureController {
+        let gestureController = GestureController($text, gestureHelper)
+        return gestureController
     }
     
-    func updateUIViewController(_ textGestureController: TextGestureController, context: Context) {
-        textGestureController.text = $text
+    func updateUIViewController(_ gestureController: GestureController, context: Context) {
+        gestureController.text = $text
     }
     
     class Coordinator: NSObject {
-        var parent: TextGestureView
+        var parent: GestureControlView
         
-        init(_ textGestureView: TextGestureView) {
-            self.parent = textGestureView
+        init(_ gestureControlView: GestureControlView) {
+            self.parent = gestureControlView
         }
         
         func addTextView(){
@@ -39,14 +39,14 @@ struct TextGestureView: UIViewControllerRepresentable {
     }
 }
 
-struct TextGestureView_Previews: PreviewProvider {
+struct GestureControlView_Previews: PreviewProvider {
     @State static var text = "Hi!"
     static var previews: some View {
-        TextGestureView(text: $text, gestureHelper: GestureHelper())
+        GestureControlView(text: $text, gestureHelper: GestureHelper())
     }
 }
 
-class TextGestureController: UIViewController, UITextViewDelegate, GestureDelegate {
+class GestureController: UIViewController, UITextViewDelegate, GestureDelegate {
     var text: Binding<String>
     var gestureHelper:GestureHelper!
     var textView: UITextView!
@@ -70,8 +70,8 @@ class TextGestureController: UIViewController, UITextViewDelegate, GestureDelega
     
     func makeTextView(_ text:String) {
         let textView = UITextView(frame: CGRect(x: 20.0, y: 90.0, width: UIScreen.screenSize.width, height: 100.0))
-        textView.layer.borderWidth = 1
-        textView.layer.borderColor = UIColor.red.cgColor
+        //textView.layer.borderWidth = 1
+        //textView.layer.borderColor = UIColor.red.cgColor
         textView.delegate = self
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.textAlignment = .center
