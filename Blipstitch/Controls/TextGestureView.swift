@@ -11,13 +11,14 @@ import UIKit
 
 struct TextGestureView: UIViewControllerRepresentable {
     @Binding var text: String
+    var gestureHelper:GestureHelper
     
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
     
     func makeUIViewController(context: Context) -> TextGestureController {
-        let textGestureController = TextGestureController($text)
+        let textGestureController = TextGestureController($text, gestureHelper)
         return textGestureController
     }
     
@@ -31,36 +32,46 @@ struct TextGestureView: UIViewControllerRepresentable {
         init(_ textGestureView: TextGestureView) {
             self.parent = textGestureView
         }
+        
+        func addTextView(){
+            
+        }
     }
 }
 
 struct TextGestureView_Previews: PreviewProvider {
     @State static var text = "Hi!"
     static var previews: some View {
-        TextGestureView(text: $text)
+        TextGestureView(text: $text, gestureHelper: GestureHelper())
     }
 }
 
-class TextGestureController: UIViewController, UITextViewDelegate {
+class TextGestureController: UIViewController, UITextViewDelegate, GestureDelegate {
     var text: Binding<String>
+    var gestureHelper:GestureHelper!
     var textView: UITextView!
-    var snapGesture: SnapGesture?
+    var snapGestures:[SnapGesture]
     
-    init(_ text: Binding<String>) {
+    init(_ text: Binding<String>, _ gestureHelper:GestureHelper) {
         self.text = text
-        self.textView = UITextView(frame: CGRect(x: 20.0, y: 90.0, width: UIScreen.screenSize.width, height: 100.0))
-        self.textView.layer.borderWidth = 1
-        self.textView.layer.borderColor = UIColor.red.cgColor
+        self.snapGestures = []
         super.init(nibName: nil, bundle: nil)
+        self.gestureHelper = gestureHelper
+        self.gestureHelper.delegate = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        print("View did load")
-        super.viewDidLoad()
+    func createText() {
+        makeTextView("")
+    }
+    
+    func makeTextView(_ text:String) {
+        let textView = UITextView(frame: CGRect(x: 20.0, y: 90.0, width: UIScreen.screenSize.width, height: 100.0))
+        textView.layer.borderWidth = 1
+        textView.layer.borderColor = UIColor.red.cgColor
         textView.delegate = self
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.textAlignment = .center
@@ -73,9 +84,19 @@ class TextGestureController: UIViewController, UITextViewDelegate {
         textView.layer.backgroundColor = UIColor.clear.cgColor
         textView.autocorrectionType = .no
         textView.isScrollEnabled = false
-        view.addSubview(textView)
+        textView.text = text
         textView.becomeFirstResponder()
-        snapGesture = SnapGesture(view: textView)
+        textView.isUserInteractionEnabled = true
+        textView.isEditable = true
+        textView.isSelectable = true
+        snapGestures.append(SnapGesture(view: textView))
+        view.addSubview(textView)
+    }
+    
+    override func viewDidLoad() {
+        print("Text Gesture View Loaded")
+        super.viewDidLoad()
+        //makeTextView("")
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -109,6 +130,10 @@ class SnapGesture: NSObject, UIGestureRecognizerDelegate {
         self.init(transformView: view, gestureView: view)
     }
     
+    init(param:Int){
+        
+    }
+    
     init(transformView: UIView, gestureView: UIView) {
         super.init()
         
@@ -124,7 +149,7 @@ class SnapGesture: NSObject, UIGestureRecognizerDelegate {
         transformView.center = superview.center
     }
     deinit {
-        self.cleanGesture()
+        //self.cleanGesture()
     }
     
     // MARK: - private method
@@ -134,7 +159,6 @@ class SnapGesture: NSObject, UIGestureRecognizerDelegate {
     private var panGesture: UIPanGestureRecognizer?
     private var pinchGesture: UIPinchGestureRecognizer?
     private var rotationGesture: UIRotationGestureRecognizer?
-    private var tapGesture: UITapGestureRecognizer?
     
     private func addGestures(v: UIView) {
         
@@ -151,33 +175,11 @@ class SnapGesture: NSObject, UIGestureRecognizerDelegate {
         rotationGesture?.delegate = self
         v.addGestureRecognizer(rotationGesture!)
         
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapProcess(_:)))
-        tapGesture?.delegate = self
-        v.addGestureRecognizer(tapGesture!)
-        
         self.weakGestureView = v
     }
     
     private func cleanGesture() {
-        if let view = self.weakGestureView {
-            //for recognizer in view.gestureRecognizers ?? [] {
-            //    view.removeGestureRecognizer(recognizer)
-            //}
-            if panGesture != nil {
-                view.removeGestureRecognizer(panGesture!)
-                panGesture = nil
-            }
-            if pinchGesture != nil {
-                view.removeGestureRecognizer(pinchGesture!)
-                pinchGesture = nil
-            }
-            if rotationGesture != nil {
-                view.removeGestureRecognizer(rotationGesture!)
-                rotationGesture = nil
-            }
-        }
-        self.weakGestureView = nil
-        self.weakTransformView = nil
+        
     }
     
     // MARK: - API
@@ -290,16 +292,6 @@ class SnapGesture: NSObject, UIGestureRecognizerDelegate {
         recognizer.rotation = 0
         updateRotationGuide()
         hideGuidesOnGestureEnd(recognizer)
-    }
-    
-    @objc func tapProcess(_ recognizer: UITapGestureRecognizer) {
-        guard isGestureEnabled, let view = self.weakTransformView else { return }
-        
-        if view is UITextView {
-            print("UITextView")
-        } else {
-            print("Nope")
-        }
     }
     
     func hideGuidesOnGestureEnd(_ recognizer: UIGestureRecognizer) {
@@ -425,3 +417,5 @@ class SnapGesture: NSObject, UIGestureRecognizerDelegate {
         )
     }
 }
+
+

@@ -98,6 +98,7 @@ struct TextWrapper: UIViewRepresentable {
 
 struct TextView: View {
     @ObservedObject var textField:TextField
+    @ObservedObject var gestureHelper:GestureHelper
     @Binding var fontRotation:Double
     //gestures
     @GestureState private var dragOffset = CGSize.zero
@@ -106,11 +107,12 @@ struct TextView: View {
     @State private var finalAmount: CGFloat = 1
     
     var body: some View {
-        /*
-        TextGestureView(text:$textField.textValue)
-        .edgesIgnoringSafeArea(.all)
-        */
+        /**/
+        TextGestureView(text:$textField.textValue, gestureHelper: gestureHelper)
+            .edgesIgnoringSafeArea(.all)
+        /**/
         
+        /*
         TextWrapper(text:$textField.textValue, font: $textField.fontName, fontSize: $textField.fontSize)
             .border(Color.red, width: 1)
             .frame(width: UIScreen.main.bounds.width, height: 30)
@@ -129,6 +131,7 @@ struct TextView: View {
                 .onChanged { value in
                     self.fontRotation = value.degrees
                 })
+        */
         
     }
 }

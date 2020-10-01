@@ -13,10 +13,12 @@ import Photos
 
 struct PreviewView: View {
     @Binding var shots: Array<UIImage>!
+    @ObservedObject var gestureHelper = GestureHelper()
     @State var duration: Double = 1
     @State var showSpeed: Bool = false
     @State var showLoading: Bool = false
     @State var showTextEdit: Bool = false
+    @State var createText: Bool = false
     
     //Text Fields this should be a model
     @State var showingText = ""
@@ -32,11 +34,12 @@ struct PreviewView: View {
     var body: some View {
         ZStack{
             PlayerView(images: shots + shots.reversed(), duration: $duration).edgesIgnoringSafeArea(.all)
-            if showTextEdit {
+            TextView(textField: TextField(), gestureHelper:self.gestureHelper, fontRotation: self.$fontRotation)
+            /*if showTextEdit {
                 ForEach(textArray.textFields){ txt in
                     TextView(textField: txt, fontRotation: self.$fontRotation)
                 }
-            }
+            }*/
             VStack{
                 if self.showSpeed {
                     Slider(value: $duration, in: 1...calcBounds(), step: 1)
@@ -76,10 +79,12 @@ struct PreviewView: View {
                                 }
                             }
                             Button(action: {
-                                self.showTextEdit = true
                                 self.showKeyboard()
+                                self.gestureHelper.createText()
+                                //self.createText.toggle()
+                                /*self.showTextEdit = true
                                 self.numberOfRects += 1
-                                self.textArray.add(textValue: "", fontName: "Arial-BoldMT", fontSize: 40.0)
+                                self.textArray.add(textValue: "", fontName: "Arial-BoldMT", fontSize: 40.0)*/
                             }) {
                                 VStack(spacing: 8) {
                                     Image(systemName: "textformat")
