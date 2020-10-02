@@ -10,50 +10,30 @@ import SwiftUI
 import UIKit
 
 struct GestureControlView: UIViewControllerRepresentable {
-    @Binding var text: String
     var gestureHelper:GestureHelper
     
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-    
     func makeUIViewController(context: Context) -> GestureController {
-        let gestureController = GestureController($text, gestureHelper)
+        let gestureController = GestureController(gestureHelper)
         return gestureController
     }
     
     func updateUIViewController(_ gestureController: GestureController, context: Context) {
-        gestureController.text = $text
-    }
-    
-    class Coordinator: NSObject {
-        var parent: GestureControlView
-        
-        init(_ gestureControlView: GestureControlView) {
-            self.parent = gestureControlView
-        }
-        
-        func addTextView(){
-            
-        }
+        //
     }
 }
 
 struct GestureControlView_Previews: PreviewProvider {
     @State static var text = "Hi!"
     static var previews: some View {
-        GestureControlView(text: $text, gestureHelper: GestureHelper())
+        GestureControlView(gestureHelper: GestureHelper())
     }
 }
 
 class GestureController: UIViewController, UITextViewDelegate, GestureDelegate {
-    var text: Binding<String>
     var gestureHelper:GestureHelper!
-    var textView: UITextView!
     var snapGestures:[SnapGesture]
     
-    init(_ text: Binding<String>, _ gestureHelper:GestureHelper) {
-        self.text = text
+    init(_ gestureHelper:GestureHelper) {
         self.snapGestures = []
         super.init(nibName: nil, bundle: nil)
         self.gestureHelper = gestureHelper
@@ -65,10 +45,11 @@ class GestureController: UIViewController, UITextViewDelegate, GestureDelegate {
     }
     
     func createText() {
-        makeTextView("")
+        let textView = makeTextView("")
+        self.gestureHelper.addTextViewToArray(textView)
     }
     
-    func makeTextView(_ text:String) {
+    func makeTextView(_ text:String) -> UITextView{
         let textView = UITextView(frame: CGRect(x: 20.0, y: 90.0, width: UIScreen.screenSize.width, height: 100.0))
         //textView.layer.borderWidth = 1
         //textView.layer.borderColor = UIColor.red.cgColor
@@ -91,6 +72,7 @@ class GestureController: UIViewController, UITextViewDelegate, GestureDelegate {
         textView.isSelectable = true
         snapGestures.append(SnapGesture(view: textView))
         view.addSubview(textView)
+        return textView
     }
     
     override func viewDidLoad() {
@@ -100,7 +82,7 @@ class GestureController: UIViewController, UITextViewDelegate, GestureDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        self.text.wrappedValue = textView.text
+        //self.text.wrappedValue = textView.text
         let fixedWidth = textView.frame.size.width
         let newSize = textView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
         textView.frame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)

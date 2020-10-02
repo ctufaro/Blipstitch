@@ -229,7 +229,9 @@ class ImageAnimator{
         ImageAnimator.removeFileAtURL(fileURL: settings.outputURL)
         videoWriter.start()
         videoWriter.render(appendPixelBuffers: appendPixelBuffers) {
-            self.saveToLibrary(path: self.settings.outputURL.path!, dispatchGroup: dispatchGroup)
+            self.outputPath = self.settings.outputURL.path!
+            dispatchGroup.leave()
+            //self.saveToLibrary(path: self.settings.outputURL.path!, dispatchGroup: dispatchGroup)
             //let imageURL = ImageToVideo.savePreviewImage(image: image)
             //let fileURL = URL(fileURLWithPath: self.settings.outputURL.path!) as URL
         }
