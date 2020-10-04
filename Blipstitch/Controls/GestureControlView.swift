@@ -50,7 +50,7 @@ class GestureController: UIViewController, UITextViewDelegate, GestureDelegate {
     }
     
     func makeTextView(_ text:String) -> UITextView{
-        let textView = UITextView(frame: CGRect(x: 20.0, y: 90.0, width: UIScreen.screenSize.width, height: 100.0))
+        let textView = UITextView(frame: CGRect(x: 0.0, y: 90.0, width: UIScreen.screenSize.width, height: 62.0))
         //textView.layer.borderWidth = 1
         //textView.layer.borderColor = UIColor.red.cgColor
         textView.delegate = self
