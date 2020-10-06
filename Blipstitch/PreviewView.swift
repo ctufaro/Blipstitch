@@ -143,7 +143,8 @@ struct PreviewView: View {
             var newFps = Int32(self.shots.count)/newDuration
             if newFps == 0 { newFps = 1 }
             ImageToVideo.create(images: self.shots+self.shots.reversed(), fps: newFps*2) { fileUrl in
-                OverlayExport.exportLayersToVideo(fileUrl, self.gestureHelper.textViewArray[0].text, self.gestureHelper.textViewArray[0].font!.fontName, self.gestureHelper.textViewArray[0].font!.pointSize, self.gestureHelper.textViewArray[0].layer.position)
+                OverlayExport.exportLayersToVideo(fileUrl, self.gestureHelper.textViewArray[0].text, self.gestureHelper.textViewArray[0].font!.fontName, self.gestureHelper.textViewArray[0].font!.pointSize, self.gestureHelper.textViewArray[0].layer.position,
+                    self.gestureHelper.textViewArray[0])
             }
         }
     }

@@ -12,7 +12,12 @@ import AVFoundation
 import Photos
 
 class OverlayExport {
-    static func exportLayersToVideo(_ fileUrl:String, _ textValue: String, _ font:String, _ fontSize:CGFloat, _ position:CGPoint){
+    
+    static func convertPoint(point: CGPoint, fromRect: CGRect, toRect: CGRect) -> CGPoint {
+        return CGPoint(x: (toRect.size.width / fromRect.size.width) * point.x, y: (toRect.size.height / fromRect.size.height) * point.y)
+    }
+    
+    static func exportLayersToVideo(_ fileUrl:String, _ textValue: String, _ font:String, _ fontSize:CGFloat, _ position:CGPoint, _ textView:UITextView){
         let fileURL = NSURL(fileURLWithPath: fileUrl)
         let composition = AVMutableComposition()
         let vidAsset = AVURLAsset(url: fileURL as URL, options: nil)
@@ -42,14 +47,23 @@ class OverlayExport {
             return
         }
         
-        // Watermark Effect
+        // Image Effect
         let size = videoTrack.naturalSize
-        let imglogo = UIImage(named: "trash")
-        let imglayer = CALayer()
-        imglayer.contents = imglogo?.cgImage
-        imglayer.frame = CGRect(x: 5, y: 5, width: 100, height: 100)
-        imglayer.opacity = 0.6
+        let renderer = UIGraphicsImageRenderer(size: textView.bounds.size)
+        let image = renderer.image { ctx in
+            textView.drawHierarchy(in: textView.bounds, afterScreenUpdates: true)
+        }
         
+        //1080x1920
+        //375x667
+        
+        let imglayer = CALayer()
+        let aspect: CGFloat = image.size.width / image.size.height
+        let width = size.width
+        let height = width / aspect
+        imglayer.frame = CGRect(x: 0, y: 0, width: width,height: height)
+        imglayer.contents = image.cgImage
+
         // create text Layer
         let textLayer = CATextLayer()
         textLayer.string = textValue //
@@ -80,8 +94,8 @@ class OverlayExport {
         let parentlayer = CALayer()
         parentlayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         parentlayer.addSublayer(videolayer)
-        //parentlayer.addSublayer(imglayer)
-        parentlayer.addSublayer(textLayer)
+        parentlayer.addSublayer(imglayer)
+        //parentlayer.addSublayer(textLayer)
         
         
         let layercomposition = AVMutableVideoComposition()
