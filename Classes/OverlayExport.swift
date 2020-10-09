@@ -67,6 +67,12 @@ class OverlayExport {
         imglayer.frame = CGRect(x: relativePosition.x, y: relativePosition.y, width: scaledWidth,height: scaledHeight)
         imglayer.contents = image.cgImage
         
+        // Rotation
+        let radians = atan2f(Float(textView.transform.b), Float(textView.transform.a))
+        imglayer.transform = CATransform3DMakeRotation(CGFloat(radians), 0.0, 0.0, -1.0)
+        
+
+        
         
         // Adding videolayer and imglayer
         parentlayer.addSublayer(videolayer)
