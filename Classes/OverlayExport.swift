@@ -13,7 +13,7 @@ import Photos
 
 class OverlayExport {
     
-    static func exportLayersToVideo(_ fileUrl:String, _ textView:UITextView, completion: @escaping (NSURL) -> ()){
+    static func exportLayersToVideo(_ fileUrl:String, _ textViewArray:[UITextView], completion: @escaping (NSURL) -> ()){
         let fileURL = NSURL(fileURLWithPath: fileUrl)
         let composition = AVMutableComposition()
         let vidAsset = AVURLAsset(url: fileURL as URL, options: nil)
@@ -47,36 +47,38 @@ class OverlayExport {
         
         let parentlayer = CALayer()
         parentlayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        
+
         let videolayer = CALayer()
         videolayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        
-        // Convert UITextView to Image
-        let renderer = UIGraphicsImageRenderer(size: textView.bounds.size)
-        let image = renderer.image { ctx in
-            textView.drawHierarchy(in: textView.bounds, afterScreenUpdates: true)
-        }
-        
-        let imglayer = CALayer()
-        let scaledAspect: CGFloat = image.size.width / image.size.height
-        let scaledWidth = size.width
-        let scaledHeight = scaledWidth / scaledAspect
-        var relativePosition = parentlayer.convert(textView.frame.origin, from: textView.layer)
-        let screenHeight = UIScreen.screenSize.height
-        relativePosition.y = abs(size.height-((textView.frame.origin.y/screenHeight)*size.height)) - textView.frame.height*2 - 40
-        imglayer.frame = CGRect(x: relativePosition.x, y: relativePosition.y, width: scaledWidth,height: scaledHeight)
-        imglayer.contents = image.cgImage
-        
-        // Rotation
-        let radians = atan2f(Float(textView.transform.b), Float(textView.transform.a))
-        imglayer.transform = CATransform3DMakeRotation(CGFloat(radians), 0.0, 0.0, -1.0)
-        
-
-        
-        
-        // Adding videolayer and imglayer
         parentlayer.addSublayer(videolayer)
-        parentlayer.addSublayer(imglayer)
+        
+        // Text View Overlays Starts
+        if textViewArray.count > 0{
+            for textView in textViewArray{
+                let renderer = UIGraphicsImageRenderer(size: textView.bounds.size)
+                // Convert UITextView to Image
+                let image = renderer.image { ctx in
+                    textView.drawHierarchy(in: textView.bounds, afterScreenUpdates: true)
+                }
+                
+                let imglayer = CALayer()
+                let scaledAspect: CGFloat = image.size.width / image.size.height
+                let scaledWidth = size.width
+                let scaledHeight = scaledWidth / scaledAspect
+                var relativePosition = parentlayer.convert(textView.frame.origin, from: textView.layer)
+                let screenHeight = UIScreen.screenSize.height
+                relativePosition.y = abs(size.height-((textView.frame.origin.y/screenHeight)*size.height)) - textView.frame.height*2 - 40
+                imglayer.frame = CGRect(x: relativePosition.x, y: relativePosition.y, width: scaledWidth,height: scaledHeight)
+                imglayer.contents = image.cgImage
+                
+                // Rotation
+                let radians = atan2f(Float(textView.transform.b), Float(textView.transform.a))
+                imglayer.transform = CATransform3DMakeRotation(CGFloat(radians), 0.0, 0.0, -1.0)
+                
+                parentlayer.addSublayer(imglayer)
+            }
+        }
+        // Text View Overlays End
 
         let layercomposition = AVMutableVideoComposition()
         layercomposition.frameDuration = CMTimeMake(value: 1, timescale: 30)

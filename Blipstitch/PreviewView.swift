@@ -145,7 +145,7 @@ struct PreviewView: View {
             if newFps == 0 { newFps = 1 }
             ImageToVideo.create(images: self.shots+self.shots.reversed(), fps: newFps*2) { fileUrl in
                 let imageUrl = ImageToVideo.savePreviewImage(image: self.shots[0])
-                OverlayExport.exportLayersToVideo(fileUrl, self.gestureHelper.textViewArray[0], completion:{ destination in
+                OverlayExport.exportLayersToVideo(fileUrl, self.gestureHelper.textViewArray, completion:{ destination in
                     RestAPI.UploadVideo(fileURL: destination as URL, imageUrl: imageUrl!,completion:{
                         print("Process Video Completed")
                         self.showLoading = false
