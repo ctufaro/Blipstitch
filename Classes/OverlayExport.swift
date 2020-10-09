@@ -13,11 +13,7 @@ import Photos
 
 class OverlayExport {
     
-    static func convertPoint(point: CGPoint, fromRect: CGRect, toRect: CGRect) -> CGPoint {
-        return CGPoint(x: (toRect.size.width / fromRect.size.width) * point.x, y: (toRect.size.height / fromRect.size.height) * point.y)
-    }
-    
-    static func exportLayersToVideo(_ fileUrl:String, _ textValue: String, _ font:String, _ fontSize:CGFloat, _ position:CGPoint, _ textView:UITextView){
+    static func exportLayersToVideo(_ fileUrl:String, _ textView:UITextView){
         let fileURL = NSURL(fileURLWithPath: fileUrl)
         let composition = AVMutableComposition()
         let vidAsset = AVURLAsset(url: fileURL as URL, options: nil)
@@ -47,63 +43,41 @@ class OverlayExport {
             return
         }
         
-        // Image Effect
         let size = videoTrack.naturalSize
+        
+        let parentlayer = CALayer()
+        parentlayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        
+        let videolayer = CALayer()
+        videolayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        
+        // Convert UITextView to Image
         let renderer = UIGraphicsImageRenderer(size: textView.bounds.size)
         let image = renderer.image { ctx in
             textView.drawHierarchy(in: textView.bounds, afterScreenUpdates: true)
         }
         
-        //1080x1920
-        //375x667
-        
         let imglayer = CALayer()
-        let aspect: CGFloat = image.size.width / image.size.height
-        let width = size.width
-        let height = width / aspect
-        imglayer.frame = CGRect(x: 0, y: 0, width: width,height: height)
+        let scaledAspect: CGFloat = image.size.width / image.size.height
+        let scaledWidth = size.width
+        let scaledHeight = scaledWidth / scaledAspect
+        var relativePosition = parentlayer.convert(textView.frame.origin, from: textView.layer)
+        let screenHeight = UIScreen.screenSize.height
+        relativePosition.y = abs(size.height-((textView.frame.origin.y/screenHeight)*size.height)) - textView.frame.height*2 - 40
+        imglayer.frame = CGRect(x: relativePosition.x, y: relativePosition.y, width: scaledWidth,height: scaledHeight)
         imglayer.contents = image.cgImage
-
-        // create text Layer
-        let textLayer = CATextLayer()
-        textLayer.string = textValue //
-        textLayer.frame = CGRect(x: 0, y: -700, width: size.width, height: size.height)
-        textLayer.alignmentMode = CATextLayerAlignmentMode.center
-        textLayer.font = UIFont(name: font, size: fontSize) //
-        textLayer.fontSize = fontSize*3 //
-        textLayer.foregroundColor = UIColor.white.cgColor
-        textLayer.shadowColor = UIColor.black.cgColor
-        textLayer.shadowOffset = CGSize(width: 1.0, height: 0.0)
-        textLayer.shadowOpacity = 0.2
-        textLayer.shadowRadius = 1.0
-        textLayer.backgroundColor = UIColor.clear.cgColor
         
-        //rotation/position?
-        let xnudge = UIScreen.screenSize.width
-        let ynudge = UIScreen.screenSize.height/2
-        textLayer.position = CGPoint(x: position.x+xnudge,y: position.y-ynudge)//
-        //let degrees = self.fontRotation * -1
-        //let radians = CGFloat(degrees * .pi / 180)
-        //textLayer.transform = CATransform3DMakeRotation(CGFloat(degrees * .pi / 180), 0.0, 0.0, 1.0)
-        //textLayer.transform = CATransform3DMakeTranslation(90, 50, 0)
-        //rotation/position?
         
-        let videolayer = CALayer()
-        videolayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        
-        let parentlayer = CALayer()
-        parentlayer.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        // Adding videolayer and imglayer
         parentlayer.addSublayer(videolayer)
         parentlayer.addSublayer(imglayer)
-        //parentlayer.addSublayer(textLayer)
-        
-        
+
         let layercomposition = AVMutableVideoComposition()
         layercomposition.frameDuration = CMTimeMake(value: 1, timescale: 30)
         layercomposition.renderSize = size
         layercomposition.animationTool = AVVideoCompositionCoreAnimationTool(postProcessingAsVideoLayer: videolayer, in: parentlayer)
         
-        // instruction for watermark
+        // instruction for overlay
         let instruction = AVMutableVideoCompositionInstruction()
         instruction.timeRange = CMTimeRangeMake(start: CMTime.zero, duration: composition.duration)
         let videotrack = composition.tracks(withMediaType: AVMediaType.video)[0] as AVAssetTrack
@@ -142,8 +116,6 @@ class OverlayExport {
                 print(assetExport?.error ?? "unknown error")
             default:
                 print("Movie complete")
-                
-                //self.myurl = movieDestinationUrl as URL
                 
                 PHPhotoLibrary.shared().performChanges({
                     PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: movieDestinationUrl as URL)
