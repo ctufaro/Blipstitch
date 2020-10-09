@@ -135,6 +135,7 @@ struct PreviewView: View {
     }
     
     func createVideoFromLayers(){
+        self.showLoading = true
         print("Process Video Starting")
         let serialQueue = DispatchQueue(label: "mySerialQueue")
         serialQueue.async {
@@ -143,7 +144,16 @@ struct PreviewView: View {
             var newFps = Int32(self.shots.count)/newDuration
             if newFps == 0 { newFps = 1 }
             ImageToVideo.create(images: self.shots+self.shots.reversed(), fps: newFps*2) { fileUrl in
-                OverlayExport.exportLayersToVideo(fileUrl, self.gestureHelper.textViewArray[0])
+                let imageUrl = ImageToVideo.savePreviewImage(image: self.shots[0])
+                OverlayExport.exportLayersToVideo(fileUrl, self.gestureHelper.textViewArray[0], completion:{ destination in
+                    RestAPI.UploadVideo(fileURL: destination as URL, imageUrl: imageUrl!,completion:{
+                        print("Process Video Completed")
+                        self.showLoading = false
+                        self.showingText = ""
+                    }, working:{ percent in
+                        self.showingText = "Uploading: \(Int(percent*100))%"
+                    })
+                })
             }
         }
     }

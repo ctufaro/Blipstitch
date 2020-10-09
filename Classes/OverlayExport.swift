@@ -13,7 +13,7 @@ import Photos
 
 class OverlayExport {
     
-    static func exportLayersToVideo(_ fileUrl:String, _ textView:UITextView){
+    static func exportLayersToVideo(_ fileUrl:String, _ textView:UITextView, completion: @escaping (NSURL) -> ()){
         let fileURL = NSURL(fileURLWithPath: fileUrl)
         let composition = AVMutableComposition()
         let vidAsset = AVURLAsset(url: fileURL as URL, options: nil)
@@ -94,7 +94,7 @@ class OverlayExport {
         //  create new file to receive data
         let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let docsDir = dirPaths[0] as NSString
-        let movieFilePath = docsDir.appendingPathComponent("result.mov")
+        let movieFilePath = docsDir.appendingPathComponent("\(UUID()).mov")
         let movieDestinationUrl = NSURL(fileURLWithPath: movieFilePath)
         
         // use AVAssetExportSession to export video
@@ -122,7 +122,6 @@ class OverlayExport {
                 print(assetExport?.error ?? "unknown error")
             default:
                 print("Movie complete")
-                
                 PHPhotoLibrary.shared().performChanges({
                     PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: movieDestinationUrl as URL)
                 }) { saved, error in
@@ -130,7 +129,7 @@ class OverlayExport {
                         print("Saved")
                     }
                 }
-                
+                completion(movieDestinationUrl)
             }
         })
     }
