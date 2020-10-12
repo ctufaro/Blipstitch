@@ -54,6 +54,7 @@ class GestureController: UIViewController, UITextViewDelegate, GestureDelegate {
         //textView.layer.borderWidth = 1
         //textView.layer.borderColor = UIColor.red.cgColor
         textView.delegate = self
+        textView.typingAttributes = [NSAttributedString.Key.backgroundColor:UIColor.black.withAlphaComponent(0.3)]
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.textAlignment = .center
         textView.font = UIFont(name: "Arial-BoldMT", size: 40)
@@ -70,6 +71,7 @@ class GestureController: UIViewController, UITextViewDelegate, GestureDelegate {
         textView.isUserInteractionEnabled = true
         textView.isEditable = true
         textView.isSelectable = true
+        
         snapGestures.append(SnapGesture(view: textView))
         view.addSubview(textView)
         return textView

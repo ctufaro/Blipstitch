@@ -115,8 +115,12 @@ struct CameraView: View {
                             self.viewRouter.index = 0
                         }) {
                             Image(systemName: "xmark")
-                                .foregroundColor(.white)
-                                .font(.system(size: 22))
+                            .foregroundColor(.white)
+                            .font(.system(size: 22))
+                            .frame(width: 30, height: 50)
+                            .contentShape(Rectangle())
+                            //.background(Color.gray)
+                            .offset(x:-10)
                         }
                     )
                     //.navigationBarHidden(true)
