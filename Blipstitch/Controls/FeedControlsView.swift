@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 struct FeedList: View {
     @ObservedObject var networkManager = NetworkManager()
@@ -14,16 +15,13 @@ struct FeedList: View {
         VStack {
             List {
                 ForEach(self.networkManager.feedItems) { item in
-                    NavigationLink(destination: VideoPlayerView(myVidUrl: item.postMotion)) {
+                    PushView(destination: VideoPlayerView(myVidUrl: item.postMotion)) {
                         FeedItemRow(feedItem: item)
-                            .listRowInsets(EdgeInsets(top: -1, leading: 0, bottom: -1, trailing: 0)).offset(x:UIScreen.main.bounds.width-(UIScreen.main.bounds.width*1.05))
+                            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         
                     }.buttonStyle(PlainButtonStyle())
-                        .padding([.top,.bottom],-7)
                 }
             }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
         }
     }
     

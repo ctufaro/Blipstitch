@@ -88,7 +88,9 @@ struct PreviewView: View {
                                 }
                             }) {
                                 VStack(spacing: 8) {
-                                    Image("Rabbit").resizable().scaledToFit()
+                                    Image("Rabbit")
+                                        .renderingMode(.template)
+                                        .resizable().scaledToFit()
                                         .frame(width: UIScreen.screenWidth / 10, height: UIScreen.screenWidth / 10)
                                         .font(.title)
                                         .foregroundColor(.white)
@@ -102,6 +104,7 @@ struct PreviewView: View {
                             }) {
                                 VStack(spacing: 8) {
                                     Image("Send")
+                                        .renderingMode(.template)
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: UIScreen.screenWidth / 10, height: UIScreen.screenWidth / 10)

@@ -57,7 +57,10 @@ struct CameraView: View {
                                     self.metalHelper.changeCamera()
                                 }) {
                                     VStack(spacing: 8) {
-                                        Image("Flip").resizable().scaledToFit()
+                                        Image("Flip")
+                                            .renderingMode(.template)
+                                            .resizable()
+                                            .scaledToFit()
                                             .frame(width: UIScreen.screenWidth / 10, height: UIScreen.screenWidth / 10)
                                             .font(.title)
                                             .foregroundColor(.white)
@@ -75,7 +78,10 @@ struct CameraView: View {
                                         }
                                     }) {
                                         VStack(spacing: 8) {
-                                            Image("Clock").resizable().scaledToFit()
+                                            Image("Clock")
+                                                .renderingMode(.template)
+                                                .resizable()
+                                                .scaledToFit()
                                                 .frame(width: UIScreen.screenWidth / 10, height: UIScreen.screenWidth / 10)
                                                 .font(.title)
                                                 .foregroundColor(.white)
@@ -89,6 +95,7 @@ struct CameraView: View {
                                 }) {
                                     VStack(spacing: 8) {
                                         Image("Trash")
+                                            .renderingMode(.template)
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: UIScreen.screenWidth / 10, height: UIScreen.screenWidth / 10)

@@ -9,13 +9,32 @@
 import SwiftUI
 import UIKit
 import AVFoundation
+import NavigationStack
 
 struct VideoPlayerView: View {
     @State private var showingSheet = true
+    @EnvironmentObject private var navigationStack: NavigationStack
     var myVidUrl: String
     var body: some View {
         ZStack {
             VideoPlayer(vidUrl: myVidUrl)
+            VStack{
+                HStack {
+                    Button(action: {
+                        self.navigationStack.pop()
+                    }) {
+                        Image(systemName: "chevron.left")
+                        .foregroundColor(.white)
+                        .font(.system(size: 22))
+                        .frame(width: 30, height: 50)
+                        .contentShape(Rectangle())
+                        .padding([.leading,.top],5)
+                    }
+                    Spacer()
+                }
+                Spacer()
+                
+            }
             HStack {
                 Spacer()
                 VStack {
@@ -34,8 +53,8 @@ struct VideoPlayerView: View {
 
 struct VideoPlayerView_Previews: PreviewProvider {
     static var previews: some View {
-        //VideoPlayerView(myVidUrl: "https://tufarostorage.blob.core.windows.net/kickspins/display.mp4")
-        Text("Fix this")
+        VideoPlayerView(myVidUrl: "https://tufarostorage.blob.core.windows.net/kickspins/display.mp4")
+        //Text("Fix this")
     }
 }
 

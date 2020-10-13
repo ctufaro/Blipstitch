@@ -60,6 +60,7 @@
 		D9EA19152519350500032184 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EA19142519350500032184 /* LoadingView.swift */; };
 		D9EA19172519353200032184 /* TemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EA19162519353200032184 /* TemplateView.swift */; };
 		D9FD8447251E444600A41DED /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD8446251E444600A41DED /* Settings.swift */; };
+		D9FEE0CF2535F2E2007DB292 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = D9FEE0CE2535F2E2007DB292 /* NavigationStack */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -125,6 +126,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D96BD9362512A77E00F237BD /* Alamofire in Frameworks */,
+				D9FEE0CF2535F2E2007DB292 /* NavigationStack in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +291,7 @@
 			name = Blipstitch;
 			packageProductDependencies = (
 				D96BD9352512A77E00F237BD /* Alamofire */,
+				D9FEE0CE2535F2E2007DB292 /* NavigationStack */,
 			);
 			productName = Blipstitch;
 			productReference = D9A98CC8251024EB00D0E386 /* Blipstitch.app */;
@@ -320,6 +323,7 @@
 			mainGroup = D9A98CBF251024EB00D0E386;
 			packageReferences = (
 				D96BD9342512A77E00F237BD /* XCRemoteSwiftPackageReference "Alamofire" */,
+				D9FEE0CD2535F2E2007DB292 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
 			);
 			productRefGroup = D9A98CC9251024EB00D0E386 /* Products */;
 			projectDirPath = "";
@@ -602,6 +606,14 @@
 				kind = branch;
 			};
 		};
+		D9FEE0CD2535F2E2007DB292 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -609,6 +621,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D96BD9342512A77E00F237BD /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		D9FEE0CE2535F2E2007DB292 /* NavigationStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9FEE0CD2535F2E2007DB292 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */;
+			productName = NavigationStack;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

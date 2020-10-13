@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import NavigationStack
 
 
 struct FeedView_Previews: PreviewProvider {
@@ -22,7 +23,7 @@ struct FeedView: View{
 
     var body: some View{
         ZStack{
-            NavigationView{
+            NavigationStackView{
                 VStack{
                     TopMenu(show: $show, viewRouter: viewRouter)
                     

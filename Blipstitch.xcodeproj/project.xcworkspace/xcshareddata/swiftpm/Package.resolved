@@ -9,6 +9,15 @@
           "revision": "312a24afd5e6a154dd6726a9537eb0c755ba89a7",
           "version": null
         }
+      },
+      {
+        "package": "NavigationStack",
+        "repositoryURL": "https://github.com/matteopuc/swiftui-navigation-stack.git",
+        "state": {
+          "branch": "master",
+          "revision": "24eed8c87c6635e6afbeb33a5695c11a6f9937ea",
+          "version": null
+        }
       }
     ]
   },
