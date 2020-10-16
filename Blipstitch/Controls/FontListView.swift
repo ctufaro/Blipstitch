@@ -10,7 +10,31 @@ import SwiftUI
 
 struct FontListView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            VStack {
+                Divider()
+                ScrollView(.horizontal) {
+                    HStack(spacing: 10) {
+                        ForEach(0..<10) { index in
+                            CircleView(label: "\(index)")
+                        }
+                    }.padding()
+                }.frame(height: 100)
+                Divider()
+                Spacer()
+            }
+        }
+}
+
+struct CircleView: View {
+    @State var label: String
+    
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(Color.yellow)
+                .frame(width: 70, height: 70)
+            Text(label)
+        }
     }
 }
 

@@ -15,15 +15,23 @@ struct LoadingView: View{
         GeometryReader { geometry in
             ZStack(alignment: .center) {
                 VStack {
-                    Text(self.showingText)
-                    ActivityIndicatorView(isAnimating: .constant(true), style: .large)
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        VStack {
+                            Text(self.showingText)
+                            ActivityIndicatorView(isAnimating: .constant(true), style: .large)
+                        }
+                        .frame(width: geometry.size.width / 2,
+                               height: geometry.size.height / 5)
+                            .background(Color.secondary.colorInvert())
+                            .foregroundColor(Color.primary)
+                            .cornerRadius(20)
+                        .opacity(self.isShowing ? 0.9 : 0)
+                        Spacer()
+                    }
+                    Spacer()
                 }
-                .frame(width: geometry.size.width / 2,
-                       height: geometry.size.height / 5)
-                    .background(Color.secondary.colorInvert())
-                    .foregroundColor(Color.primary)
-                    .cornerRadius(20)
-                    .opacity(self.isShowing ? 0.9 : 0)
             }
         }
     }

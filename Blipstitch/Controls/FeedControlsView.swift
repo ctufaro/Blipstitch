@@ -20,7 +20,10 @@ struct FeedList: View {
                             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         
                     }.buttonStyle(PlainButtonStyle())
-                }
+                }.onDelete(perform: { indexSet in
+                    self.networkManager.feedItems.remove(atOffsets: indexSet)
+                    //print(self.networkManager.feedItems[indexSet.first!])
+                })
             }
         }
     }
