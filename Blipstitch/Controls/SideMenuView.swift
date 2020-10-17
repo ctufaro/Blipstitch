@@ -117,7 +117,8 @@ struct MenuButtons: View{
             case "Empty Cache":
                 let a = Settings.clearDirectory(directory: .cachesDirectory)
                 let b = Settings.clearDirectory(directory: .documentDirectory)
-                self.showingAlert = a && b
+                let c = Settings.clearTmpDir()
+                self.showingAlert = a && b && c
             case "Delete All Posts":
                 self.showingAlert = Settings.deleteAllPosts()
             default:

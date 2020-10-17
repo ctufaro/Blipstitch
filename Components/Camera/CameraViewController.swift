@@ -1,11 +1,8 @@
-//
-//  ll.swift
-//  blipcam
-//
 //  Created by Christopher Tufaro on 9/3/20.
 //  Copyright © 2020 Christopher Tufaro. All rights reserved.
-//
 
+//  https://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift/29753437
+//  https://gist.github.com/levantAJ/10a1b73b2f50eaa0443b9fa21e704687
 
 import UIKit
 import AVFoundation
@@ -13,8 +10,8 @@ import CoreVideo
 import Photos
 import MobileCoreServices
 import MetalKit
-class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureDepthDataOutputDelegate, AVCaptureDataOutputSynchronizerDelegate, CameraDelegate {
-    
+class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureDepthDataOutputDelegate, AVCaptureDataOutputSynchronizerDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, CameraDelegate {
+
     // MARK: - Properties
     var metalHelper:MetalHelper!
     
@@ -71,6 +68,8 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
     
     private var videoInput: AVCaptureDeviceInput!
     
+    private var audioDataOutput:AVCaptureAudioDataOutput = AVCaptureAudioDataOutput()
+    
     private let dataOutputQueue = DispatchQueue(label: "VideoDataQueue", qos: .userInitiated, attributes: [], autoreleaseFrequency: .workItem)
     
     private let videoDataOutput = AVCaptureVideoDataOutput()
@@ -84,6 +83,17 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
     private let filterRenderers: [FilterRenderer] = [EmptyRenderer(), InstaRenderer(filterName: "CIPhotoEffectChrome"), InstaRenderer(filterName: "CIPhotoEffectFade"), InstaRenderer(filterName: "CIPhotoEffectInstant"),InstaRenderer(filterName: "CIPhotoEffectMono"), InstaRenderer(filterName: "CIPhotoEffectNoir"), InstaRenderer(filterName: "CIPhotoEffectProcess"),InstaRenderer(filterName: "CIPhotoEffectTonal"), InstaRenderer(filterName: "CIPhotoEffectTransfer"), InstaRenderer(filterName: "CILinearToSRGBToneCurve"), InstaRenderer(filterName: "CISRGBToneCurveToLinear")]
     
     private let photoRenderers: [FilterRenderer] = [EmptyRenderer(), InstaRenderer(filterName: "CIPhotoEffectChrome"), InstaRenderer(filterName: "CIPhotoEffectFade"), InstaRenderer(filterName: "CIPhotoEffectInstant"),InstaRenderer(filterName: "CIPhotoEffectMono"), InstaRenderer(filterName: "CIPhotoEffectNoir"), InstaRenderer(filterName: "CIPhotoEffectProcess"),InstaRenderer(filterName: "CIPhotoEffectTonal"), InstaRenderer(filterName: "CIPhotoEffectTransfer"), InstaRenderer(filterName: "CILinearToSRGBToneCurve"), InstaRenderer(filterName: "CISRGBToneCurveToLinear")]
+    
+    // FOR RECORDING
+    fileprivate(set) lazy var isRecording = false
+    fileprivate var videoWriter: AVAssetWriter!
+    fileprivate var videoWriterInput: AVAssetWriterInput!
+    fileprivate var videoWriterInputPixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor!
+    fileprivate var audioWriterInput: AVAssetWriterInput!
+    fileprivate var sessionAtSourceTime: CMTime?
+    fileprivate let writingQueue = DispatchQueue(label: "com.hilaoinc.hilao.queue.recorder.start-writing")
+    public var videoSize = CGSize(width: 720, height: 1280)
+    public var exportPreset = AVAssetExportPreset1280x720
     
     // NOT USING THIS
     private let videoDepthMixer = VideoMixer()
@@ -147,6 +157,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
             mtkView.topAnchor.constraint(equalTo: view.topAnchor),
             
         ])
+        
         mtkView.setupView()
         // Disable UI. The UI is enabled if and only if the session starts running.
         //cameraButton.isEnabled = false
@@ -513,7 +524,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
             setupResult = .configurationFailed
             return
         }
-        
+
         session.beginConfiguration()
         
         session.sessionPreset = AVCaptureSession.Preset.high
@@ -527,6 +538,23 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         }
         session.addInput(videoInput)
         
+        // Add microphone to your session
+        do {
+            guard let audioDevice = AVCaptureDevice.default(for: .audio) else {fatalError()}
+            let audioDeviceInput: AVCaptureDeviceInput
+            do {
+                audioDeviceInput = try AVCaptureDeviceInput(device: audioDevice)
+            }
+            catch {
+                fatalError("Could not create AVCaptureDeviceInput instance with error: \(error).")
+            }
+            guard session.canAddInput(audioDeviceInput) else {
+                fatalError()
+            }
+            session.addInput(audioDeviceInput)
+            print("Microphone Input Added")
+        }
+        
         // Add a video data output
         if session.canAddOutput(videoDataOutput) {
             session.addOutput(videoDataOutput)
@@ -537,6 +565,18 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
             setupResult = .configurationFailed
             session.commitConfiguration()
             return
+        }
+        
+        // Add microphone output
+        do {
+            audioDataOutput = AVCaptureAudioDataOutput()
+            let queue = DispatchQueue(label: "com.shu223.audiosamplequeue")
+            audioDataOutput.setSampleBufferDelegate(self, queue: queue)
+            guard session.canAddOutput(audioDataOutput) else {
+                fatalError()
+            }
+            session.addOutput(audioDataOutput)
+            print("Microphone Output Added")
         }
         
         // Add photo output
@@ -590,6 +630,9 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         
         capFrameRate(videoDevice: videoDevice)
         
+        //Recording AssetWriter
+        self.setupWriter()
+        
         session.commitConfiguration()
         
         DispatchQueue.main.async {
@@ -600,6 +643,128 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
             self.depthDataMaxFrameRateSlider.value = (self.depthDataMaxFrameRateSlider.minimumValue
                 + self.depthDataMaxFrameRateSlider.maximumValue) / 2*/
         }
+    }
+    
+    //MARK Recording Functions
+    
+    fileprivate func setupWriter() {
+        do {
+            let url = videoFileLocation()
+            videoWriter = try? AVAssetWriter(url: url, fileType: AVFileType.mp4)
+            
+            //Add video input
+            videoWriterInput = AVAssetWriterInput(mediaType: AVMediaType.video, outputSettings: [
+                AVVideoCodecKey: AVVideoCodecType.h264,
+                AVVideoWidthKey: videoSize.width,
+                AVVideoHeightKey: videoSize.height,
+                AVVideoCompressionPropertiesKey: [
+                    AVVideoAverageBitRateKey: 6000000,
+                    AVVideoProfileLevelKey: AVVideoProfileLevelH264High40,
+                    AVVideoExpectedSourceFrameRateKey: 60,
+                    AVVideoAverageNonDroppableFrameRateKey: 30,
+                ],
+            ])
+            
+            videoWriterInputPixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: videoWriterInput, sourcePixelBufferAttributes: [
+                            kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
+                            kCVPixelBufferWidthKey as String: videoSize.width,
+                            kCVPixelBufferHeightKey as String: videoSize.height,
+                            kCVPixelFormatOpenGLESCompatibility as String: true,
+                            ])
+            
+            videoWriterInput.expectsMediaDataInRealTime = true //Make sure we are exporting data at realtime
+            videoWriterInput.transform = .identity
+            
+            if videoWriter.canAdd(videoWriterInput) {
+                videoWriter.add(videoWriterInput)
+            }
+            
+            //Add audio input
+            audioWriterInput = AVAssetWriterInput(mediaType: AVMediaType.audio, outputSettings: [
+                AVFormatIDKey: kAudioFormatMPEG4AAC,
+                AVNumberOfChannelsKey: 1,
+                AVSampleRateKey: 44100,
+                AVEncoderBitRateKey: 64000,
+            ])
+            audioWriterInput.expectsMediaDataInRealTime = true
+            if videoWriter.canAdd(audioWriterInput) {
+                videoWriter.add(audioWriterInput)
+                print("Audio Added To AVAssetWriter")
+            } else {
+                print("Audio NOT Added to AVAssetWriter")
+            }
+            
+            //videoWriter.startWriting() //Means ready to write down the file
+        }
+        catch let error {
+            debugPrint(error.localizedDescription)
+        }
+    }
+    
+    func videoFileLocation() -> URL {
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
+        let videoOutputUrl = URL(fileURLWithPath: documentsPath.appendingPathComponent("\(UUID()).mov"))
+        do {
+        if FileManager.default.fileExists(atPath: videoOutputUrl.path) {
+            try FileManager.default.removeItem(at: videoOutputUrl)
+            print("file removed")
+        }
+        } catch {
+            print(error)
+        }
+
+        return videoOutputUrl
+    }
+    
+    fileprivate func canWrite() -> Bool {
+        return isRecording
+            && videoWriter != nil
+            && videoWriter.status == .writing
+    }
+    
+    func startRecording() {
+        print("Video Recording Started")
+        guard !isRecording else { return }
+        isRecording = true
+        sessionAtSourceTime = nil
+        videoWriter.startWriting()
+    }
+    
+    func stopRecording() {
+        guard isRecording else { return }
+        isRecording = false
+        writingQueue.sync { [weak self] in
+            videoWriter.finishWriting { [weak self] in
+                print("Video Recording Stopped")
+                self?.sessionAtSourceTime = nil
+                guard let url = self?.videoWriter.outputURL else { return }
+                //let videoAsset = AVURLAsset(url: url)
+                //var info = videoAsset.videoOrientation()
+                
+                /*let textViewArrayDummy:[UITextView] = []
+                OverlayExport.exportLayersToVideo(url.path, textViewArrayDummy, completion:{ destination in
+                    print("Process Video Completed???")
+                })*/
+                
+                //Do whatever you want with your asset here
+                PHPhotoLibrary.shared().performChanges({
+                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
+                }) { saved, error in
+                    if saved {
+                        print("Video Saved To Camera Roll")
+                    }
+                }
+                print("exported?")
+            }
+        }
+    }
+    
+    func pauseRecording() {
+        isRecording = false
+    }
+    
+    func resumeRecording() {
+        isRecording = true
     }
     
     @objc
@@ -1084,10 +1249,36 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
     // MARK: - Video Data Output Delegate
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        processVideo(sampleBuffer: sampleBuffer)
+        processPhoto(sampleBuffer: sampleBuffer)
+        processVideo(output, sampleBuffer, connection)
     }
     
-    func processVideo(sampleBuffer: CMSampleBuffer) {
+    //fat
+    
+    func processVideo(_ captureOutput: AVCaptureOutput!, _ sampleBuffer: CMSampleBuffer!, _ connection: AVCaptureConnection!){
+        guard captureOutput != nil,
+              sampleBuffer != nil,
+              connection != nil,
+              CMSampleBufferDataIsReady(sampleBuffer) else { return }
+        
+        let writable = canWrite()
+        
+        if writable, sessionAtSourceTime == nil {
+            sessionAtSourceTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+            videoWriter.startSession(atSourceTime: sessionAtSourceTime!)
+        }
+        
+        if writable, captureOutput == videoDataOutput, videoWriterInput.isReadyForMoreMediaData {
+            if let pixelBuffer = mtkView.pixelBuffer{
+                //videoWriterInput.append(sampleBuffer)
+                videoWriterInputPixelBufferAdaptor.append(pixelBuffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
+            }
+        } else if writable, captureOutput == audioDataOutput, (audioWriterInput.isReadyForMoreMediaData) {
+            audioWriterInput?.append(sampleBuffer)
+        }
+    }
+    
+    func processPhoto(sampleBuffer: CMSampleBuffer) {
         if !renderingEnabled {
             return
         }
@@ -1134,8 +1325,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         }
         
         mtkView.pixelBuffer = finalVideoPixelBuffer
-        
-        //fat
+
         DispatchQueue.main.async {
             if !self.metalHelper.takePicture {
                 return //we have nothing to do with the image buffer
@@ -1150,7 +1340,13 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         }
     }
     
-    //https://stackoverflow.com/questions/27092354/rotating-uiimage-in-swift/29753437
+    func toggleRecord() {
+        if !isRecording{
+            startRecording()
+        } else if isRecording{
+            stopRecording()
+        }
+    }
     
     func captureShot() {
         DispatchQueue.main.async {
@@ -1207,7 +1403,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         if let syncedVideoData: AVCaptureSynchronizedSampleBufferData = synchronizedDataCollection.synchronizedData(for: videoDataOutput) as? AVCaptureSynchronizedSampleBufferData {
             if !syncedVideoData.sampleBufferWasDropped {
                 let videoSampleBuffer = syncedVideoData.sampleBuffer
-                processVideo(sampleBuffer: videoSampleBuffer)
+                processPhoto(sampleBuffer: videoSampleBuffer)
             }
         }
     }

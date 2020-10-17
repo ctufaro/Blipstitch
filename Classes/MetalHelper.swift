@@ -13,6 +13,7 @@ class MetalHelper : ObservableObject{
     var delegate:CameraDelegate?
     var shots: Array<UIImage>!
     var takePicture:Bool
+    var recordVideo:Int
     var capturedImage:UIImage?
     var compressionQuality:CGFloat = 0.5
     @Published var flashText:Bool = false
@@ -23,6 +24,7 @@ class MetalHelper : ObservableObject{
         self.shots = []
         self.count = 0
         self.takePicture = false
+        self.recordVideo = -1
     }
     
     func changeCamera(){
@@ -31,6 +33,10 @@ class MetalHelper : ObservableObject{
     
     func captureShot(){
         delegate!.captureShot()
+    }
+    
+    func toggleRecord(){
+        delegate!.toggleRecord()
     }
     
     func swipedFilter(filterName:String){
@@ -58,5 +64,6 @@ class MetalHelper : ObservableObject{
 protocol CameraDelegate {
     func changeCamera()
     func captureShot()
+    func toggleRecord()
 }
 

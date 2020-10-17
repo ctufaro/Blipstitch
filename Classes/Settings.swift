@@ -43,4 +43,22 @@ class Settings{
     static func deleteAllPosts() -> Bool{
         return true
     }
+    
+    static func clearTmpDir() -> Bool{
+        var removed: Int = 0
+        do {
+            let tmpDirURL = URL(string: NSTemporaryDirectory())!
+            let tmpFiles = try FileManager.default.contentsOfDirectory(at: tmpDirURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+            print("\(tmpFiles.count) temporary files found")
+            for url in tmpFiles {
+                removed += 1
+                try FileManager.default.removeItem(at: url)
+            }
+            print("\(removed) temporary files removed")
+        } catch {
+            //print(error)
+            //print("\(removed) temporary files removed")
+        }
+        return true
+    }
 }

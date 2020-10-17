@@ -109,7 +109,7 @@ struct CameraView: View {
                     }
                     HStack(spacing: 0) {
                         Spacer()
-                        ButtonPress(method:self.metalHelper.captureShot).offset(y:-UIScreen.screenHeight / 15)
+                        ButtonPress(method:self.metalHelper.captureShot, recordMethod:self.metalHelper.toggleRecord).offset(y:-UIScreen.screenHeight / 15)
                         Spacer()
                     }.padding(.bottom, 5)
                 }
