@@ -15,7 +15,7 @@ class MetalHelper : ObservableObject{
     var takePicture:Bool
     var recordVideo:Int
     var capturedImage:UIImage?
-    var compressionQuality:CGFloat = 0.5
+    var compressionQuality:CGFloat = 0.7
     @Published var flashText:Bool = false
     @Published var filterName : String = ""
     @Published var count:Int

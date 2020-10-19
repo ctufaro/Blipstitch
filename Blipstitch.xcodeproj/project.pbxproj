@@ -20,6 +20,12 @@
 		D96BD93D25142BEA00F237BD /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BD93C25142BEA00F237BD /* NetworkManager.swift */; };
 		D96BD93F25142C0F00F237BD /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BD93E25142C0F00F237BD /* ImageLoader.swift */; };
 		D97B2A9725266738004610FA /* GestureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97B2A9625266738004610FA /* GestureHelper.swift */; };
+		D98AF9C0253D0B8000231383 /* CameraViewController+Recording+Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9BF253D0B8000231383 /* CameraViewController+Recording+Video.swift */; };
+		D98AF9C5253D0F2E00231383 /* CameraViewController+Output.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9C4253D0F2E00231383 /* CameraViewController+Output.swift */; };
+		D98AF9C9253D107A00231383 /* CameraViewController+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9C8253D107A00231383 /* CameraViewController+Utilities.swift */; };
+		D98AF9CD253D11D200231383 /* CameraViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9CC253D11D200231383 /* CameraViewController+Extensions.swift */; };
+		D98AF9D2253D17D400231383 /* CameraViewController+Depth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9D1253D17D400231383 /* CameraViewController+Depth.swift */; };
+		D98AF9D6253D191800231383 /* CameraViewController+KVO.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9D5253D191800231383 /* CameraViewController+KVO.swift */; };
 		D9A550BC2514CF9A00B30EC3 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A550BB2514CF9A00B30EC3 /* FeedView.swift */; };
 		D9A98CCC251024EB00D0E386 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CCB251024EB00D0E386 /* AppDelegate.swift */; };
 		D9A98CCE251024EB00D0E386 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CCD251024EB00D0E386 /* SceneDelegate.swift */; };
@@ -76,6 +82,12 @@
 		D96BD93C25142BEA00F237BD /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		D96BD93E25142C0F00F237BD /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		D97B2A9625266738004610FA /* GestureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureHelper.swift; sourceTree = "<group>"; };
+		D98AF9BF253D0B8000231383 /* CameraViewController+Recording+Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Recording+Video.swift"; sourceTree = "<group>"; };
+		D98AF9C4253D0F2E00231383 /* CameraViewController+Output.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Output.swift"; sourceTree = "<group>"; };
+		D98AF9C8253D107A00231383 /* CameraViewController+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Utilities.swift"; sourceTree = "<group>"; };
+		D98AF9CC253D11D200231383 /* CameraViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Extensions.swift"; sourceTree = "<group>"; };
+		D98AF9D1253D17D400231383 /* CameraViewController+Depth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Depth.swift"; sourceTree = "<group>"; };
+		D98AF9D5253D191800231383 /* CameraViewController+KVO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+KVO.swift"; sourceTree = "<group>"; };
 		D9A550BB2514CF9A00B30EC3 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		D9A98CC8251024EB00D0E386 /* Blipstitch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blipstitch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9A98CCB251024EB00D0E386 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -186,6 +198,12 @@
 			children = (
 				D9A98CE5251025A500D0E386 /* AVCamView.swift */,
 				D9A98CE7251025E000D0E386 /* CameraViewController.swift */,
+				D98AF9D1253D17D400231383 /* CameraViewController+Depth.swift */,
+				D98AF9CC253D11D200231383 /* CameraViewController+Extensions.swift */,
+				D98AF9D5253D191800231383 /* CameraViewController+KVO.swift */,
+				D98AF9C4253D0F2E00231383 /* CameraViewController+Output.swift */,
+				D98AF9BF253D0B8000231383 /* CameraViewController+Recording+Video.swift */,
+				D98AF9C8253D107A00231383 /* CameraViewController+Utilities.swift */,
 				D9A98CE92510264800D0E386 /* DepthToGrayScaleConverter.swift */,
 				D9A98CEB2510265E00D0E386 /* FilterRenderer.swift */,
 				D9A98CED2510267500D0E386 /* PreviewMetalView.swift */,
@@ -362,6 +380,7 @@
 				D9A98D172510290B00D0E386 /* PopOverView.swift in Sources */,
 				D9A98CFC2510270100D0E386 /* RosyMetalRenderer.swift in Sources */,
 				D9A98D042510274900D0E386 /* RosyEffect.metal in Sources */,
+				D98AF9C9253D107A00231383 /* CameraViewController+Utilities.swift in Sources */,
 				D9A98D192510291C00D0E386 /* TextFlashView.swift in Sources */,
 				D9A98CCC251024EB00D0E386 /* AppDelegate.swift in Sources */,
 				D9EA19152519350500032184 /* LoadingView.swift in Sources */,
@@ -381,11 +400,14 @@
 				D9A98D0E251028BB00D0E386 /* FeedControlsView.swift in Sources */,
 				D9A98CF6251026D000D0E386 /* EmptyRenderer.swift in Sources */,
 				D9A98D022510273800D0E386 /* PassThrough.metal in Sources */,
+				D98AF9CD253D11D200231383 /* CameraViewController+Extensions.swift in Sources */,
 				D9CFF5882512751E00ECA8D9 /* AvatarView.swift in Sources */,
 				D9A98CCE251024EB00D0E386 /* SceneDelegate.swift in Sources */,
 				D9D410E72523A9C4000D2302 /* GestureControlView.swift in Sources */,
+				D98AF9D6253D191800231383 /* CameraViewController+KVO.swift in Sources */,
 				D93AFA4E25102A260061A0B8 /* ViewRouter.swift in Sources */,
 				D9A98CEC2510265E00D0E386 /* FilterRenderer.swift in Sources */,
+				D98AF9C0253D0B8000231383 /* CameraViewController+Recording+Video.swift in Sources */,
 				D96BD93F25142C0F00F237BD /* ImageLoader.swift in Sources */,
 				D97B2A9725266738004610FA /* GestureHelper.swift in Sources */,
 				D9A550BC2514CF9A00B30EC3 /* FeedView.swift in Sources */,
@@ -393,10 +415,12 @@
 				D9A98CE6251025A500D0E386 /* AVCamView.swift in Sources */,
 				D9A98CD0251024EB00D0E386 /* ContentView.swift in Sources */,
 				D9A98D1B2510292C00D0E386 /* TimerView.swift in Sources */,
+				D98AF9D2253D17D400231383 /* CameraViewController+Depth.swift in Sources */,
 				D9CFF58A25129DB300ECA8D9 /* RestAPI.swift in Sources */,
 				D9A98CF4251026B900D0E386 /* ComicCIRenderer.swift in Sources */,
 				D9EA19172519353200032184 /* TemplateView.swift in Sources */,
 				D9A98CFA251026EF00D0E386 /* RosyCIRenderer.swift in Sources */,
+				D98AF9C5253D0F2E00231383 /* CameraViewController+Output.swift in Sources */,
 				D93CB48D2526BB20002435AF /* OverlayExport.swift in Sources */,
 				D9A98CEA2510264800D0E386 /* DepthToGrayScaleConverter.swift in Sources */,
 				D9FD8447251E444600A41DED /* Settings.swift in Sources */,
