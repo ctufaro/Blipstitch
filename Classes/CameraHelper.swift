@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class MetalHelper : ObservableObject{
+class CameraHelper : ObservableObject{
     var delegate:CameraDelegate?
     var shots: Array<UIImage>!
     var takePicture:Bool
@@ -39,6 +39,10 @@ class MetalHelper : ObservableObject{
         delegate!.toggleRecord()
     }
     
+    func stopRecord(){
+        delegate!.stopRecord()
+    }
+    
     func swipedFilter(filterName:String){
         self.filterName = filterName
         self.flashText = true
@@ -65,5 +69,6 @@ protocol CameraDelegate {
     func changeCamera()
     func captureShot()
     func toggleRecord()
+    func stopRecord()
 }
 

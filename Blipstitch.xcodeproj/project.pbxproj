@@ -21,7 +21,7 @@
 		D96BD93F25142C0F00F237BD /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96BD93E25142C0F00F237BD /* ImageLoader.swift */; };
 		D97B2A9725266738004610FA /* GestureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97B2A9625266738004610FA /* GestureHelper.swift */; };
 		D98AF9C0253D0B8000231383 /* CameraViewController+Recording+Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9BF253D0B8000231383 /* CameraViewController+Recording+Video.swift */; };
-		D98AF9C5253D0F2E00231383 /* CameraViewController+Output.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9C4253D0F2E00231383 /* CameraViewController+Output.swift */; };
+		D98AF9C5253D0F2E00231383 /* CameraViewController+Buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9C4253D0F2E00231383 /* CameraViewController+Buffer.swift */; };
 		D98AF9C9253D107A00231383 /* CameraViewController+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9C8253D107A00231383 /* CameraViewController+Utilities.swift */; };
 		D98AF9CD253D11D200231383 /* CameraViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9CC253D11D200231383 /* CameraViewController+Extensions.swift */; };
 		D98AF9D2253D17D400231383 /* CameraViewController+Depth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9D1253D17D400231383 /* CameraViewController+Depth.swift */; };
@@ -48,7 +48,7 @@
 		D9A98D002510272500D0E386 /* Mixer.metal in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CFF2510272500D0E386 /* Mixer.metal */; };
 		D9A98D022510273800D0E386 /* PassThrough.metal in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D012510273800D0E386 /* PassThrough.metal */; };
 		D9A98D042510274900D0E386 /* RosyEffect.metal in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D032510274900D0E386 /* RosyEffect.metal */; };
-		D9A98D062510283000D0E386 /* MetalHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D052510283000D0E386 /* MetalHelper.swift */; };
+		D9A98D062510283000D0E386 /* CameraHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D052510283000D0E386 /* CameraHelper.swift */; };
 		D9A98D082510285000D0E386 /* ImageToVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D072510285000D0E386 /* ImageToVideo.swift */; };
 		D9A98D0A2510286E00D0E386 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D092510286E00D0E386 /* PlayerView.swift */; };
 		D9A98D0C251028A900D0E386 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D0B251028A900D0E386 /* CameraView.swift */; };
@@ -83,7 +83,7 @@
 		D96BD93E25142C0F00F237BD /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		D97B2A9625266738004610FA /* GestureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureHelper.swift; sourceTree = "<group>"; };
 		D98AF9BF253D0B8000231383 /* CameraViewController+Recording+Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Recording+Video.swift"; sourceTree = "<group>"; };
-		D98AF9C4253D0F2E00231383 /* CameraViewController+Output.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Output.swift"; sourceTree = "<group>"; };
+		D98AF9C4253D0F2E00231383 /* CameraViewController+Buffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Buffer.swift"; sourceTree = "<group>"; };
 		D98AF9C8253D107A00231383 /* CameraViewController+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Utilities.swift"; sourceTree = "<group>"; };
 		D98AF9CC253D11D200231383 /* CameraViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Extensions.swift"; sourceTree = "<group>"; };
 		D98AF9D1253D17D400231383 /* CameraViewController+Depth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Depth.swift"; sourceTree = "<group>"; };
@@ -112,7 +112,7 @@
 		D9A98CFF2510272500D0E386 /* Mixer.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Mixer.metal; sourceTree = "<group>"; };
 		D9A98D012510273800D0E386 /* PassThrough.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = PassThrough.metal; sourceTree = "<group>"; };
 		D9A98D032510274900D0E386 /* RosyEffect.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = RosyEffect.metal; sourceTree = "<group>"; };
-		D9A98D052510283000D0E386 /* MetalHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalHelper.swift; sourceTree = "<group>"; };
+		D9A98D052510283000D0E386 /* CameraHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHelper.swift; sourceTree = "<group>"; };
 		D9A98D072510285000D0E386 /* ImageToVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToVideo.swift; sourceTree = "<group>"; };
 		D9A98D092510286E00D0E386 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		D9A98D0B251028A900D0E386 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -198,10 +198,10 @@
 			children = (
 				D9A98CE5251025A500D0E386 /* AVCamView.swift */,
 				D9A98CE7251025E000D0E386 /* CameraViewController.swift */,
+				D98AF9C4253D0F2E00231383 /* CameraViewController+Buffer.swift */,
 				D98AF9D1253D17D400231383 /* CameraViewController+Depth.swift */,
 				D98AF9CC253D11D200231383 /* CameraViewController+Extensions.swift */,
 				D98AF9D5253D191800231383 /* CameraViewController+KVO.swift */,
-				D98AF9C4253D0F2E00231383 /* CameraViewController+Output.swift */,
 				D98AF9BF253D0B8000231383 /* CameraViewController+Recording+Video.swift */,
 				D98AF9C8253D107A00231383 /* CameraViewController+Utilities.swift */,
 				D9A98CE92510264800D0E386 /* DepthToGrayScaleConverter.swift */,
@@ -217,16 +217,16 @@
 		D9A98CE12510252E00D0E386 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D9A98D052510283000D0E386 /* CameraHelper.swift */,
 				D9047817251EB92B00CB2E2E /* Extensions.swift */,
 				D97B2A9625266738004610FA /* GestureHelper.swift */,
 				D96BD93E25142C0F00F237BD /* ImageLoader.swift */,
 				D9A98D072510285000D0E386 /* ImageToVideo.swift */,
-				D9A98D052510283000D0E386 /* MetalHelper.swift */,
 				D96BD93C25142BEA00F237BD /* NetworkManager.swift */,
+				D93CB48C2526BB20002435AF /* OverlayExport.swift */,
 				D9CFF58925129DB300ECA8D9 /* RestAPI.swift */,
 				D9FD8446251E444600A41DED /* Settings.swift */,
 				D93AFA4D25102A260061A0B8 /* ViewRouter.swift */,
-				D93CB48C2526BB20002435AF /* OverlayExport.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -371,7 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9A98CF8251026E000D0E386 /* InstaRenderer.swift in Sources */,
-				D9A98D062510283000D0E386 /* MetalHelper.swift in Sources */,
+				D9A98D062510283000D0E386 /* CameraHelper.swift in Sources */,
 				D95359F22515A87C00F06FD7 /* SideMenuView.swift in Sources */,
 				D9A98D15251028F900D0E386 /* ButtonPressView.swift in Sources */,
 				D9A98D082510285000D0E386 /* ImageToVideo.swift in Sources */,
@@ -420,7 +420,7 @@
 				D9A98CF4251026B900D0E386 /* ComicCIRenderer.swift in Sources */,
 				D9EA19172519353200032184 /* TemplateView.swift in Sources */,
 				D9A98CFA251026EF00D0E386 /* RosyCIRenderer.swift in Sources */,
-				D98AF9C5253D0F2E00231383 /* CameraViewController+Output.swift in Sources */,
+				D98AF9C5253D0F2E00231383 /* CameraViewController+Buffer.swift in Sources */,
 				D93CB48D2526BB20002435AF /* OverlayExport.swift in Sources */,
 				D9A98CEA2510264800D0E386 /* DepthToGrayScaleConverter.swift in Sources */,
 				D9FD8447251E444600A41DED /* Settings.swift in Sources */,

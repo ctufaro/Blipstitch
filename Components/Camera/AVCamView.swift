@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct AVCamView: UIViewControllerRepresentable {
-    var metalHelper:MetalHelper
+    var cameraHelper:CameraHelper
     func makeUIViewController(context: UIViewControllerRepresentableContext<AVCamView>) -> CameraViewController {
-        return CameraViewController(metalHelper:metalHelper)
+        return CameraViewController(cameraHelper:cameraHelper)
     }
 
     func updateUIViewController(_ uiViewController: CameraViewController, context: UIViewControllerRepresentableContext<AVCamView>) {

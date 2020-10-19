@@ -8,7 +8,7 @@
 import SwiftUI
 struct CameraView: View {
     @State var top = 0
-    @ObservedObject var metalHelper = MetalHelper()
+    @ObservedObject var cameraHelper = CameraHelper()
     @ObservedObject var viewRouter:ViewRouter
     @State var selection: Int? = nil
     @State var show = false
@@ -16,27 +16,27 @@ struct CameraView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                AVCamView(metalHelper: metalHelper)
-                TextFlashView(flash: $metalHelper.flashText, textToFlash: self.metalHelper.filterName)
+                AVCamView(cameraHelper:cameraHelper)
+                TextFlashView(flash: $cameraHelper.flashText, textToFlash: self.cameraHelper.filterName)
                 VStack{
                     Spacer()
                     HStack{
-                        if self.metalHelper.capturedImage != nil {
-                            NavigationLink(destination: PreviewView(shots:$metalHelper.shots), tag: 1, selection: $selection) {
+                        if self.cameraHelper.capturedImage != nil {
+                            NavigationLink(destination: PreviewView(shots:$cameraHelper.shots), tag: 1, selection: $selection) {
                                 Button(action: {
                                     self.selection = 1
                                 }) {
                                     ZStack{
-                                        Image(uiImage: self.metalHelper.capturedImage!)
+                                        Image(uiImage: self.cameraHelper.capturedImage!)
                                             .renderingMode(.original)
                                             .resizable()
-                                            .aspectRatio(self.metalHelper.capturedImage!.size, contentMode: .fit)
+                                            .aspectRatio(self.cameraHelper.capturedImage!.size, contentMode: .fit)
                                             .frame(height:UIScreen.screenHeight/4)
                                             .cornerRadius(10)
                                             .overlay(RoundedRectangle(cornerRadius: 10)
                                                 .stroke(Color.white, lineWidth: 2))
                                             .clipped()
-                                        Text(String(self.metalHelper.count))
+                                        Text(String(self.cameraHelper.count))
                                             .font(.system(size:40))
                                             .foregroundColor(.white)
                                             .opacity(0.6)
@@ -54,7 +54,7 @@ struct CameraView: View {
                         VStack(alignment:.trailing,spacing: 35) {
                             Group{
                                 Button(action: {
-                                    self.metalHelper.changeCamera()
+                                    self.cameraHelper.changeCamera()
                                 }) {
                                     VStack(spacing: 8) {
                                         Image("Flip")
@@ -68,9 +68,24 @@ struct CameraView: View {
                                             .foregroundColor(.white)
                                     }
                                 }
+                                Button(action: {
+                                    self.cameraHelper.stopRecord()
+                                }) {
+                                    VStack(spacing: 8) {
+                                        Image("Stop")
+                                            .renderingMode(.template)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: UIScreen.screenWidth / 10, height: UIScreen.screenWidth / 10)
+                                            .font(.title)
+                                            .foregroundColor(.white)
+                                        Text("Stop")
+                                            .foregroundColor(.white)
+                                    }
+                                }
                                 HStack {
                                     if self.show{
-                                        PopOverView(metalHelper: self.metalHelper, show: self.$show).background(Color.white.opacity(0.5)).cornerRadius(15)
+                                        PopOverView(cameraHelper: self.cameraHelper, show: self.$show).background(Color.white.opacity(0.5)).cornerRadius(15)
                                     }
                                     Button(action: {
                                         withAnimation(.spring()){
@@ -91,7 +106,7 @@ struct CameraView: View {
                                     }
                                 }
                                 Button(action: {
-                                    self.metalHelper.clearImages()
+                                    self.cameraHelper.clearImages()
                                 }) {
                                     VStack(spacing: 8) {
                                         Image("Trash")
@@ -109,7 +124,7 @@ struct CameraView: View {
                     }
                     HStack(spacing: 0) {
                         Spacer()
-                        ButtonPress(method:self.metalHelper.captureShot, recordMethod:self.metalHelper.toggleRecord).offset(y:-UIScreen.screenHeight / 15)
+                        ButtonPress(method:self.cameraHelper.captureShot, recordMethod:self.cameraHelper.toggleRecord).offset(y:-UIScreen.screenHeight / 15)
                         Spacer()
                     }.padding(.bottom, 5)
                 }

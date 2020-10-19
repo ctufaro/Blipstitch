@@ -42,7 +42,7 @@ extension CameraViewController{
             ])
             
             videoWriterInput.expectsMediaDataInRealTime = true //Make sure we are exporting data at realtime
-            videoWriterInput.transform = .identity
+            videoWriterInput.transform = videoWriterInput!.transform.rotated(by: CGFloat.pi / 2)
             
             if videoWriter.canAdd(videoWriterInput) {
                 videoWriter.add(videoWriterInput)
@@ -65,9 +65,9 @@ extension CameraViewController{
             
             //videoWriter.startWriting() //Means ready to write down the file
         }
-        catch let error {
+        /*catch let error {
             debugPrint(error.localizedDescription)
-        }
+        }*/
     }
     
     func videoFileLocation() -> URL {
@@ -108,14 +108,6 @@ extension CameraViewController{
                 self?.sessionAtSourceTime = nil
                 guard let url = self?.videoWriter.outputURL else { return }
                 //let videoAsset = AVURLAsset(url: url)
-                //var info = videoAsset.videoOrientation()
-                
-                /*let textViewArrayDummy:[UITextView] = []
-                 OverlayExport.exportLayersToVideo(url.path, textViewArrayDummy, completion:{ destination in
-                 print("Process Video Completed???")
-                 })*/
-                
-                //Do whatever you want with your asset here
                 PHPhotoLibrary.shared().performChanges({
                     PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
                 }) { saved, error in
@@ -130,17 +122,25 @@ extension CameraViewController{
     
     func pauseRecording() {
         isRecording = false
+        print("Video Recording Paused")
     }
     
     func resumeRecording() {
         isRecording = true
+        print("Video Recording Resumed")
     }
     
     func toggleRecord() {
-        if !isRecording{
+        if !isRecording && sessionAtSourceTime == nil{
             startRecording()
+        } else if !isRecording && sessionAtSourceTime != nil{
+            resumeRecording()
         } else if isRecording{
-            stopRecording()
+            pauseRecording()
         }
+    }
+
+    func stopRecord(){
+        self.stopRecording()
     }
 }

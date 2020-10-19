@@ -31,12 +31,14 @@ extension CameraViewController{
             videoWriter.startSession(atSourceTime: sessionAtSourceTime!)
         }
         
+        // Capturing/Buffering Video
         if writable, captureOutput == videoDataOutput, videoWriterInput.isReadyForMoreMediaData {
             if let pixelBuffer = mtkView.pixelBuffer{
-                //videoWriterInput.append(sampleBuffer)
                 videoWriterInputPixelBufferAdaptor.append(pixelBuffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
             }
-        } else if writable, captureOutput == audioDataOutput, (audioWriterInput.isReadyForMoreMediaData) {
+        }
+        // Capturing/Buffering Audio
+        else if writable, captureOutput == audioDataOutput, (audioWriterInput.isReadyForMoreMediaData) {
             audioWriterInput?.append(sampleBuffer)
         }
     }
@@ -90,15 +92,15 @@ extension CameraViewController{
         mtkView.pixelBuffer = finalVideoPixelBuffer
         
         DispatchQueue.main.async {
-            if !self.metalHelper.takePicture {
+            if !self.cameraHelper.takePicture {
                 return //we have nothing to do with the image buffer
             } else {
                 let ciImage = CIImage(cvImageBuffer: finalVideoPixelBuffer)
                 let ciContext = CIContext()
                 let cgImage = ciContext.createCGImage(ciImage, from: ciImage.extent)
                 let uiImage = UIImage(cgImage: cgImage!).rotate(radians: .pi/2)
-                self.metalHelper.saveImageToArray(uiImage: uiImage!)
-                self.metalHelper.takePicture = false
+                self.cameraHelper.saveImageToArray(uiImage: uiImage!)
+                self.cameraHelper.takePicture = false
             }
         }
     }
@@ -106,7 +108,7 @@ extension CameraViewController{
     func captureShot() {
         DispatchQueue.main.async {
             self.flashScreen()
-            self.metalHelper.takePicture = true
+            self.cameraHelper.takePicture = true
         }
     }
     

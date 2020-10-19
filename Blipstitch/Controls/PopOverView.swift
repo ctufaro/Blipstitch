@@ -9,20 +9,20 @@
 import SwiftUI
 
 struct PopOverView: View{
-    var metalHelper: MetalHelper
+    var cameraHelper: CameraHelper
     @Binding var show : Bool
     var body: some View{
         HStack() {
             HStack {
-                TimerView(timeRemaining: 30, method: self.metalHelper.captureShot, interval: 0.05, show:self.$show)
+                TimerView(timeRemaining: 30, method: self.cameraHelper.captureShot, interval: 0.05, show:self.$show)
                 Text("30")
             }
             HStack {
-                TimerView(timeRemaining: 60, method: self.metalHelper.captureShot, interval: 0.05, show:self.$show)
+                TimerView(timeRemaining: 60, method: self.cameraHelper.captureShot, interval: 0.05, show:self.$show)
                 Text("60")
             }
             HStack {
-                TimerView(timeRemaining: 90, method: self.metalHelper.captureShot, interval: 0.05, show:self.$show)
+                TimerView(timeRemaining: 90, method: self.cameraHelper.captureShot, interval: 0.05, show:self.$show)
                 Text("90")
             }
         }
@@ -32,9 +32,9 @@ struct PopOverView: View{
 }
 
 struct PopOverView_Previews: PreviewProvider {
-    static var metalHelper:MetalHelper! = MetalHelper()
+    static var cameraHelper:CameraHelper! = CameraHelper()
     @State static var show:Bool = false
     static var previews: some View {
-        PopOverView(metalHelper: metalHelper, show:$show)
+        PopOverView(cameraHelper: cameraHelper, show:$show)
     }
 }

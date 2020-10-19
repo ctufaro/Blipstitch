@@ -14,8 +14,8 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
 
     // MARK: - Properties
     
-    // MARK: - Metal Heleper
-    public var metalHelper:MetalHelper!
+    // MARK: - Camera Heleper
+    public var cameraHelper:CameraHelper!
     
     // MARK: - Metal View
     public let mtkView = PreviewMetalView()
@@ -66,16 +66,16 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
     public var audioWriterInput: AVAssetWriterInput!
     public var sessionAtSourceTime: CMTime?
     public let writingQueue = DispatchQueue(label: "com.hilaoinc.hilao.queue.recorder.start-writing")
-    public var videoSize = CGSize(width: 720, height: 1280)
+    public var videoSize = CGSize(width: 1280, height: 720) //HACK!
     public var exportPreset = AVAssetExportPreset1280x720
     public var sessionRunningContext = 0
     
     // MARK: - View Controller Life Cycle
     // ConfigureSession() sets all inputs and outputs
-    convenience init(metalHelper:MetalHelper) {
+    convenience init(cameraHelper:CameraHelper) {
         self.init(nibName:nil, bundle:nil)
-        self.metalHelper = metalHelper
-        self.metalHelper.delegate = self
+        self.cameraHelper = cameraHelper
+        self.cameraHelper.delegate = self
     }
     
     override func viewDidLoad() {
@@ -267,7 +267,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         
         session.sessionPreset = AVCaptureSession.Preset.high
         
-        // Add a video input.
+        // Add video input.
         guard session.canAddInput(videoInput) else {
             print("Could not add video device input to the session")
             setupResult = .configurationFailed
@@ -276,7 +276,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         }
         session.addInput(videoInput)
         
-        // Add microphone to your session
+        // Add microphone input
         do {
             guard let audioDevice = AVCaptureDevice.default(for: .audio) else {fatalError()}
             let audioDeviceInput: AVCaptureDeviceInput
@@ -293,7 +293,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
             print("Microphone Input Added")
         }
         
-        // Add a video data output
+        // Add video data output
         if session.canAddOutput(videoDataOutput) {
             session.addOutput(videoDataOutput)
             videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_32BGRA)]
@@ -508,7 +508,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
                 self.photoFilter = self.photoRenderers[newIndex]
             }
             
-            self.metalHelper.swipedFilter(filterName: "F\(newIndex)")
+            self.cameraHelper.swipedFilter(filterName: "F\(newIndex)")
         }
     }
     
