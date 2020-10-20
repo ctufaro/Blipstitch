@@ -12,7 +12,8 @@ struct CameraView: View {
     @ObservedObject var viewRouter:ViewRouter
     @State var selection: Int? = nil
     @State var show = false
-    
+    @State var showMusicModal = false
+    @State var musicPlayer:MusicPlayer = MusicPlayer()
     var body: some View {
         NavigationView {
             ZStack {
@@ -54,20 +55,20 @@ struct CameraView: View {
                         VStack(alignment:.trailing,spacing: 35) {
                             Group{
                                 Button(action: {
-                                    self.cameraHelper.changeCamera()
+                                    self.showMusicModal.toggle()
                                 }) {
                                     VStack(spacing: 8) {
-                                        Image("Flip")
+                                        Image("Music")
                                             .renderingMode(.template)
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: UIScreen.screenWidth / 10, height: UIScreen.screenWidth / 10)
                                             .font(.title)
                                             .foregroundColor(.white)
-                                        Text("Flip")
+                                        Text("Music")
                                             .foregroundColor(.white)
                                     }
-                                }
+                                }.sheet(isPresented: $showMusicModal) {MusicClipView(showMusicModal: $showMusicModal, musicPlayer: $musicPlayer)}
                                 Button(action: {
                                     self.cameraHelper.stopRecord()
                                 }) {
@@ -141,7 +142,18 @@ struct CameraView: View {
                             .font(.system(size: 22))
                             .frame(width: 30, height: 50)
                             .contentShape(Rectangle())
-                            //.background(Color.gray)
+                            .offset(x:-10)
+                        }, trailing:
+                        Button(action: {
+                            self.cameraHelper.changeCamera()
+                        }) {
+                            Image("Flip")
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(.white)
+                            .frame(width: 30, height: 50)
+                            .contentShape(Rectangle())
                             .offset(x:-10)
                         }
                     )

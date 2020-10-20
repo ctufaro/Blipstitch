@@ -10,6 +10,10 @@
 		D9047818251EB92B00CB2E2E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9047817251EB92B00CB2E2E /* Extensions.swift */; };
 		D904781A252286B800CB2E2E /* FontListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9047819252286B800CB2E2E /* FontListView.swift */; };
 		D904781C2523477C00CB2E2E /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D904781B2523477C00CB2E2E /* TextField.swift */; };
+		D91A69C2253E56A4004D4DF4 /* p3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D91A69C0253E560C004D4DF4 /* p3.mp3 */; };
+		D91A69CE253E601F004D4DF4 /* p5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D91A69CD253E601F004D4DF4 /* p5.mp3 */; };
+		D93146FE253DF3AD0067436D /* MusicClipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93146FD253DF3AD0067436D /* MusicClipView.swift */; };
+		D9314709253E2C1E0067436D /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9314708253E2C1E0067436D /* MusicPlayer.swift */; };
 		D93AFA4E25102A260061A0B8 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93AFA4D25102A260061A0B8 /* ViewRouter.swift */; };
 		D93CB48D2526BB20002435AF /* OverlayExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93CB48C2526BB20002435AF /* OverlayExport.swift */; };
 		D9532DDF25104D9A0034000E /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9532DDE25104D9A0034000E /* FeedItem.swift */; };
@@ -73,6 +77,10 @@
 		D9047817251EB92B00CB2E2E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D9047819252286B800CB2E2E /* FontListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontListView.swift; sourceTree = "<group>"; };
 		D904781B2523477C00CB2E2E /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
+		D91A69C0253E560C004D4DF4 /* p3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = p3.mp3; sourceTree = "<group>"; };
+		D91A69CD253E601F004D4DF4 /* p5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = p5.mp3; sourceTree = "<group>"; };
+		D93146FD253DF3AD0067436D /* MusicClipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicClipView.swift; sourceTree = "<group>"; };
+		D9314708253E2C1E0067436D /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		D93AFA4D25102A260061A0B8 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
 		D93CB48C2526BB20002435AF /* OverlayExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayExport.swift; sourceTree = "<group>"; };
 		D9532DDE25104D9A0034000E /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
@@ -145,6 +153,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D91A69BC253E41D0004D4DF4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D91A69BF253E5603004D4DF4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D91A69CD253E601F004D4DF4 /* p5.mp3 */,
+				D91A69C0253E560C004D4DF4 /* p3.mp3 */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D9314707253E2B030067436D /* Music */ = {
+			isa = PBXGroup;
+			children = (
+				D9314708253E2C1E0067436D /* MusicPlayer.swift */,
+			);
+			path = Music;
+			sourceTree = "<group>";
+		};
 		D9A98CBF251024EB00D0E386 = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +185,8 @@
 				D9A98CE12510252E00D0E386 /* Classes */,
 				D9A98CCA251024EB00D0E386 /* Blipstitch */,
 				D9A98CC9251024EB00D0E386 /* Products */,
+				D91A69BF253E5603004D4DF4 /* Resources */,
+				D91A69BC253E41D0004D4DF4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -172,6 +206,7 @@
 				D9A98D0B251028A900D0E386 /* CameraView.swift */,
 				D9A98CCF251024EB00D0E386 /* ContentView.swift */,
 				D9A550BB2514CF9A00B30EC3 /* FeedView.swift */,
+				D93146FD253DF3AD0067436D /* MusicClipView.swift */,
 				D9A98D10251028D200D0E386 /* PreviewView.swift */,
 				D9A98D12251028E000D0E386 /* ProfileView.swift */,
 				D9A98CCD251024EB00D0E386 /* SceneDelegate.swift */,
@@ -234,6 +269,7 @@
 		D9A98CE32510254700D0E386 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				D9314707253E2B030067436D /* Music */,
 				D9A98CDF2510251B00D0E386 /* Camera */,
 			);
 			path = Components;
@@ -357,6 +393,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D91A69CE253E601F004D4DF4 /* p5.mp3 in Resources */,
+				D91A69C2253E56A4004D4DF4 /* p3.mp3 in Resources */,
 				D9A98CD8251024EC00D0E386 /* LaunchScreen.storyboard in Resources */,
 				D9A98CD5251024EC00D0E386 /* Preview Assets.xcassets in Resources */,
 				D9A98CD2251024EC00D0E386 /* Assets.xcassets in Resources */,
@@ -412,6 +450,7 @@
 				D97B2A9725266738004610FA /* GestureHelper.swift in Sources */,
 				D9A550BC2514CF9A00B30EC3 /* FeedView.swift in Sources */,
 				D9A98D11251028D200D0E386 /* PreviewView.swift in Sources */,
+				D93146FE253DF3AD0067436D /* MusicClipView.swift in Sources */,
 				D9A98CE6251025A500D0E386 /* AVCamView.swift in Sources */,
 				D9A98CD0251024EB00D0E386 /* ContentView.swift in Sources */,
 				D9A98D1B2510292C00D0E386 /* TimerView.swift in Sources */,
@@ -422,6 +461,7 @@
 				D9A98CFA251026EF00D0E386 /* RosyCIRenderer.swift in Sources */,
 				D98AF9C5253D0F2E00231383 /* CameraViewController+Buffer.swift in Sources */,
 				D93CB48D2526BB20002435AF /* OverlayExport.swift in Sources */,
+				D9314709253E2C1E0067436D /* MusicPlayer.swift in Sources */,
 				D9A98CEA2510264800D0E386 /* DepthToGrayScaleConverter.swift in Sources */,
 				D9FD8447251E444600A41DED /* Settings.swift in Sources */,
 				D9A98CFE2510271400D0E386 /* DepthToGrayscale.metal in Sources */,
