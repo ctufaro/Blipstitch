@@ -12,7 +12,7 @@ struct ButtonPressView: View {
     var body: some View{
         ZStack {
             Color.purple.opacity(0.2).edgesIgnoringSafeArea(.all)
-            ButtonPress(method: myfunc, recordMethod: myfunc)
+            ButtonPress(method: myfunc, recordMethod: myfunc, playMethod: myfunc)
         }
     }
     func myfunc() -> Void {
@@ -25,6 +25,7 @@ struct ButtonPress: View{
     @State var isLongPressing = false
     @State var method: () -> Void
     @State var recordMethod: () -> Void
+    @State var playMethod: () -> Void
     var body: some View{
         HStack(spacing:40) {
             Button(action: {
@@ -54,6 +55,7 @@ struct ButtonPress: View{
         
             //Record Button In HStack
             Button(action: {
+                self.playMethod()
                 self.recordMethod()
             }) {
                 Image("Circle")

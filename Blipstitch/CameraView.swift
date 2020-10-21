@@ -68,7 +68,7 @@ struct CameraView: View {
                                         Text("Music")
                                             .foregroundColor(.white)
                                     }
-                                }.sheet(isPresented: $showMusicModal) {MusicClipView(showMusicModal: $showMusicModal, musicPlayer: $musicPlayer)}
+                                }.sheet(isPresented: $showMusicModal) {MusicClipView(showMusicModal: $showMusicModal, musicPlayer: $musicPlayer, cameraHelper: cameraHelper)}
                                 Button(action: {
                                     self.cameraHelper.stopRecord()
                                 }) {
@@ -125,7 +125,7 @@ struct CameraView: View {
                     }
                     HStack(spacing: 0) {
                         Spacer()
-                        ButtonPress(method:self.cameraHelper.captureShot, recordMethod:self.cameraHelper.toggleRecord).offset(y:-UIScreen.screenHeight / 15)
+                        ButtonPress(method:self.cameraHelper.captureShot, recordMethod:self.cameraHelper.toggleRecord, playMethod: playMethod).offset(y:-UIScreen.screenHeight / 15)
                         Spacer()
                     }.padding(.bottom, 5)
                 }
@@ -162,6 +162,10 @@ struct CameraView: View {
                     .padding(.bottom, (UIApplication.shared.windows.first?.safeAreaInsets.bottom)! + 5)
             }.background(Color.black.edgesIgnoringSafeArea(.all)).edgesIgnoringSafeArea(.all)
         }.accentColor(.white)
+    }
+
+    func playMethod(){
+        self.musicPlayer.play(name: self.cameraHelper.selectedAudio)
     }
 }
 

@@ -13,7 +13,7 @@ import AVFoundation
 public class MusicPlayer {
     public static var instance = MusicPlayer()
     var myAudioPlayer = AVAudioPlayer()
-    func play(name:String) {
+    func play(name:String) -> Void {
         
         guard let audioFileURL = Bundle.main.url(forResource: name, withExtension: "mp3") else {
             return
@@ -21,11 +21,13 @@ public class MusicPlayer {
         
         do {
             try myAudioPlayer = AVAudioPlayer(contentsOf: audioFileURL)
+            print("playing: \(name).mp3")
+            myAudioPlayer.play()
         } catch let error {
-            print(error.localizedDescription)
+            print("error \(error.localizedDescription)")
         }
         
-        myAudioPlayer.play()
+        
         
     }
 }

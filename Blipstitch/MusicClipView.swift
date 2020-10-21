@@ -11,6 +11,7 @@ import SwiftUI
 struct MusicClipView: View {
     @Binding var showMusicModal:Bool
     @Binding var musicPlayer:MusicPlayer
+    @ObservedObject var cameraHelper:CameraHelper
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack{
@@ -18,7 +19,8 @@ struct MusicClipView: View {
                     ForEach(albums,id: \.album_name){album in
                         HStack(spacing: 15){
                             Button(action: {
-                                musicPlayer.play(name: album.album_cover)
+                                //musicPlayer.play(name: album.album_cover)
+                                self.cameraHelper.selectedAudio = album.album_cover
                                 self.showMusicModal.toggle()
                             }){
                                 Image("\(album.album_cover)")
@@ -47,8 +49,9 @@ struct MusicClipView: View {
 struct MusicClipView_Previews: PreviewProvider {
     @State static var showMusicModal:Bool = false
     @State static var musicPlayer:MusicPlayer = MusicPlayer()
+    @State static var cameraHelper:CameraHelper = CameraHelper()
     static var previews: some View {
-        MusicClipView(showMusicModal: $showMusicModal, musicPlayer: $musicPlayer)
+        MusicClipView(showMusicModal: $showMusicModal, musicPlayer: $musicPlayer, cameraHelper: cameraHelper)
     }
 }
 

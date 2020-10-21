@@ -106,18 +106,82 @@ extension CameraViewController{
             videoWriter.finishWriting { [weak self] in
                 print("Video Recording Stopped")
                 self?.sessionAtSourceTime = nil
-                guard let url = self?.videoWriter.outputURL else { return }
+                guard let selectedAudio = self?.cameraHelper.selectedAudio else { return }
+                guard let videoURL = self?.videoWriter.outputURL else { return }
+                guard let audioURL = Bundle.main.url(forResource: selectedAudio, withExtension: "mp3") else { return }
+                
                 //let videoAsset = AVURLAsset(url: url)
-                PHPhotoLibrary.shared().performChanges({
-                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
-                }) { saved, error in
-                    if saved {
-                        print("Video Saved To Camera Roll")
-                    }
-                }
-                print("exported?")
+                self!.makeMovie(videoURL: videoURL, audioURL: audioURL)
             }
         }
+    }
+    
+    func makeMovie(videoURL:URL, audioURL:URL){
+        // video //
+        let videoAsset = AVURLAsset(url: videoURL)
+        let videoTracks = videoAsset.tracks(withMediaType: .video)
+        let videoTrack = videoTracks[0]
+        let videoTimeRange = CMTimeRangeMake(start: CMTime.zero, duration: videoAsset.duration)
+        let composition = AVMutableComposition()
+        let compositionVideoTrack: AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .video, preferredTrackID: CMPersistentTrackID())!
+        try! compositionVideoTrack.insertTimeRange(videoTimeRange, of: videoTrack, at: CMTime.zero)
+        compositionVideoTrack.preferredTransform = videoTrack.preferredTransform
+
+
+        // audio //
+        let audioAsset = AVURLAsset(url: audioURL)
+        let audioTracks = audioAsset.tracks(withMediaType: .audio)
+        let audioTrack = audioTracks[0]
+        let audioCompositionTrack: AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
+        let newTimeRange = (audioTrack.timeRange.duration > videoTrack.timeRange.duration) ? videoTrack.timeRange : audioTrack.timeRange
+        try! audioCompositionTrack.insertTimeRange(newTimeRange, of: audioTrack, at: CMTime.zero)
+
+
+        // video layer //
+        let videoLayer = CALayer()
+        videoLayer.isHidden = false
+        videoLayer.opacity = 1.0
+        videoLayer.frame = CGRect(x: 0, y: 0, width: videoSize.width, height: videoSize.height)
+
+
+        // parent layer //
+        let parentLayer = CALayer()
+        parentLayer.isHidden = false
+        parentLayer.opacity = 1.0
+        parentLayer.frame = CGRect(x: 0, y: 0, width: videoSize.width, height: videoSize.height)
+        parentLayer.addSublayer(videoLayer)
+
+
+        // composition instructions //
+        let layerComposition = AVMutableVideoComposition()
+        layerComposition.frameDuration = CMTimeMake(value: 1, timescale: 30)
+        layerComposition.renderSize = CGSize(width: videoSize.width, height: videoSize.height)
+        layerComposition.animationTool = AVVideoCompositionCoreAnimationTool(postProcessingAsVideoLayer: videoLayer, in: parentLayer)
+        let instruction = AVMutableVideoCompositionInstruction()
+        instruction.timeRange = CMTimeRangeMake(start: CMTime.zero, duration: composition.duration)
+        let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
+        layerInstruction.setTransform(videoTrack.preferredTransform, at: CMTime.zero)
+        instruction.layerInstructions = [layerInstruction] as [AVVideoCompositionLayerInstruction]
+        layerComposition.instructions = [instruction] as [AVVideoCompositionInstructionProtocol]
+
+
+        let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality)
+        exportAsset(exporter: assetExport!)
+    }
+    
+    func exportAsset(exporter: AVAssetExportSession) {
+        let exportURL = videoFileLocation()
+        exporter.outputURL = exportURL
+        exporter.outputFileType = AVFileType.mov
+        exporter.exportAsynchronously(completionHandler: {
+            PHPhotoLibrary.shared().performChanges({
+                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: exportURL)
+            }) { saved, error in
+                if saved {
+                    print("Saved Movie")
+                }
+            }
+        })
     }
     
     func pauseRecording() {

@@ -38,9 +38,9 @@ extension CameraViewController{
             }
         }
         // Capturing/Buffering Audio
-        else if writable, captureOutput == audioDataOutput, (audioWriterInput.isReadyForMoreMediaData) {
-            audioWriterInput?.append(sampleBuffer)
-        }
+        //else if writable, captureOutput == audioDataOutput, (audioWriterInput.isReadyForMoreMediaData) {
+            //audioWriterInput?.append(sampleBuffer)
+        //}
     }
     
     func processPhoto(sampleBuffer: CMSampleBuffer) {
