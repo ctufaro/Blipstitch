@@ -26,8 +26,13 @@ public class MusicPlayer {
         } catch let error {
             print("error \(error.localizedDescription)")
         }
-        
-        
-        
+    }
+    
+    func pause(){
+        self.myAudioPlayer.pause()
+    }
+    
+    func stop(){
+        self.myAudioPlayer.stop()
     }
 }

@@ -68,7 +68,7 @@ struct CameraView: View {
                                         Text("Music")
                                             .foregroundColor(.white)
                                     }
-                                }.sheet(isPresented: $showMusicModal) {MusicClipView(showMusicModal: $showMusicModal, musicPlayer: $musicPlayer, cameraHelper: cameraHelper)}
+                                }.sheet(isPresented: $showMusicModal,onDismiss: { self.musicPlayer.stop() }) {MusicClipView(showMusicModal: $showMusicModal, musicPlayer: $musicPlayer, cameraHelper: cameraHelper)}
                                 Button(action: {
                                     self.cameraHelper.stopRecord()
                                 }) {
