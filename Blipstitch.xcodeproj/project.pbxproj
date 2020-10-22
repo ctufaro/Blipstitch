@@ -180,9 +180,6 @@
 		D9A98CBF251024EB00D0E386 = {
 			isa = PBXGroup;
 			children = (
-				D9FD8448251E4C3600A41DED /* Models */,
-				D9A98CE32510254700D0E386 /* Components */,
-				D9A98CE12510252E00D0E386 /* Classes */,
 				D9A98CCA251024EB00D0E386 /* Blipstitch */,
 				D9A98CC9251024EB00D0E386 /* Products */,
 				D91A69BF253E5603004D4DF4 /* Resources */,
@@ -201,7 +198,10 @@
 		D9A98CCA251024EB00D0E386 /* Blipstitch */ = {
 			isa = PBXGroup;
 			children = (
+				D9A98CE12510252E00D0E386 /* Classes */,
+				D9A98CE32510254700D0E386 /* Components */,
 				D9A98D0F251028C000D0E386 /* Controls */,
+				D9FD8448251E4C3600A41DED /* Models */,
 				D9A98CCB251024EB00D0E386 /* AppDelegate.swift */,
 				D9A98D0B251028A900D0E386 /* CameraView.swift */,
 				D9A98CCF251024EB00D0E386 /* ContentView.swift */,
