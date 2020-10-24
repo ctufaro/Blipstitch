@@ -55,6 +55,21 @@ struct CameraView: View {
                         VStack(alignment:.trailing,spacing: 35) {
                             Group{
                                 Button(action: {
+                                    self.cameraHelper.micOn.toggle()
+                                }) {
+                                    VStack(spacing: 8) {
+                                        Image("Microphone")
+                                            .renderingMode(.template)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: UIScreen.screenWidth / 10, height: UIScreen.screenWidth / 10)
+                                            .font(.title)
+                                            .foregroundColor(.white)
+                                        Text("Mic \(self.cameraHelper.micOn ? "on" : "off")")
+                                            .foregroundColor(.white)
+                                    }
+                                }
+                                Button(action: {
                                     self.showMusicModal.toggle()
                                 }) {
                                     VStack(spacing: 8) {

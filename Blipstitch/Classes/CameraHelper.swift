@@ -20,6 +20,7 @@ class CameraHelper : ObservableObject{
     @Published var filterName : String = ""
     @Published var count:Int
     @Published var selectedAudio : String = ""
+    @Published var micOn:Bool = false
     
     init(){
         self.shots = []

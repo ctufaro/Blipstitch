@@ -38,7 +38,7 @@ extension CameraViewController{
             }
         }
         // Capturing/Buffering Audio
-        //else if writable, captureOutput == audioDataOutput, (audioWriterInput.isReadyForMoreMediaData) {
+        //else if cameraHelper.micOn,writable, captureOutput == audioDataOutput, (audioWriterInput.isReadyForMoreMediaData) {
             //audioWriterInput?.append(sampleBuffer)
         //}
     }

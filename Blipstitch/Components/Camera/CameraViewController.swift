@@ -98,6 +98,9 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
         mtkView.addGestureRecognizer(tapGesture)
         
+        //let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGesture))
+        //mtkView.addGestureRecognizer(panGestureRecognizer)
+        
         let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(changeFilterSwipe))
         leftSwipeGesture.direction = .left
         mtkView.addGestureRecognizer(leftSwipeGesture)
@@ -524,9 +527,84 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         focus(with: .autoFocus, exposureMode: .autoExpose, at: deviceRect.origin, monitorSubjectAreaChange: true)
     }
     
+    private var initialZoom: CGFloat = 1.0
+    @objc func panGesture(_ sender: UIPanGestureRecognizer) {
+
+    // note that 'view' here is the overall video preview
+    let velocity = sender.velocity(in: view)
+
+    if velocity.y > 0 || velocity.y < 0 {
+
+        //let originalCapSession = session
+        _ = session
+        var devitce : AVCaptureDevice!
+
+        let videoDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDualCamera], mediaType: AVMediaType.video, position: .unspecified)
+        let devices = videoDeviceDiscoverySession.devices
+        devitce = devices.first!
+
+        guard let device = devitce else { return }
+
+        let minimumZoomFactor: CGFloat = 1.0
+        let maximumZoomFactor: CGFloat = min(device.activeFormat.videoMaxZoomFactor, 10.0) // artificially set a max useable zoom of 10x
+
+        // clamp a zoom factor between minimumZoom and maximumZoom
+        func clampZoomFactor(_ factor: CGFloat) -> CGFloat {
+            return min(max(factor, minimumZoomFactor), maximumZoomFactor)
+        }
+
+        func update(scale factor: CGFloat) {
+            do {
+
+                try device.lockForConfiguration()
+                defer { device.unlockForConfiguration() }
+                device.videoZoomFactor = factor
+            } catch {
+                print("\(error.localizedDescription)")
+            }
+        }
+
+        switch sender.state {
+
+        case .began:
+            initialZoom = device.videoZoomFactor
+            //startRecording() /// call to start recording your video
+
+        case .changed:
+
+            // distance in points for the full zoom range (e.g. min to max), could be view.frame.height
+            let fullRangeDistancePoints: CGFloat = 300.0
+
+            // extract current distance travelled, from gesture start
+            let currentYTranslation: CGFloat = sender.translation(in: view).y
+
+            // calculate a normalized zoom factor between [-1,1], where up is positive (ie zooming in)
+            let normalizedZoomFactor = -1 * max(-1,min(1,currentYTranslation / fullRangeDistancePoints))
+
+            // calculate effective zoom scale to use
+            let newZoomFactor = clampZoomFactor(initialZoom + normalizedZoomFactor * (maximumZoomFactor - minimumZoomFactor))
+
+            // update device's zoom factor'
+            update(scale: newZoomFactor)
+
+        case .ended, .cancelled:
+            //stopRecording() /// call to start recording your video
+            break
+
+        default:
+            break
+        }
+    }
+    }
+    
     @objc func subjectAreaDidChange(notification: NSNotification) {
         let devicePoint = CGPoint(x: 0.5, y: 0.5)
         focus(with: .continuousAutoFocus, exposureMode: .continuousAutoExposure, at: devicePoint, monitorSubjectAreaChange: false)
+    }
+    
+    func gestureRecognizer(_: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith shouldRecognizeSimultaneouslyWithGestureRecognizer:UIGestureRecognizer) -> Bool {
+        return true
     }
     
     func changeCamera() {

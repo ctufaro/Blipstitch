@@ -127,15 +127,17 @@ extension CameraViewController{
         try! compositionVideoTrack.insertTimeRange(videoTimeRange, of: videoTrack, at: CMTime.zero)
         compositionVideoTrack.preferredTransform = videoTrack.preferredTransform
 
-
-        // audio //
+        // music //
         let audioAsset = AVURLAsset(url: audioURL)
         let audioTracks = audioAsset.tracks(withMediaType: .audio)
         let audioTrack = audioTracks[0]
         let audioCompositionTrack: AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
         let newTimeRange = (audioTrack.timeRange.duration > videoTrack.timeRange.duration) ? videoTrack.timeRange : audioTrack.timeRange
         try! audioCompositionTrack.insertTimeRange(newTimeRange, of: audioTrack, at: CMTime.zero)
-
+        
+        // microphone //
+        //let microphoneTrack: AVAssetTrack = videoAsset.tracks(withMediaType: AVMediaType.audio)[0]
+        //try! audioCompositionTrack.insertTimeRange(newTimeRange, of: microphoneTrack, at: CMTime.zero)
 
         // video layer //
         let videoLayer = CALayer()
