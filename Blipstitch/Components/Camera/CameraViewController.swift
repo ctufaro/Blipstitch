@@ -10,7 +10,7 @@ import CoreVideo
 import Photos
 import MobileCoreServices
 import MetalKit
-class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureDepthDataOutputDelegate,AVCaptureAudioDataOutputSampleBufferDelegate, CameraDelegate {
+class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureDepthDataOutputDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, CameraDelegate {
 
     // MARK: - Properties
     
@@ -42,7 +42,6 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
     public var audioDataOutput:AVCaptureAudioDataOutput = AVCaptureAudioDataOutput()
     private let dataOutputQueue = DispatchQueue(label: "VideoDataQueue", qos: .userInitiated, attributes: [], autoreleaseFrequency: .workItem)
     public let videoDataOutput = AVCaptureVideoDataOutput()
-    private var outputSynchronizer: AVCaptureDataOutputSynchronizer?
     public let photoOutput = AVCapturePhotoOutput()
     
     // MARK: - Filter Types
@@ -60,6 +59,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
     public var videoSize = CGSize(width: 1280, height: 720) //HACK!
     public var exportPreset = AVAssetExportPreset1280x720
     public var sessionRunningContext = 0
+    internal var recordButton: UIImageView?
     
     // MARK: - View Controller Life Cycle
     // ConfigureSession() sets all inputs and outputs
@@ -68,6 +68,32 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         self.cameraHelper = cameraHelper
         self.cameraHelper.delegate = self
     }
+    
+    //winky
+    internal var longPressGestureRecognizer: UILongPressGestureRecognizer?
+    @objc internal func handleLongPressGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
+        switch gestureRecognizer.state {
+        case .began:
+            print("began")
+            break
+        case .changed:
+            print("changed")
+            break
+        case .ended:
+            print("ended")
+            break
+        case .cancelled:
+            print("cancelled")
+            break
+        case .failed:
+            print("failed")
+            break
+        default:
+            break
+        }
+        
+    }
+    //winky
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,6 +108,28 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         ])
         
         mtkView.setupView()
+        
+        //winky
+        self.recordButton = UIImageView(image: UIImage(named: "Record"))
+        self.view.addSubview(recordButton!)
+        self.recordButton!.isUserInteractionEnabled = true
+        self.recordButton!.sizeToFit()
+        self.recordButton!.translatesAutoresizingMaskIntoConstraints = false
+        self.recordButton!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.recordButton!.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        self.recordButton!.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        self.recordButton!.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -150).isActive = true
+        self.longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGestureRecognizer(_:)))
+        if let recordButton = self.recordButton,
+            let longPressGestureRecognizer = self.longPressGestureRecognizer {
+            recordButton.isUserInteractionEnabled = true
+            recordButton.sizeToFit()
+            longPressGestureRecognizer.minimumPressDuration = 0.05
+            longPressGestureRecognizer.allowableMovement = 10.0
+            recordButton.addGestureRecognizer(longPressGestureRecognizer)
+        }
+        //winky
+        
         videoFilterOn = true
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
@@ -313,14 +361,14 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         if session.canAddOutput(photoOutput) {
             session.addOutput(photoOutput)
             photoOutput.isHighResolutionCaptureEnabled = true
-            
+
         } else {
             print("Could not add photo output to the session")
             setupResult = .configurationFailed
             session.commitConfiguration()
             return
         }
-        
+
         capFrameRate(videoDevice: videoDevice)
         
         //Recording AssetWriter
@@ -557,6 +605,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
     func changeCamera() {
         //cameraButton.isEnabled = false
         //photoButton.isEnabled = false
+        
         dataOutputQueue.sync {
             renderingEnabled = false
             if let filter = videoFilter {

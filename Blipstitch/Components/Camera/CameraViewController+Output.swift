@@ -11,7 +11,7 @@ import AVFoundation
 import CoreImage
 import UIKit
 
-extension CameraViewController{
+extension CameraViewController {
     // MARK: - Video Data Output Delegate
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         processPhoto(sampleBuffer: sampleBuffer)

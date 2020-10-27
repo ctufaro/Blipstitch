@@ -13,7 +13,7 @@ import Photos
 import MobileCoreServices
 import MetalKit
 
-extension CameraViewController{
+extension CameraViewController {
     
     // MARK: - Recording Functions
     func setupWriter() {
