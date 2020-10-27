@@ -66,6 +66,11 @@
 		D9CFF5882512751E00ECA8D9 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CFF5872512751E00ECA8D9 /* AvatarView.swift */; };
 		D9CFF58A25129DB300ECA8D9 /* RestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9CFF58925129DB300ECA8D9 /* RestAPI.swift */; };
 		D9D410E72523A9C4000D2302 /* GestureControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D410E62523A9C4000D2302 /* GestureControlView.swift */; };
+		D9DA21FE254871BA00FFD859 /* NextLevelSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA21FD254871BA00FFD859 /* NextLevelSession.swift */; };
+		D9DA22022548720600FFD859 /* NextLevelClip.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA22012548720600FFD859 /* NextLevelClip.swift */; };
+		D9DA22052548727100FFD859 /* NextLevelConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA22042548727100FFD859 /* NextLevelConfiguration.swift */; };
+		D9DA2208254872E000FFD859 /* NextLevelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA2207254872E000FFD859 /* NextLevelError.swift */; };
+		D9DA220B2548736200FFD859 /* NextLevel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA220A2548736200FFD859 /* NextLevel+Extensions.swift */; };
 		D9EA19152519350500032184 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EA19142519350500032184 /* LoadingView.swift */; };
 		D9EA19172519353200032184 /* TemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EA19162519353200032184 /* TemplateView.swift */; };
 		D9FD8447251E444600A41DED /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD8446251E444600A41DED /* Settings.swift */; };
@@ -133,6 +138,11 @@
 		D9CFF5872512751E00ECA8D9 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		D9CFF58925129DB300ECA8D9 /* RestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestAPI.swift; sourceTree = "<group>"; };
 		D9D410E62523A9C4000D2302 /* GestureControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureControlView.swift; sourceTree = "<group>"; };
+		D9DA21FD254871BA00FFD859 /* NextLevelSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextLevelSession.swift; sourceTree = "<group>"; };
+		D9DA22012548720600FFD859 /* NextLevelClip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextLevelClip.swift; sourceTree = "<group>"; };
+		D9DA22042548727100FFD859 /* NextLevelConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextLevelConfiguration.swift; sourceTree = "<group>"; };
+		D9DA2207254872E000FFD859 /* NextLevelError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextLevelError.swift; sourceTree = "<group>"; };
+		D9DA220A2548736200FFD859 /* NextLevel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NextLevel+Extensions.swift"; sourceTree = "<group>"; };
 		D9EA19142519350500032184 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		D9EA19162519353200032184 /* TemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateView.swift; sourceTree = "<group>"; };
 		D9FD8446251E444600A41DED /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -238,6 +248,7 @@
 		D9A98CDF2510251B00D0E386 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				D9DA2200254871C200FFD859 /* Recording */,
 				D9A98CE5251025A500D0E386 /* AVCamView.swift */,
 				D9A98CE7251025E000D0E386 /* CameraViewController.swift */,
 				D98AF9C4253D0F2E00231383 /* CameraViewController+Output.swift */,
@@ -313,6 +324,18 @@
 				D9532DE025115BE20034000E /* TopMenuView.swift */,
 			);
 			path = Controls;
+			sourceTree = "<group>";
+		};
+		D9DA2200254871C200FFD859 /* Recording */ = {
+			isa = PBXGroup;
+			children = (
+				D9DA21FD254871BA00FFD859 /* NextLevelSession.swift */,
+				D9DA22012548720600FFD859 /* NextLevelClip.swift */,
+				D9DA22042548727100FFD859 /* NextLevelConfiguration.swift */,
+				D9DA2207254872E000FFD859 /* NextLevelError.swift */,
+				D9DA220A2548736200FFD859 /* NextLevel+Extensions.swift */,
+			);
+			path = Recording;
 			sourceTree = "<group>";
 		};
 		D9FD8448251E4C3600A41DED /* Models */ = {
@@ -416,6 +439,7 @@
 			files = (
 				D9A98CF8251026E000D0E386 /* InstaRenderer.swift in Sources */,
 				D9A98D062510283000D0E386 /* CameraHelper.swift in Sources */,
+				D9DA22052548727100FFD859 /* NextLevelConfiguration.swift in Sources */,
 				D95359F22515A87C00F06FD7 /* SideMenuView.swift in Sources */,
 				D9A98D15251028F900D0E386 /* ButtonPressView.swift in Sources */,
 				D9A98D082510285000D0E386 /* ImageToVideo.swift in Sources */,
@@ -437,11 +461,14 @@
 				D9A98CE8251025E000D0E386 /* CameraViewController.swift in Sources */,
 				D9047818251EB92B00CB2E2E /* Extensions.swift in Sources */,
 				D9A98D0E251028BB00D0E386 /* FeedControlsView.swift in Sources */,
+				D9DA22022548720600FFD859 /* NextLevelClip.swift in Sources */,
 				D9A98CF6251026D000D0E386 /* EmptyRenderer.swift in Sources */,
+				D9DA220B2548736200FFD859 /* NextLevel+Extensions.swift in Sources */,
 				D9A98D022510273800D0E386 /* PassThrough.metal in Sources */,
 				D98AF9CD253D11D200231383 /* CameraViewController+Extensions.swift in Sources */,
 				D9CFF5882512751E00ECA8D9 /* AvatarView.swift in Sources */,
 				D9A98CCE251024EB00D0E386 /* SceneDelegate.swift in Sources */,
+				D9DA21FE254871BA00FFD859 /* NextLevelSession.swift in Sources */,
 				D9D410E72523A9C4000D2302 /* GestureControlView.swift in Sources */,
 				D93AFA4E25102A260061A0B8 /* ViewRouter.swift in Sources */,
 				D9A98CEC2510265E00D0E386 /* FilterRenderer.swift in Sources */,
@@ -461,6 +488,7 @@
 				D93CB48D2526BB20002435AF /* OverlayExport.swift in Sources */,
 				D9314709253E2C1E0067436D /* MusicPlayer.swift in Sources */,
 				D9FD8447251E444600A41DED /* Settings.swift in Sources */,
+				D9DA2208254872E000FFD859 /* NextLevelError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

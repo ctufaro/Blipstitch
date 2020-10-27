@@ -47,7 +47,7 @@ struct CameraView: View {
                         }
                         Spacer()
                     }
-                }.padding()
+                }.padding().padding(.bottom,30) //what happened here?
                 VStack {
                     Spacer()
                     HStack {
