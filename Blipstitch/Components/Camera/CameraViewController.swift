@@ -10,7 +10,7 @@ import CoreVideo
 import Photos
 import MobileCoreServices
 import MetalKit
-class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureDepthDataOutputDelegate, AVCaptureDataOutputSynchronizerDelegate, AVCaptureAudioDataOutputSampleBufferDelegate, CameraDelegate {
+class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureDepthDataOutputDelegate,AVCaptureAudioDataOutputSampleBufferDelegate, CameraDelegate {
 
     // MARK: - Properties
     
@@ -21,22 +21,14 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
     public let mtkView = PreviewMetalView()
     
     // MARK: - AV Cam Properties
-    public let videoDepthMixer = VideoMixer()
-    public let photoDepthMixer = VideoMixer()
     private var filterIndex: Int = 0
     public var videoFilter: FilterRenderer?
     public var photoFilter: FilterRenderer?
-    public let videoDepthConverter = DepthToGrayscaleConverter()
-    public let photoDepthConverter = DepthToGrayscaleConverter()
-    public var currentDepthPixelBuffer: CVPixelBuffer?
     public var renderingEnabled = true
-    public var depthVisualizationEnabled = false
     public let processingQueue = DispatchQueue(label: "photo processing queue", attributes: [], autoreleaseFrequency: .workItem)
     private let videoDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInDualCamera,.builtInWideAngleCamera],mediaType: .video,position: .unspecified)
     private var statusBarOrientation: UIInterfaceOrientation = .portrait
     private var videoFilterOn: Bool = false
-    private var depthVisualizationOn: Bool = false
-    private var depthSmoothingOn: Bool = false
     private enum SessionSetupResult {
         case success
         case notAuthorized
@@ -50,7 +42,6 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
     public var audioDataOutput:AVCaptureAudioDataOutput = AVCaptureAudioDataOutput()
     private let dataOutputQueue = DispatchQueue(label: "VideoDataQueue", qos: .userInitiated, attributes: [], autoreleaseFrequency: .workItem)
     public let videoDataOutput = AVCaptureVideoDataOutput()
-    public let depthDataOutput = AVCaptureDepthDataOutput()
     private var outputSynchronizer: AVCaptureDataOutputSynchronizer?
     public let photoOutput = AVCapturePhotoOutput()
     
@@ -92,8 +83,6 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         
         mtkView.setupView()
         videoFilterOn = true
-        depthVisualizationOn = false
-        depthSmoothingOn = false
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
         mtkView.addGestureRecognizer(tapGesture)
@@ -323,50 +312,13 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         // Add photo output
         if session.canAddOutput(photoOutput) {
             session.addOutput(photoOutput)
-            
             photoOutput.isHighResolutionCaptureEnabled = true
-            
-            if depthVisualizationEnabled {
-                if photoOutput.isDepthDataDeliverySupported {
-                    photoOutput.isDepthDataDeliveryEnabled = true
-                } else {
-                    depthVisualizationEnabled = false
-                }
-            }
             
         } else {
             print("Could not add photo output to the session")
             setupResult = .configurationFailed
             session.commitConfiguration()
             return
-        }
-        
-        // Add a depth data output
-        if session.canAddOutput(depthDataOutput) {
-            session.addOutput(depthDataOutput)
-            depthDataOutput.setDelegate(self, callbackQueue: dataOutputQueue)
-            depthDataOutput.isFilteringEnabled = false
-            if let connection = depthDataOutput.connection(with: .depthData) {
-                connection.isEnabled = depthVisualizationEnabled
-            } else {
-                print("No AVCaptureConnection")
-            }
-        } else {
-            print("Could not add depth data output to the session")
-            setupResult = .configurationFailed
-            session.commitConfiguration()
-            return
-        }
-        
-        if depthVisualizationEnabled {
-            // Use an AVCaptureDataOutputSynchronizer to synchronize the video data and depth data outputs.
-            // The first output in the dataOutputs array, in this case the AVCaptureVideoDataOutput, is the "master" output.
-            outputSynchronizer = AVCaptureDataOutputSynchronizer(dataOutputs: [videoDataOutput, depthDataOutput])
-            if let unwrappedOutputSynchronizer = outputSynchronizer {
-                unwrappedOutputSynchronizer.setDelegate(self, queue: dataOutputQueue)
-            }
-        } else {
-            outputSynchronizer = nil
         }
         
         capFrameRate(videoDevice: videoDevice)
@@ -384,9 +336,6 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
             if let videoFilter = self.videoFilter {
                 videoFilter.reset()
             }
-            self.videoDepthMixer.reset()
-            self.currentDepthPixelBuffer = nil
-            self.videoDepthConverter.reset()
             self.mtkView.pixelBuffer = nil
             self.mtkView.flushTextureCache()
         }
@@ -394,8 +343,6 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
             if let photoFilter = self.photoFilter {
                 photoFilter.reset()
             }
-            self.photoDepthMixer.reset()
-            self.photoDepthConverter.reset()
         }
     }
     
@@ -610,15 +557,11 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
     func changeCamera() {
         //cameraButton.isEnabled = false
         //photoButton.isEnabled = false
-        
         dataOutputQueue.sync {
             renderingEnabled = false
             if let filter = videoFilter {
                 filter.reset()
             }
-            videoDepthMixer.reset()
-            currentDepthPixelBuffer = nil
-            videoDepthConverter.reset()
             mtkView.pixelBuffer = nil
         }
         
@@ -626,12 +569,9 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
             if let filter = self.photoFilter {
                 filter.reset()
             }
-            self.photoDepthMixer.reset()
-            self.photoDepthConverter.reset()
         }
         
         let interfaceOrientation = statusBarOrientation
-        var depthEnabled = depthVisualizationOn
         
         sessionQueue.async {
             let currentVideoDevice = self.videoInput.device
@@ -682,34 +622,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
                 if let unwrappedPhotoOutputConnection = self.photoOutput.connection(with: .video) {
                     self.photoOutput.connection(with: .video)!.videoOrientation = unwrappedPhotoOutputConnection.videoOrientation
                 }
-                
-                if self.photoOutput.isDepthDataDeliverySupported {
-                    self.photoOutput.isDepthDataDeliveryEnabled = depthEnabled
-                    if let unwrappedDepthDataOutputConnection = self.depthDataOutput.connection(with: .depthData) {
-                        unwrappedDepthDataOutputConnection.isEnabled = depthEnabled
-                    }
-                    if depthEnabled && self.outputSynchronizer == nil {
-                        self.outputSynchronizer = AVCaptureDataOutputSynchronizer(dataOutputs: [self.videoDataOutput, self.depthDataOutput])
-                        if let unwrappedOutputSynchronizer = self.outputSynchronizer {
-                            unwrappedOutputSynchronizer.setDelegate(self, queue: self.dataOutputQueue)
-                        }
-                    }
-                    
-                    // Cap the video framerate at the max depth framerate
-                    if let frameDuration = videoDevice.activeDepthDataFormat?.videoSupportedFrameRateRanges.first?.minFrameDuration {
-                        do {
-                            try videoDevice.lockForConfiguration()
-                            videoDevice.activeVideoMinFrameDuration = frameDuration
-                            videoDevice.unlockForConfiguration()
-                        } catch {
-                            print("Could not lock device for configuration: \(error)")
-                        }
-                    }
-                } else {
-                    self.outputSynchronizer = nil
-                    depthEnabled = false
-                }
-                
+
                 self.session.commitConfiguration()
             }
             
@@ -728,7 +641,6 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
             
             self.dataOutputQueue.async {
                 self.renderingEnabled = true
-                self.depthVisualizationEnabled = depthEnabled
             }
             
             DispatchQueue.main.async {

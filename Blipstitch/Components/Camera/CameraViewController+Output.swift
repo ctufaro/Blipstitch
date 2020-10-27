@@ -71,24 +71,7 @@ extension CameraViewController{
             
             finalVideoPixelBuffer = filteredBuffer
         }
-        
-        if depthVisualizationEnabled {
-            if !videoDepthMixer.isPrepared {
-                videoDepthMixer.prepare(with: formatDescription, outputRetainedBufferCountHint: 3)
-            }
-            
-            if let depthBuffer = currentDepthPixelBuffer {
-                
-                // Mix the video buffer with the last depth data received.
-                guard let mixedBuffer = videoDepthMixer.mix(videoPixelBuffer: finalVideoPixelBuffer, depthPixelBuffer: depthBuffer) else {
-                    print("Unable to combine video and depth")
-                    return
-                }
-                
-                finalVideoPixelBuffer = mixedBuffer
-            }
-        }
-        
+
         mtkView.pixelBuffer = finalVideoPixelBuffer
         
         DispatchQueue.main.async {

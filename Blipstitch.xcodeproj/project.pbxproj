@@ -34,11 +34,8 @@
 		D970DED825434D56007DADAA /* house.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D970DECD25434D56007DADAA /* house.mp3 */; };
 		D97B2A9725266738004610FA /* GestureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97B2A9625266738004610FA /* GestureHelper.swift */; };
 		D98AF9C0253D0B8000231383 /* CameraViewController+Recording+Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9BF253D0B8000231383 /* CameraViewController+Recording+Video.swift */; };
-		D98AF9C5253D0F2E00231383 /* CameraViewController+Buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9C4253D0F2E00231383 /* CameraViewController+Buffer.swift */; };
-		D98AF9C9253D107A00231383 /* CameraViewController+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9C8253D107A00231383 /* CameraViewController+Utilities.swift */; };
+		D98AF9C5253D0F2E00231383 /* CameraViewController+Output.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9C4253D0F2E00231383 /* CameraViewController+Output.swift */; };
 		D98AF9CD253D11D200231383 /* CameraViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9CC253D11D200231383 /* CameraViewController+Extensions.swift */; };
-		D98AF9D2253D17D400231383 /* CameraViewController+Depth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9D1253D17D400231383 /* CameraViewController+Depth.swift */; };
-		D98AF9D6253D191800231383 /* CameraViewController+KVO.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9D5253D191800231383 /* CameraViewController+KVO.swift */; };
 		D9A550BC2514CF9A00B30EC3 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A550BB2514CF9A00B30EC3 /* FeedView.swift */; };
 		D9A98CCC251024EB00D0E386 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CCB251024EB00D0E386 /* AppDelegate.swift */; };
 		D9A98CCE251024EB00D0E386 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CCD251024EB00D0E386 /* SceneDelegate.swift */; };
@@ -48,19 +45,12 @@
 		D9A98CD8251024EC00D0E386 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9A98CD6251024EC00D0E386 /* LaunchScreen.storyboard */; };
 		D9A98CE6251025A500D0E386 /* AVCamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CE5251025A500D0E386 /* AVCamView.swift */; };
 		D9A98CE8251025E000D0E386 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CE7251025E000D0E386 /* CameraViewController.swift */; };
-		D9A98CEA2510264800D0E386 /* DepthToGrayScaleConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CE92510264800D0E386 /* DepthToGrayScaleConverter.swift */; };
 		D9A98CEC2510265E00D0E386 /* FilterRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CEB2510265E00D0E386 /* FilterRenderer.swift */; };
 		D9A98CEE2510267500D0E386 /* PreviewMetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CED2510267500D0E386 /* PreviewMetalView.swift */; };
-		D9A98CF02510268600D0E386 /* VideoMixer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CEF2510268600D0E386 /* VideoMixer.swift */; };
 		D9A98CF4251026B900D0E386 /* ComicCIRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CF3251026B900D0E386 /* ComicCIRenderer.swift */; };
 		D9A98CF6251026D000D0E386 /* EmptyRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CF5251026D000D0E386 /* EmptyRenderer.swift */; };
 		D9A98CF8251026E000D0E386 /* InstaRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CF7251026E000D0E386 /* InstaRenderer.swift */; };
-		D9A98CFA251026EF00D0E386 /* RosyCIRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CF9251026EF00D0E386 /* RosyCIRenderer.swift */; };
-		D9A98CFC2510270100D0E386 /* RosyMetalRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CFB2510270100D0E386 /* RosyMetalRenderer.swift */; };
-		D9A98CFE2510271400D0E386 /* DepthToGrayscale.metal in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CFD2510271400D0E386 /* DepthToGrayscale.metal */; };
-		D9A98D002510272500D0E386 /* Mixer.metal in Sources */ = {isa = PBXBuildFile; fileRef = D9A98CFF2510272500D0E386 /* Mixer.metal */; };
 		D9A98D022510273800D0E386 /* PassThrough.metal in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D012510273800D0E386 /* PassThrough.metal */; };
-		D9A98D042510274900D0E386 /* RosyEffect.metal in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D032510274900D0E386 /* RosyEffect.metal */; };
 		D9A98D062510283000D0E386 /* CameraHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D052510283000D0E386 /* CameraHelper.swift */; };
 		D9A98D082510285000D0E386 /* ImageToVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D072510285000D0E386 /* ImageToVideo.swift */; };
 		D9A98D0A2510286E00D0E386 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D092510286E00D0E386 /* PlayerView.swift */; };
@@ -109,11 +99,8 @@
 		D970DECD25434D56007DADAA /* house.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = house.mp3; sourceTree = "<group>"; };
 		D97B2A9625266738004610FA /* GestureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureHelper.swift; sourceTree = "<group>"; };
 		D98AF9BF253D0B8000231383 /* CameraViewController+Recording+Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Recording+Video.swift"; sourceTree = "<group>"; };
-		D98AF9C4253D0F2E00231383 /* CameraViewController+Buffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Buffer.swift"; sourceTree = "<group>"; };
-		D98AF9C8253D107A00231383 /* CameraViewController+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Utilities.swift"; sourceTree = "<group>"; };
+		D98AF9C4253D0F2E00231383 /* CameraViewController+Output.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Output.swift"; sourceTree = "<group>"; };
 		D98AF9CC253D11D200231383 /* CameraViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Extensions.swift"; sourceTree = "<group>"; };
-		D98AF9D1253D17D400231383 /* CameraViewController+Depth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Depth.swift"; sourceTree = "<group>"; };
-		D98AF9D5253D191800231383 /* CameraViewController+KVO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+KVO.swift"; sourceTree = "<group>"; };
 		D9A550BB2514CF9A00B30EC3 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		D9A98CC8251024EB00D0E386 /* Blipstitch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blipstitch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9A98CCB251024EB00D0E386 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -125,19 +112,12 @@
 		D9A98CD9251024EC00D0E386 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9A98CE5251025A500D0E386 /* AVCamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCamView.swift; sourceTree = "<group>"; };
 		D9A98CE7251025E000D0E386 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		D9A98CE92510264800D0E386 /* DepthToGrayScaleConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepthToGrayScaleConverter.swift; sourceTree = "<group>"; };
 		D9A98CEB2510265E00D0E386 /* FilterRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterRenderer.swift; sourceTree = "<group>"; };
 		D9A98CED2510267500D0E386 /* PreviewMetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewMetalView.swift; sourceTree = "<group>"; };
-		D9A98CEF2510268600D0E386 /* VideoMixer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoMixer.swift; sourceTree = "<group>"; };
 		D9A98CF3251026B900D0E386 /* ComicCIRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicCIRenderer.swift; sourceTree = "<group>"; };
 		D9A98CF5251026D000D0E386 /* EmptyRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyRenderer.swift; sourceTree = "<group>"; };
 		D9A98CF7251026E000D0E386 /* InstaRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstaRenderer.swift; sourceTree = "<group>"; };
-		D9A98CF9251026EF00D0E386 /* RosyCIRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosyCIRenderer.swift; sourceTree = "<group>"; };
-		D9A98CFB2510270100D0E386 /* RosyMetalRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosyMetalRenderer.swift; sourceTree = "<group>"; };
-		D9A98CFD2510271400D0E386 /* DepthToGrayscale.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = DepthToGrayscale.metal; sourceTree = "<group>"; };
-		D9A98CFF2510272500D0E386 /* Mixer.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Mixer.metal; sourceTree = "<group>"; };
 		D9A98D012510273800D0E386 /* PassThrough.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = PassThrough.metal; sourceTree = "<group>"; };
-		D9A98D032510274900D0E386 /* RosyEffect.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = RosyEffect.metal; sourceTree = "<group>"; };
 		D9A98D052510283000D0E386 /* CameraHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraHelper.swift; sourceTree = "<group>"; };
 		D9A98D072510285000D0E386 /* ImageToVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToVideo.swift; sourceTree = "<group>"; };
 		D9A98D092510286E00D0E386 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
@@ -260,16 +240,10 @@
 			children = (
 				D9A98CE5251025A500D0E386 /* AVCamView.swift */,
 				D9A98CE7251025E000D0E386 /* CameraViewController.swift */,
-				D98AF9C4253D0F2E00231383 /* CameraViewController+Buffer.swift */,
-				D98AF9D1253D17D400231383 /* CameraViewController+Depth.swift */,
+				D98AF9C4253D0F2E00231383 /* CameraViewController+Output.swift */,
 				D98AF9CC253D11D200231383 /* CameraViewController+Extensions.swift */,
-				D98AF9D5253D191800231383 /* CameraViewController+KVO.swift */,
 				D98AF9BF253D0B8000231383 /* CameraViewController+Recording+Video.swift */,
-				D98AF9C8253D107A00231383 /* CameraViewController+Utilities.swift */,
-				D9A98CE92510264800D0E386 /* DepthToGrayScaleConverter.swift */,
-				D9A98CEB2510265E00D0E386 /* FilterRenderer.swift */,
 				D9A98CED2510267500D0E386 /* PreviewMetalView.swift */,
-				D9A98CEF2510268600D0E386 /* VideoMixer.swift */,
 				D9A98CF12510269500D0E386 /* Renderers */,
 				D9A98CF2251026A000D0E386 /* Shaders */,
 			);
@@ -307,9 +281,8 @@
 			children = (
 				D9A98CF3251026B900D0E386 /* ComicCIRenderer.swift */,
 				D9A98CF5251026D000D0E386 /* EmptyRenderer.swift */,
+				D9A98CEB2510265E00D0E386 /* FilterRenderer.swift */,
 				D9A98CF7251026E000D0E386 /* InstaRenderer.swift */,
-				D9A98CF9251026EF00D0E386 /* RosyCIRenderer.swift */,
-				D9A98CFB2510270100D0E386 /* RosyMetalRenderer.swift */,
 			);
 			path = Renderers;
 			sourceTree = "<group>";
@@ -317,10 +290,7 @@
 		D9A98CF2251026A000D0E386 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
-				D9A98CFD2510271400D0E386 /* DepthToGrayscale.metal */,
-				D9A98CFF2510272500D0E386 /* Mixer.metal */,
 				D9A98D012510273800D0E386 /* PassThrough.metal */,
-				D9A98D032510274900D0E386 /* RosyEffect.metal */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -449,12 +419,8 @@
 				D95359F22515A87C00F06FD7 /* SideMenuView.swift in Sources */,
 				D9A98D15251028F900D0E386 /* ButtonPressView.swift in Sources */,
 				D9A98D082510285000D0E386 /* ImageToVideo.swift in Sources */,
-				D9A98D002510272500D0E386 /* Mixer.metal in Sources */,
 				D9532DDF25104D9A0034000E /* FeedItem.swift in Sources */,
 				D9A98D172510290B00D0E386 /* PopOverView.swift in Sources */,
-				D9A98CFC2510270100D0E386 /* RosyMetalRenderer.swift in Sources */,
-				D9A98D042510274900D0E386 /* RosyEffect.metal in Sources */,
-				D98AF9C9253D107A00231383 /* CameraViewController+Utilities.swift in Sources */,
 				D9A98D192510291C00D0E386 /* TextFlashView.swift in Sources */,
 				D9A98CCC251024EB00D0E386 /* AppDelegate.swift in Sources */,
 				D9EA19152519350500032184 /* LoadingView.swift in Sources */,
@@ -462,7 +428,6 @@
 				D9A98D0C251028A900D0E386 /* CameraView.swift in Sources */,
 				D9A98D1D2510294000D0E386 /* BottomMenuView.swift in Sources */,
 				D9532DE32511A9BC0034000E /* VideoPlayerView.swift in Sources */,
-				D9A98CF02510268600D0E386 /* VideoMixer.swift in Sources */,
 				D9532DE125115BE20034000E /* TopMenuView.swift in Sources */,
 				D904781A252286B800CB2E2E /* FontListView.swift in Sources */,
 				D9A98CEE2510267500D0E386 /* PreviewMetalView.swift in Sources */,
@@ -478,7 +443,6 @@
 				D9CFF5882512751E00ECA8D9 /* AvatarView.swift in Sources */,
 				D9A98CCE251024EB00D0E386 /* SceneDelegate.swift in Sources */,
 				D9D410E72523A9C4000D2302 /* GestureControlView.swift in Sources */,
-				D98AF9D6253D191800231383 /* CameraViewController+KVO.swift in Sources */,
 				D93AFA4E25102A260061A0B8 /* ViewRouter.swift in Sources */,
 				D9A98CEC2510265E00D0E386 /* FilterRenderer.swift in Sources */,
 				D98AF9C0253D0B8000231383 /* CameraViewController+Recording+Video.swift in Sources */,
@@ -490,17 +454,13 @@
 				D9A98CE6251025A500D0E386 /* AVCamView.swift in Sources */,
 				D9A98CD0251024EB00D0E386 /* ContentView.swift in Sources */,
 				D9A98D1B2510292C00D0E386 /* TimerView.swift in Sources */,
-				D98AF9D2253D17D400231383 /* CameraViewController+Depth.swift in Sources */,
 				D9CFF58A25129DB300ECA8D9 /* RestAPI.swift in Sources */,
 				D9A98CF4251026B900D0E386 /* ComicCIRenderer.swift in Sources */,
 				D9EA19172519353200032184 /* TemplateView.swift in Sources */,
-				D9A98CFA251026EF00D0E386 /* RosyCIRenderer.swift in Sources */,
-				D98AF9C5253D0F2E00231383 /* CameraViewController+Buffer.swift in Sources */,
+				D98AF9C5253D0F2E00231383 /* CameraViewController+Output.swift in Sources */,
 				D93CB48D2526BB20002435AF /* OverlayExport.swift in Sources */,
 				D9314709253E2C1E0067436D /* MusicPlayer.swift in Sources */,
-				D9A98CEA2510264800D0E386 /* DepthToGrayScaleConverter.swift in Sources */,
 				D9FD8447251E444600A41DED /* Settings.swift in Sources */,
-				D9A98CFE2510271400D0E386 /* DepthToGrayscale.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
