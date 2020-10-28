@@ -13,200 +13,205 @@ import Photos
 import MobileCoreServices
 import MetalKit
 
+// MARK: - capture
+
 extension CameraViewController {
     
-    // MARK: - Recording Functions
-    func setupWriter() {
-        do {
-            let url = videoFileLocation()
-            videoWriter = try? AVAssetWriter(url: url, fileType: AVFileType.mp4)
-            
-            //Add video input
-            videoWriterInput = AVAssetWriterInput(mediaType: AVMediaType.video, outputSettings: [
-                AVVideoCodecKey: AVVideoCodecType.h264,
-                AVVideoWidthKey: videoSize.width,
-                AVVideoHeightKey: videoSize.height,
-                AVVideoCompressionPropertiesKey: [
-                    AVVideoAverageBitRateKey: 6000000,
-                    AVVideoProfileLevelKey: AVVideoProfileLevelH264High40,
-                    AVVideoExpectedSourceFrameRateKey: 60,
-                    AVVideoAverageNonDroppableFrameRateKey: 30,
-                ],
-            ])
-            
-            videoWriterInputPixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: videoWriterInput, sourcePixelBufferAttributes: [
-                kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA,
-                kCVPixelBufferWidthKey as String: videoSize.width,
-                kCVPixelBufferHeightKey as String: videoSize.height,
-                kCVPixelFormatOpenGLESCompatibility as String: true,
-            ])
-            
-            videoWriterInput.expectsMediaDataInRealTime = true //Make sure we are exporting data at realtime
-            videoWriterInput.transform = videoWriterInput!.transform.rotated(by: CGFloat.pi / 2)
-            
-            if videoWriter.canAdd(videoWriterInput) {
-                videoWriter.add(videoWriterInput)
-            }
-            
-            //Add audio input
-            audioWriterInput = AVAssetWriterInput(mediaType: AVMediaType.audio, outputSettings: [
-                AVFormatIDKey: kAudioFormatMPEG4AAC,
-                AVNumberOfChannelsKey: 1,
-                AVSampleRateKey: 44100,
-                AVEncoderBitRateKey: 64000,
-            ])
-            audioWriterInput.expectsMediaDataInRealTime = true
-            if videoWriter.canAdd(audioWriterInput) {
-                videoWriter.add(audioWriterInput)
-                print("Audio Added To AVAssetWriter")
-            } else {
-                print("Audio NOT Added to AVAssetWriter")
-            }
-            
-            //videoWriter.startWriting() //Means ready to write down the file
-        }
-        /*catch let error {
-            debugPrint(error.localizedDescription)
-        }*/
-    }
-    
-    func videoFileLocation() -> URL {
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
-        let videoOutputUrl = URL(fileURLWithPath: documentsPath.appendingPathComponent("\(UUID()).mov"))
-        do {
-            if FileManager.default.fileExists(atPath: videoOutputUrl.path) {
-                try FileManager.default.removeItem(at: videoOutputUrl)
-                print("file removed")
-            }
-        } catch {
-            print(error)
-        }
-        
-        return videoOutputUrl
-    }
-    
-    func canWrite() -> Bool {
-        return isRecording
-            && videoWriter != nil
-            && videoWriter.status == .writing
-    }
-    
-    func startRecording() {
-        print("Video Recording Started")
-        guard !isRecording else { return }
-        isRecording = true
-        sessionAtSourceTime = nil
-        videoWriter.startWriting()
-    }
-    
-    func stopRecording() {
-        guard isRecording else { return }
-        isRecording = false
-        writingQueue.sync { [weak self] in
-            videoWriter.finishWriting { [weak self] in
-                print("Video Recording Stopped")
-                self?.sessionAtSourceTime = nil
-                guard let selectedAudio = self?.cameraHelper.selectedAudio else { return }
-                guard let videoURL = self?.videoWriter.outputURL else { return }
-                guard let audioURL = Bundle.main.url(forResource: selectedAudio, withExtension: "mp3") else { return }
-                
-                //let videoAsset = AVURLAsset(url: url)
-                self!.makeMovie(videoURL: videoURL, audioURL: audioURL)
+    //This is fine
+    internal func startCapture() {
+        UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut, animations: {
+            self.recordButton?.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+        }) { (completed: Bool) in
+            self.recording = true
+            if let _ = self.recordingSession {
+                self.beginRecordingNewClipIfNecessary()
             }
         }
     }
     
-    func makeMovie(videoURL:URL, audioURL:URL){
-        // video //
-        let videoAsset = AVURLAsset(url: videoURL)
-        let videoTracks = videoAsset.tracks(withMediaType: .video)
-        let videoTrack = videoTracks[0]
-        let videoTimeRange = CMTimeRangeMake(start: CMTime.zero, duration: videoAsset.duration)
-        let composition = AVMutableComposition()
-        let compositionVideoTrack: AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .video, preferredTrackID: CMPersistentTrackID())!
-        try! compositionVideoTrack.insertTimeRange(videoTimeRange, of: videoTrack, at: CMTime.zero)
-        compositionVideoTrack.preferredTransform = videoTrack.preferredTransform
-
-        // music //
-        let audioAsset = AVURLAsset(url: audioURL)
-        let audioTracks = audioAsset.tracks(withMediaType: .audio)
-        let audioTrack = audioTracks[0]
-        let audioCompositionTrack: AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
-        let newTimeRange = (audioTrack.timeRange.duration > videoTrack.timeRange.duration) ? videoTrack.timeRange : audioTrack.timeRange
-        try! audioCompositionTrack.insertTimeRange(newTimeRange, of: audioTrack, at: CMTime.zero)
-        
-        // microphone //
-        //let microphoneTrack: AVAssetTrack = videoAsset.tracks(withMediaType: AVMediaType.audio)[0]
-        //try! audioCompositionTrack.insertTimeRange(newTimeRange, of: microphoneTrack, at: CMTime.zero)
-
-        // video layer //
-        let videoLayer = CALayer()
-        videoLayer.isHidden = false
-        videoLayer.opacity = 1.0
-        videoLayer.frame = CGRect(x: 0, y: 0, width: videoSize.width, height: videoSize.height)
-
-
-        // parent layer //
-        let parentLayer = CALayer()
-        parentLayer.isHidden = false
-        parentLayer.opacity = 1.0
-        parentLayer.frame = CGRect(x: 0, y: 0, width: videoSize.width, height: videoSize.height)
-        parentLayer.addSublayer(videoLayer)
-
-
-        // composition instructions //
-        let layerComposition = AVMutableVideoComposition()
-        layerComposition.frameDuration = CMTimeMake(value: 1, timescale: 30)
-        layerComposition.renderSize = CGSize(width: videoSize.width, height: videoSize.height)
-        layerComposition.animationTool = AVVideoCompositionCoreAnimationTool(postProcessingAsVideoLayer: videoLayer, in: parentLayer)
-        let instruction = AVMutableVideoCompositionInstruction()
-        instruction.timeRange = CMTimeRangeMake(start: CMTime.zero, duration: composition.duration)
-        let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
-        layerInstruction.setTransform(videoTrack.preferredTransform, at: CMTime.zero)
-        instruction.layerInstructions = [layerInstruction] as [AVVideoCompositionLayerInstruction]
-        layerComposition.instructions = [instruction] as [AVVideoCompositionInstructionProtocol]
-
-
-        let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality)
-        exportAsset(exporter: assetExport!)
-    }
-    
-    func exportAsset(exporter: AVAssetExportSession) {
-        let exportURL = videoFileLocation()
-        exporter.outputURL = exportURL
-        exporter.outputFileType = AVFileType.mov
-        exporter.exportAsynchronously(completionHandler: {
-            PHPhotoLibrary.shared().performChanges({
-                PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: exportURL)
-            }) { saved, error in
-                if saved {
-                    print("Saved Movie")
+    internal func pauseCapture() {
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+            self.recordButton?.transform = .identity
+        }) { (completed: Bool) in
+            self.recording = false
+            self.sessionAtSourceTime = nil
+            if let session = self.recordingSession {
+                if session.currentClipHasStarted {
+                    session.endClip(completionHandler: { (sessionClip: NextLevelClip?, error: Error?) in
+                    })
                 }
+            }
+        }
+    }
+    
+    internal func endCapture() {
+        if let session = self.recordingSession {
+            if session.clips.count > 1 {
+                session.mergeClips(usingPreset: AVAssetExportPresetHighestQuality, completionHandler: { (url: URL?, error: Error?) in
+                    if let url = url {
+                        self.saveVideo(withURL: url)
+                    } else if let _ = error {
+                        print("failed to merge clips at the end of capture \(String(describing: error))")
+                    }
+                })
+            } else if let lastClipUrl = session.lastClipUrl {
+                self.saveVideo(withURL: lastClipUrl)
+            } else if session.currentClipHasStarted {
+                session.endClip(completionHandler: { (clip, error) in
+                    if error == nil {
+                        self.saveVideo(withURL: (clip?.url)!)
+                    } else {
+                        print("Error saving video: \(error?.localizedDescription ?? "")")
+                    }
+                })
+            } else {
+                // prompt that the video has been saved
+                let alertController = UIAlertController(title: "Video Capture", message: "Not enough video captured!", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
+        
+        }
+        
+    }
+    
+    internal func beginRecordingNewClipIfNecessary() {
+        if let session = self.recordingSession,
+            session.isReady == false {
+            session.beginClip()
+        }
+    }
+    
+    internal func authorizePhotoLibaryIfNecessary() {
+        let authorizationStatus = PHPhotoLibrary.authorizationStatus()
+        switch authorizationStatus {
+        case .restricted:
+            fallthrough
+        case .denied:
+            let alertController = UIAlertController(title: "Oh no!", message: "Access denied.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+            break
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization({ (status) in
+                if status == .authorized {
+                    
+                } else {
+                    
+                }
+            })
+            break
+        case .authorized:
+            break
+        case .limited:
+            break
+        @unknown default:
+            fatalError("unknown authorization type")
+        }
+    }
+    
+    internal func startCaptureX(){
+        print("start creating a clip here")
+    }
+    
+    internal func pauseCaptureX(){
+        print("if clip has started, end it")
+    }
+    
+    internal func endCaptureX(){
+        print("if clip count > 1, merge export asset")
+        print("if clip count = 1, save it")
+        print("if clip count > 1, merge them")
+    }
+    
+}
+
+// MARK: - media utilities
+
+extension CameraViewController {
+    
+    internal func saveVideo(withURL url: URL) {
+        PHPhotoLibrary.shared().performChanges({
+                                                let albumAssetCollection = self.albumAssetCollection(withTitle: self.albumTitle)
+            if albumAssetCollection == nil {
+                let changeRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: self.albumTitle)
+                let _ = changeRequest.placeholderForCreatedAssetCollection
+            }}, completionHandler: { (success1: Bool, error1: Error?) in
+                if let albumAssetCollection = self.albumAssetCollection(withTitle: self.albumTitle) {
+                    PHPhotoLibrary.shared().performChanges({
+                        if let assetChangeRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url) {
+                            let assetCollectionChangeRequest = PHAssetCollectionChangeRequest(for: albumAssetCollection)
+                            let enumeration: NSArray = [assetChangeRequest.placeholderForCreatedAsset!]
+                            assetCollectionChangeRequest?.addAssets(enumeration)
+                        }
+                    }, completionHandler: { (success2: Bool, error2: Error?) in
+                    if success2 == true {
+                        print("Video Saved")
+                    } else {
+                        print("Something failed! \(String(describing: error2))")
+                    }
+                })
             }
         })
     }
     
-    func pauseRecording() {
-        isRecording = false
-        print("Video Recording Paused")
+    internal func savePhoto(photoImage: UIImage) {
+        let NextLevelAlbumTitle = self.albumTitle
+        
+        PHPhotoLibrary.shared().performChanges({
+            
+            let albumAssetCollection = self.albumAssetCollection(withTitle: self.albumTitle)
+            if albumAssetCollection == nil {
+                let changeRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: NextLevelAlbumTitle)
+                let _ = changeRequest.placeholderForCreatedAssetCollection
+            }
+            
+        }, completionHandler: { (success1: Bool, error1: Error?) in
+            
+            if success1 == true {
+                if let albumAssetCollection = self.albumAssetCollection(withTitle: self.albumTitle) {
+                    PHPhotoLibrary.shared().performChanges({
+                        let assetChangeRequest = PHAssetChangeRequest.creationRequestForAsset(from: photoImage)
+                        let assetCollectionChangeRequest = PHAssetCollectionChangeRequest(for: albumAssetCollection)
+                        let enumeration: NSArray = [assetChangeRequest.placeholderForCreatedAsset!]
+                        assetCollectionChangeRequest?.addAssets(enumeration)
+                    }, completionHandler: { (success2: Bool, error2: Error?) in
+                        if success2 == true {
+                            let alertController = UIAlertController(title: "Photo Saved!", message: "Saved to the camera roll.", preferredStyle: .alert)
+                            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                            alertController.addAction(okAction)
+                            self.present(alertController, animated: true, completion: nil)
+                        }
+                    })
+                }
+            } else if let _ = error1 {
+                print("failure capturing photo from video frame \(String(describing: error1))")
+            }
+            
+        })
     }
     
-    func resumeRecording() {
-        isRecording = true
-        print("Video Recording Resumed")
-    }
-    
-    func toggleRecord() {
-        if !isRecording && sessionAtSourceTime == nil{
-            startRecording()
-        } else if !isRecording && sessionAtSourceTime != nil{
-            resumeRecording()
-        } else if isRecording{
-            pauseRecording()
+    internal func albumAssetCollection(withTitle title: String) -> PHAssetCollection? {
+        let predicate = NSPredicate(format: "localizedTitle = %@", title)
+        let options = PHFetchOptions()
+        options.predicate = predicate
+        let result = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: options)
+        if result.count > 0 {
+            return result.firstObject
         }
+        return nil
     }
+}
 
-    func stopRecord(){
-        self.stopRecording()
+extension CameraViewController {
+
+    func toggleRecord() {
+        //toggleRecord
+    }
+    
+    func stopRecord() {
+        endCapture()
     }
 }

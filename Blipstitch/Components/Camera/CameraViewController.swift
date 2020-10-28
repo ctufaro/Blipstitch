@@ -14,7 +14,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
 
     // MARK: - Properties
     
-    // MARK: - Camera Heleper
+    // MARK: - Camera Helper
     public var cameraHelper:CameraHelper!
     
     // MARK: - Metal View
@@ -49,6 +49,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
     private let photoRenderers: [FilterRenderer] = [EmptyRenderer(), InstaRenderer(filterName: "CIPhotoEffectChrome"), InstaRenderer(filterName: "CIPhotoEffectFade"), InstaRenderer(filterName: "CIPhotoEffectInstant"),InstaRenderer(filterName: "CIPhotoEffectMono"), InstaRenderer(filterName: "CIPhotoEffectNoir"), InstaRenderer(filterName: "CIPhotoEffectProcess"),InstaRenderer(filterName: "CIPhotoEffectTonal"), InstaRenderer(filterName: "CIPhotoEffectTransfer"), InstaRenderer(filterName: "CILinearToSRGBToneCurve"), InstaRenderer(filterName: "CISRGBToneCurveToLinear")]
     
     // MARK: - Recording Video Properties
+    public var albumTitle = "Blipstitch"
     public lazy var isRecording = false
     public var videoWriter: AVAssetWriter!
     public var videoWriterInput: AVAssetWriterInput!
@@ -60,6 +61,12 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
     public var exportPreset = AVAssetExportPreset1280x720
     public var sessionRunningContext = 0
     internal var recordButton: UIImageView?
+    internal var recording: Bool = false
+    internal var recordingSession: NextLevelSession?
+    internal var lastVideoFrameTimeInterval: TimeInterval = 0
+    internal var lastAudioFrame: CMSampleBuffer?
+    internal var device:AVCaptureDevice?
+    internal var maximumCaptureDuration: CMTime?
     
     // MARK: - View Controller Life Cycle
     // ConfigureSession() sets all inputs and outputs
@@ -74,20 +81,23 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
     @objc internal func handleLongPressGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
         switch gestureRecognizer.state {
         case .began:
-            print("began")
+            self.startCapture()
+            //self._panStartPoint = gestureRecognizer.location(in: self.view)
+            //self._panStartZoom = CGFloat(NextLevel.shared.videoZoomFactor)
             break
         case .changed:
-            print("changed")
+            //let newPoint = gestureRecognizer.location(in: self.view)
+            //let scale = (self._panStartPoint.y / newPoint.y)
+            //let newZoom = (scale * self._panStartZoom)
+            //NextLevel.shared.videoZoomFactor = Float(newZoom)
             break
         case .ended:
-            print("ended")
-            break
+            fallthrough
         case .cancelled:
-            print("cancelled")
-            break
+            fallthrough
         case .failed:
-            print("failed")
-            break
+            self.pauseCapture()
+            fallthrough
         default:
             break
         }
@@ -180,6 +190,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
          to the sessionQueue so as not to block the main queue, which keeps the UI responsive.
          */
         sessionQueue.async {
+            self.configureRecordingSession()
             self.configureSession()
         }
     }
@@ -289,11 +300,15 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         
         let defaultVideoDevice: AVCaptureDevice? = videoDeviceDiscoverySession.devices.first
         
+        
+        
         guard let videoDevice = defaultVideoDevice else {
             print("Could not find any video device")
             setupResult = .configurationFailed
             return
         }
+        
+        self.device = videoDevice
         
         do {
             videoInput = try AVCaptureDeviceInput(device: videoDevice)
@@ -372,9 +387,13 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         capFrameRate(videoDevice: videoDevice)
         
         //Recording AssetWriter
-        self.setupWriter()
+        //self.setupWriter()
         
         session.commitConfiguration()
+    }
+    
+    private func configureRecordingSession(){
+        self.recordingSession = NextLevelSession(queue: sessionQueue, queueKey: DispatchSpecificKey<()>())
     }
     
     @objc func didEnterBackground(notification: NSNotification) {

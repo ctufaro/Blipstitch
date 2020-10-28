@@ -15,7 +15,9 @@ extension CameraViewController {
     // MARK: - Video Data Output Delegate
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         processPhoto(sampleBuffer: sampleBuffer)
-        processVideo(output, sampleBuffer, connection)
+        guard let recordSession = self.recordingSession else { return }
+        handleVideoOutput(captureOutput: output, sampleBuffer: sampleBuffer, session: recordSession)
+        handleAudioOutput(captureOutput: output, sampleBuffer: sampleBuffer, session: recordSession)
     }
     
     func processVideo(_ captureOutput: AVCaptureOutput!, _ sampleBuffer: CMSampleBuffer!, _ connection: AVCaptureConnection!){
@@ -24,22 +26,21 @@ extension CameraViewController {
               connection != nil,
               CMSampleBufferDataIsReady(sampleBuffer) else { return }
         
-        let writable = canWrite()
-        
+        let writable = false
         if writable, sessionAtSourceTime == nil {
             sessionAtSourceTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
             videoWriter.startSession(atSourceTime: sessionAtSourceTime!)
         }
         
         // Capturing/Buffering Video
-        if writable, captureOutput == videoDataOutput, videoWriterInput.isReadyForMoreMediaData {
-            if let pixelBuffer = mtkView.pixelBuffer{
-                videoWriterInputPixelBufferAdaptor.append(pixelBuffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
-            }
-        }
+        //if writable, captureOutput == videoDataOutput, videoWriterInput.isReadyForMoreMediaData {
+            //if let pixelBuffer = mtkView.pixelBuffer{
+                //videoWriterInputPixelBufferAdaptor.append(pixelBuffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
+            //}
+        //}
         // Capturing/Buffering Audio
         //else if cameraHelper.micOn,writable, captureOutput == audioDataOutput, (audioWriterInput.isReadyForMoreMediaData) {
-            //audioWriterInput?.append(sampleBuffer)
+        //audioWriterInput?.append(sampleBuffer)
         //}
     }
     
@@ -71,7 +72,7 @@ extension CameraViewController {
             
             finalVideoPixelBuffer = filteredBuffer
         }
-
+        
         mtkView.pixelBuffer = finalVideoPixelBuffer
         
         DispatchQueue.main.async {
@@ -95,4 +96,48 @@ extension CameraViewController {
         }
     }
     
+    func handleVideoOutput(captureOutput: AVCaptureOutput,sampleBuffer: CMSampleBuffer, session: NextLevelSession) {
+        session.setupVideo(videoSize: self.videoSize)
+        if self.recording && captureOutput == videoDataOutput && session.currentClipHasStarted {
+            if sessionAtSourceTime == nil {
+                sessionAtSourceTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+                session.startSessionIfNecessary(timestamp: sessionAtSourceTime!)
+                session._startTimestamp = sessionAtSourceTime!
+            }
+            if let pixelBuffer = mtkView.pixelBuffer {
+                if let pixelBufferAdapter = session._pixelBufferAdapter {
+                    pixelBufferAdapter.append(pixelBuffer, withPresentationTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
+                    session._currentClipHasVideo = true
+                    session._currentClipDuration = 
+                    session.calcVideoClipDuration(withSampleBuffer: sampleBuffer, minFrameDuration: device!.activeVideoMinFrameDuration)
+                }
+            }
+        }
+    }
+    
+    func handleAudioOutput(captureOutput: AVCaptureOutput,sampleBuffer: CMSampleBuffer, session: NextLevelSession){
+        if self.recording && captureOutput == audioDataOutput && session.currentClipHasVideo {
+            session.appendAudio(withSampleBuffer: sampleBuffer, completionHandler:{(success: Bool) -> Void in })
+        }
+    }
+    
+    func handleAudioOutputBlip(captureOutput: AVCaptureOutput,sampleBuffer: CMSampleBuffer, session: NextLevelSession) {
+        if self.recording && captureOutput == audioDataOutput && session.currentClipHasVideo {
+            if let audioWriterInput = session._audioInput{
+                audioWriterInput.append(sampleBuffer)
+                session._currentClipHasAudio = true
+            }
+        }
+    }
+    
+    private func checkSessionDuration() {
+        if let session = self.recordingSession,
+            let maximumCaptureDuration = self.maximumCaptureDuration {
+            if maximumCaptureDuration.isValid && session.totalDuration >= maximumCaptureDuration {
+                self.recording = false
+                session.endClip(completionHandler: { (sessionClip: NextLevelClip?, error: Error?) in
+                })
+            }
+        }
+    }
 }

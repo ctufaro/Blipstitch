@@ -202,6 +202,20 @@ extension CameraViewController {
 
 }
 
+extension CameraViewController{
+    internal func executeClosureAsyncOnSessionQueueIfNecessary(withClosure closure: @escaping () -> Void) {
+        self.sessionQueue.async(execute: closure)
+    }
+    
+    internal func executeClosureSyncOnSessionQueueIfNecessary(withClosure closure: @escaping () -> Void) {
+        if DispatchQueue.getSpecific(key: DispatchSpecificKey<()>()) != nil {
+            closure()
+        } else {
+            self.sessionQueue.sync(execute: closure)
+        }
+    }
+}
+
 extension AVCaptureVideoOrientation {
     init?(interfaceOrientation: UIInterfaceOrientation) {
         switch interfaceOrientation {

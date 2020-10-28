@@ -12,8 +12,8 @@ import AVFoundation
 import CoreMedia
 import ImageIO
 
-fileprivate let NextLevelMetadataTitle = "NextLevel"
-fileprivate let NextLevelMetadataArtist = "http://nextlevel.engineering/"
+fileprivate let NextLevelMetadataTitle = "Blipstitch"
+fileprivate let NextLevelMetadataArtist = "http://blipstitch.com/"
 
 extension CMSampleBuffer {
 
