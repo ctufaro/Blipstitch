@@ -12,14 +12,12 @@ import AVFoundation
 
 public class MusicPlayer {
     public static var instance = MusicPlayer()
-    var playerCreated = false
+    public var playerCreated = false
     var myAudioPlayer = AVAudioPlayer()
     func play(name:String) -> Void {
-        
         guard let audioFileURL = Bundle.main.url(forResource: name, withExtension: "mp3") else {
             return
         }
-        
         do {
             if !playerCreated {
                 try myAudioPlayer = AVAudioPlayer(contentsOf: audioFileURL)

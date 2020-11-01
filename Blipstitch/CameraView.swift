@@ -138,12 +138,18 @@ struct CameraView: View {
                             }.padding(.trailing,UIScreen.screenWidth / 50) //ugly
                         }.padding(.bottom, 55).padding(.trailing)
                     }
+
                     HStack(spacing: 0) {
                         Spacer()
-                        ButtonPress(method:self.cameraHelper.captureShot, recordMethod:self.cameraHelper.startRecord, pauseMethod: self.cameraHelper.pauseRecord, playMethod: self.playMethod)
-                        /*ButtonPress(method:self.cameraHelper.captureShot, recordMethod:self.cameraHelper.recordMethod,pauseMethod:self.cameraHelper.pauseMethod, playMethod: playMethod).offset(y:-UIScreen.screenHeight / 15)*/
+                        ButtonPress(
+                            captureMethod:self.cameraHelper.captureShot,
+                            recordVideoMethod:self.cameraHelper.startRecord,
+                            pauseVideoMethod: self.cameraHelper.pauseRecord,
+                            playMusicMethod: playMethod,
+                            pauseMusicMethod: self.musicPlayer.pause)
+                            .offset(y:-UIScreen.screenHeight / 15)
                         Spacer()
-                    }.padding(.bottom, 80)
+                    }.padding(.bottom, 5)
                 }
                     // due to all edges are ignored...
                     .navigationBarTitle("")
@@ -180,7 +186,7 @@ struct CameraView: View {
         }.accentColor(.white)
     }
 
-    func playMethod(){
+    func playMethod()->Void {
         self.musicPlayer.play(name: self.cameraHelper.selectedAudio)
     }
 }

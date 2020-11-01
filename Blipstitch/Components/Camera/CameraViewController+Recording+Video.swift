@@ -45,6 +45,15 @@ extension CameraViewController {
     
     internal func endCapture() {
         if let session = self.recordingSession {
+            
+            /// Add MP3 To Video
+            
+            /*let audioURL = Bundle.main.url(forResource: self.cameraHelper.selectedAudio, withExtension: "mp3")
+            let audio = NextLevelClip()
+            audio._asset = AVAsset(url: audioURL!)
+            session.add(clip: audio, at: 0)
+            session.appendClips(toComposition: <#T##AVMutableComposition#>, audioMix: <#T##AVMutableAudioMix?#>)*/
+            
             if session.clips.count > 1 {
                 session.mergeClips(usingPreset: AVAssetExportPresetHighestQuality, completionHandler: { (url: URL?, error: Error?) in
                     if let url = url {
@@ -53,9 +62,11 @@ extension CameraViewController {
                         print("failed to merge clips at the end of capture \(String(describing: error))")
                     }
                 })
-            } else if let lastClipUrl = session.lastClipUrl {
+            }
+            else if let lastClipUrl = session.lastClipUrl {
                 self.saveVideo(withURL: lastClipUrl)
-            } else if session.currentClipHasStarted {
+            }
+            else if session.currentClipHasStarted {
                 session.endClip(completionHandler: { (clip, error) in
                     if error == nil {
                         self.saveVideo(withURL: (clip?.url)!)
@@ -63,7 +74,8 @@ extension CameraViewController {
                         print("Error saving video: \(error?.localizedDescription ?? "")")
                     }
                 })
-            } else {
+            }
+            else {
                 // prompt that the video has been saved
                 let alertController = UIAlertController(title: "Video Capture", message: "Not enough video captured!", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)

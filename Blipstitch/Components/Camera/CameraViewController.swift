@@ -115,27 +115,6 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         
         mtkView.setupView()
         
-        //winky
-        /*self.recordButton = UIImageView(image: UIImage(named: "Record"))
-        self.view.addSubview(recordButton!)
-        self.recordButton!.isUserInteractionEnabled = true
-        self.recordButton!.sizeToFit()
-        self.recordButton!.translatesAutoresizingMaskIntoConstraints = false
-        self.recordButton!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.recordButton!.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        self.recordButton!.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        self.recordButton!.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -150).isActive = true
-        self.longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGestureRecognizer(_:)))
-        if let recordButton = self.recordButton,
-            let longPressGestureRecognizer = self.longPressGestureRecognizer {
-            recordButton.isUserInteractionEnabled = true
-            recordButton.sizeToFit()
-            longPressGestureRecognizer.minimumPressDuration = 0.05
-            longPressGestureRecognizer.allowableMovement = 10.0
-            recordButton.addGestureRecognizer(longPressGestureRecognizer)
-        }*/
-        //winky
-        
         videoFilterOn = true
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))

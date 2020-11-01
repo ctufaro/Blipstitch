@@ -34,6 +34,7 @@ struct MusicClipView: View {
                         HStack(spacing: 15){
                             Button(action: {
                                 self.cameraHelper.selectedAudio = album.album_cover
+                                self.musicPlayer.playerCreated = false
                                 self.showMusicModal.toggle()
                             }){
                                 Image("Album")
@@ -71,6 +72,7 @@ struct MusicClipView: View {
         if album.album_state == .paused {
             resetAllState()
             musicPlayer.play(name: album.album_cover)
+            musicPlayer.playerCreated = false
             album.album_state = .playing
         } else if album.album_state == .playing {
             musicPlayer.pause()

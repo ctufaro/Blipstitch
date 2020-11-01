@@ -867,6 +867,20 @@ extension NextLevelSession {
         return startTime
     }
     
+    internal func appendAudioToEnd(completedURL:URL, audioURL:URL) -> AVURLAsset{
+        let videoAsset = AVURLAsset(url: completedURL)
+        let videoTracks = videoAsset.tracks(withMediaType: .video)
+        let videoTrack = videoTracks[0]
+        let composition = AVMutableComposition()
+        let audioAsset = AVURLAsset(url: audioURL)
+        let audioTracks = audioAsset.tracks(withMediaType: .audio)
+        let audioTrack = audioTracks[0]
+        let audioCompositionTrack: AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
+        let newTimeRange = (audioTrack.timeRange.duration > videoTrack.timeRange.duration) ? videoTrack.timeRange : audioTrack.timeRange
+        try! audioCompositionTrack.insertTimeRange(newTimeRange, of: audioTrack, at: CMTime.zero)
+        return videoAsset
+    }
+    
 }
 
 // MARK: - file management

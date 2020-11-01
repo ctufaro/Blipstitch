@@ -12,7 +12,7 @@ struct ButtonPressView: View {
     var body: some View{
         ZStack {
             Color.purple.opacity(0.2).edgesIgnoringSafeArea(.all)
-            ButtonPress(method: myfunc, recordMethod: myfunc, pauseMethod: myfunc, playMethod: myfunc)
+            ButtonPress(captureMethod: myfunc, recordVideoMethod: myfunc, pauseVideoMethod: myfunc, playMusicMethod: myfunc, pauseMusicMethod: myfunc)
         }
     }
     func myfunc() -> Void {
@@ -23,10 +23,11 @@ struct ButtonPressView: View {
 struct ButtonPress: View{
     @State private var timer: Timer?
     @State var isLongPressing = false
-    @State var method: () -> Void
-    @State var recordMethod: () -> Void
-    @State var pauseMethod: () -> Void
-    @State var playMethod: () -> Void
+    @State var captureMethod: () -> Void
+    @State var recordVideoMethod: () -> Void
+    @State var pauseVideoMethod: () -> Void
+    @State var playMusicMethod: () -> Void
+    @State var pauseMusicMethod: () -> Void
     var body: some View{
         HStack(spacing:30) {
             Button(action: {
@@ -35,7 +36,7 @@ struct ButtonPress: View{
                     self.isLongPressing.toggle()
                     self.timer?.invalidate()
                 } else {
-                    self.method()
+                    self.captureMethod()
                 }
             }, label: {
                 Image("Capture")
@@ -50,23 +51,12 @@ struct ButtonPress: View{
                 self.isLongPressing = true
                 //or fastforward has started to start the timer
                 self.timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true, block: { _ in
-                    self.method()
+                    self.captureMethod()
                 })
             })
         
             //Record Button In HStack
-            LongPressButtonView(pauseMethod:self.pauseMethod, recordMethod:self.recordMethod)
-            /*Button(action: {
-                self.playMethod()
-                self.recordMethod()
-            }) {
-                Image("Circle")
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: UIScreen.screenWidth / 8, height: UIScreen.screenWidth / 8)
-                    .foregroundColor(.white)
-            }*/
+            LongPressButtonView(pauseVideoMethod:self.pauseVideoMethod, recordVideoMethod:self.recordVideoMethod, playMusicMethod:self.playMusicMethod, pauseMusicMethod:self.pauseMusicMethod)
         
         }
     }

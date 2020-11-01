@@ -11,13 +11,16 @@ import SwiftUI
 
 struct LongPressButtonView: View{
     @State var isLongPressing = false
-    @State var pauseMethod: () -> Void
-    @State var recordMethod: () -> Void
+    @State var pauseVideoMethod: () -> Void
+    @State var recordVideoMethod: () -> Void
+    @State var playMusicMethod: () -> Void
+    @State var pauseMusicMethod: () -> Void
     var body: some View{
         HStack(spacing:40) {
             Button(action: {
                 if(self.isLongPressing){
-                    self.pauseMethod()
+                    self.pauseMusicMethod()
+                    self.pauseVideoMethod()
                     self.isLongPressing.toggle()
                 } else {
                     //print("tap")
@@ -33,7 +36,8 @@ struct LongPressButtonView: View{
             .buttonStyle(ScaleButtonStyle())
             .simultaneousGesture(LongPressGesture(minimumDuration: 0.2).onEnded { _ in
                 self.isLongPressing = true
-                self.recordMethod()
+                self.playMusicMethod()
+                self.recordVideoMethod()
             })
         }
     }

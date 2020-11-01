@@ -17,7 +17,9 @@ extension CameraViewController {
         processMetal(sampleBuffer: sampleBuffer)
         guard let recordSession = self.recordingSession else { return }
         handleVideoOutput(captureOutput: output, sampleBuffer: sampleBuffer, session: recordSession)
-        handleAudioOutput(captureOutput: output, sampleBuffer: sampleBuffer, session: recordSession)
+        if cameraHelper.micOn {
+            handleAudioOutput(captureOutput: output, sampleBuffer: sampleBuffer, session: recordSession)
+        }
     }
     
     func processMetal(sampleBuffer: CMSampleBuffer) {
