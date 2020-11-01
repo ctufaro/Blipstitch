@@ -16,8 +16,7 @@ import MetalKit
 // MARK: - capture
 
 extension CameraViewController {
-    
-    //This is fine
+
     internal func startCapture() {
         UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut, animations: {
             self.recordButton?.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
@@ -112,20 +111,14 @@ extension CameraViewController {
         }
     }
     
-    internal func startCaptureX(){
-        print("start creating a clip here")
+    // Camera Helper Methods
+    func startRecord() {
+        self.startCapture()
     }
     
-    internal func pauseCaptureX(){
-        print("if clip has started, end it")
+    func pauseRecord() {
+        self.pauseCapture()
     }
-    
-    internal func endCaptureX(){
-        print("if clip count > 1, merge export asset")
-        print("if clip count = 1, save it")
-        print("if clip count > 1, merge them")
-    }
-    
 }
 
 // MARK: - media utilities

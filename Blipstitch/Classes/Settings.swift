@@ -23,7 +23,7 @@ class Settings{
                 print("all files in folder: \(fileNames)")
                 for fileName in fileNames {
 
-                    if (fileName.hasSuffix(".mp4") || fileName.hasSuffix(".mov") || fileName.hasSuffix(".jpg"))
+                    if (fileName.hasSuffix(".mp4") || fileName.hasSuffix(".mov") || fileName.hasSuffix(".jpg")) || fileName.hasSuffix(".m4a") 
                     {
                         let filePathName = "\(documentPath)/\(fileName)"
                         try fileManager.removeItem(atPath: filePathName)

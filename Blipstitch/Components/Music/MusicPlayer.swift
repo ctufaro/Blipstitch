@@ -12,6 +12,7 @@ import AVFoundation
 
 public class MusicPlayer {
     public static var instance = MusicPlayer()
+    var playerCreated = false
     var myAudioPlayer = AVAudioPlayer()
     func play(name:String) -> Void {
         
@@ -20,7 +21,10 @@ public class MusicPlayer {
         }
         
         do {
-            try myAudioPlayer = AVAudioPlayer(contentsOf: audioFileURL)
+            if !playerCreated {
+                try myAudioPlayer = AVAudioPlayer(contentsOf: audioFileURL)
+                playerCreated = true
+            }
             print("playing: \(name).mp3")
             myAudioPlayer.play()
         } catch let error {

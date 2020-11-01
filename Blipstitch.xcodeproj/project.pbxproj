@@ -72,7 +72,7 @@
 		D9DA2208254872E000FFD859 /* NextLevelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA2207254872E000FFD859 /* NextLevelError.swift */; };
 		D9DA220B2548736200FFD859 /* NextLevel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA220A2548736200FFD859 /* NextLevel+Extensions.swift */; };
 		D9EA19152519350500032184 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EA19142519350500032184 /* LoadingView.swift */; };
-		D9EA19172519353200032184 /* TemplateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EA19162519353200032184 /* TemplateView.swift */; };
+		D9EA19172519353200032184 /* LongPressButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EA19162519353200032184 /* LongPressButtonView.swift */; };
 		D9FD8447251E444600A41DED /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD8446251E444600A41DED /* Settings.swift */; };
 		D9FEE0CF2535F2E2007DB292 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = D9FEE0CE2535F2E2007DB292 /* NavigationStack */; };
 /* End PBXBuildFile section */
@@ -144,7 +144,7 @@
 		D9DA2207254872E000FFD859 /* NextLevelError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextLevelError.swift; sourceTree = "<group>"; };
 		D9DA220A2548736200FFD859 /* NextLevel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NextLevel+Extensions.swift"; sourceTree = "<group>"; };
 		D9EA19142519350500032184 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
-		D9EA19162519353200032184 /* TemplateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateView.swift; sourceTree = "<group>"; };
+		D9EA19162519353200032184 /* LongPressButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressButtonView.swift; sourceTree = "<group>"; };
 		D9FD8446251E444600A41DED /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -227,7 +227,6 @@
 				D9A98D10251028D200D0E386 /* PreviewView.swift */,
 				D9A98D12251028E000D0E386 /* ProfileView.swift */,
 				D9A98CCD251024EB00D0E386 /* SceneDelegate.swift */,
-				D9EA19162519353200032184 /* TemplateView.swift */,
 				D9532DE22511A9BC0034000E /* VideoPlayerView.swift */,
 				D9A98CD9251024EC00D0E386 /* Info.plist */,
 				D9A98CD6251024EC00D0E386 /* LaunchScreen.storyboard */,
@@ -316,6 +315,7 @@
 				D9047819252286B800CB2E2E /* FontListView.swift */,
 				D9D410E62523A9C4000D2302 /* GestureControlView.swift */,
 				D9EA19142519350500032184 /* LoadingView.swift */,
+				D9EA19162519353200032184 /* LongPressButtonView.swift */,
 				D9A98D092510286E00D0E386 /* PlayerView.swift */,
 				D9A98D162510290B00D0E386 /* PopOverView.swift */,
 				D95359F12515A87C00F06FD7 /* SideMenuView.swift */,
@@ -491,7 +491,7 @@
 				D9A98D1B2510292C00D0E386 /* TimerView.swift in Sources */,
 				D9CFF58A25129DB300ECA8D9 /* RestAPI.swift in Sources */,
 				D9A98CF4251026B900D0E386 /* ComicCIRenderer.swift in Sources */,
-				D9EA19172519353200032184 /* TemplateView.swift in Sources */,
+				D9EA19172519353200032184 /* LongPressButtonView.swift in Sources */,
 				D98AF9C5253D0F2E00231383 /* CameraViewController+Output.swift in Sources */,
 				D93CB48D2526BB20002435AF /* OverlayExport.swift in Sources */,
 				D9314709253E2C1E0067436D /* MusicPlayer.swift in Sources */,

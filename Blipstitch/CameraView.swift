@@ -140,9 +140,10 @@ struct CameraView: View {
                     }
                     HStack(spacing: 0) {
                         Spacer()
-                        ButtonPress(method:self.cameraHelper.captureShot, recordMethod:self.cameraHelper.toggleRecord, playMethod: playMethod).offset(y:-UIScreen.screenHeight / 15)
+                        ButtonPress(method:self.cameraHelper.captureShot, recordMethod:self.cameraHelper.startRecord, pauseMethod: self.cameraHelper.pauseRecord, playMethod: self.playMethod)
+                        /*ButtonPress(method:self.cameraHelper.captureShot, recordMethod:self.cameraHelper.recordMethod,pauseMethod:self.cameraHelper.pauseMethod, playMethod: playMethod).offset(y:-UIScreen.screenHeight / 15)*/
                         Spacer()
-                    }.padding(.bottom, 5)
+                    }.padding(.bottom, 80)
                 }
                     // due to all edges are ignored...
                     .navigationBarTitle("")

@@ -37,8 +37,12 @@ class CameraHelper : ObservableObject{
         delegate!.captureShot()
     }
     
-    func toggleRecord(){
-        delegate!.toggleRecord()
+    func startRecord(){
+        delegate!.startRecord()
+    }
+    
+    func pauseRecord(){
+        delegate!.pauseRecord()
     }
     
     func stopRecord(){
@@ -70,7 +74,8 @@ class CameraHelper : ObservableObject{
 protocol CameraDelegate {
     func changeCamera()
     func captureShot()
-    func toggleRecord()
+    func startRecord()
+    func pauseRecord()
     func stopRecord()
 }
 

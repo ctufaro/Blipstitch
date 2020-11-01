@@ -12,7 +12,7 @@ struct ButtonPressView: View {
     var body: some View{
         ZStack {
             Color.purple.opacity(0.2).edgesIgnoringSafeArea(.all)
-            ButtonPress(method: myfunc, recordMethod: myfunc, playMethod: myfunc)
+            ButtonPress(method: myfunc, recordMethod: myfunc, pauseMethod: myfunc, playMethod: myfunc)
         }
     }
     func myfunc() -> Void {
@@ -25,9 +25,10 @@ struct ButtonPress: View{
     @State var isLongPressing = false
     @State var method: () -> Void
     @State var recordMethod: () -> Void
+    @State var pauseMethod: () -> Void
     @State var playMethod: () -> Void
     var body: some View{
-        HStack(spacing:40) {
+        HStack(spacing:30) {
             Button(action: {
                 if(self.isLongPressing){
                     //this tap was caused by the end of a longpress gesture, so stop our fastforwarding
@@ -54,7 +55,8 @@ struct ButtonPress: View{
             })
         
             //Record Button In HStack
-            Button(action: {
+            LongPressButtonView(pauseMethod:self.pauseMethod, recordMethod:self.recordMethod)
+            /*Button(action: {
                 self.playMethod()
                 self.recordMethod()
             }) {
@@ -64,7 +66,7 @@ struct ButtonPress: View{
                     .scaledToFit()
                     .frame(width: UIScreen.screenWidth / 8, height: UIScreen.screenWidth / 8)
                     .foregroundColor(.white)
-            }
+            }*/
         
         }
     }

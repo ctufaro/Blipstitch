@@ -51,10 +51,6 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
     // MARK: - Recording Video Properties
     public var albumTitle = "Blipstitch"
     public lazy var isRecording = false
-    public var videoWriter: AVAssetWriter!
-    public var videoWriterInput: AVAssetWriterInput!
-    public var videoWriterInputPixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor!
-    public var audioWriterInput: AVAssetWriterInput!
     public var sessionAtSourceTime: CMTime?
     public let writingQueue = DispatchQueue(label: "com.hilaoinc.hilao.queue.recorder.start-writing")
     public var videoSize = CGSize(width: 1280, height: 720) //HACK!
@@ -120,7 +116,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         mtkView.setupView()
         
         //winky
-        self.recordButton = UIImageView(image: UIImage(named: "Record"))
+        /*self.recordButton = UIImageView(image: UIImage(named: "Record"))
         self.view.addSubview(recordButton!)
         self.recordButton!.isUserInteractionEnabled = true
         self.recordButton!.sizeToFit()
@@ -137,7 +133,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
             longPressGestureRecognizer.minimumPressDuration = 0.05
             longPressGestureRecognizer.allowableMovement = 10.0
             recordButton.addGestureRecognizer(longPressGestureRecognizer)
-        }
+        }*/
         //winky
         
         videoFilterOn = true
@@ -385,10 +381,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVC
         }
 
         capFrameRate(videoDevice: videoDevice)
-        
-        //Recording AssetWriter
-        //self.setupWriter()
-        
+
         session.commitConfiguration()
     }
     
