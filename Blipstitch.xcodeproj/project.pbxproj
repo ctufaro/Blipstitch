@@ -32,6 +32,7 @@
 		D970DED625434D56007DADAA /* dreams.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D970DECB25434D56007DADAA /* dreams.mp3 */; };
 		D970DED725434D56007DADAA /* hipjazz.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D970DECC25434D56007DADAA /* hipjazz.mp3 */; };
 		D970DED825434D56007DADAA /* house.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D970DECD25434D56007DADAA /* house.mp3 */; };
+		D974CABD2550752C004E6B24 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D974CABC2550752C004E6B24 /* CountdownView.swift */; };
 		D97B2A9725266738004610FA /* GestureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97B2A9625266738004610FA /* GestureHelper.swift */; };
 		D98AF9C0253D0B8000231383 /* CameraViewController+Recording+Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9BF253D0B8000231383 /* CameraViewController+Recording+Video.swift */; };
 		D98AF9C5253D0F2E00231383 /* CameraViewController+Output.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AF9C4253D0F2E00231383 /* CameraViewController+Output.swift */; };
@@ -102,6 +103,7 @@
 		D970DECB25434D56007DADAA /* dreams.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = dreams.mp3; sourceTree = "<group>"; };
 		D970DECC25434D56007DADAA /* hipjazz.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hipjazz.mp3; sourceTree = "<group>"; };
 		D970DECD25434D56007DADAA /* house.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = house.mp3; sourceTree = "<group>"; };
+		D974CABC2550752C004E6B24 /* CountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
 		D97B2A9625266738004610FA /* GestureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureHelper.swift; sourceTree = "<group>"; };
 		D98AF9BF253D0B8000231383 /* CameraViewController+Recording+Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Recording+Video.swift"; sourceTree = "<group>"; };
 		D98AF9C4253D0F2E00231383 /* CameraViewController+Output.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Output.swift"; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				D9CFF5872512751E00ECA8D9 /* AvatarView.swift */,
 				D9A98D1C2510294000D0E386 /* BottomMenuView.swift */,
 				D9A98D14251028F900D0E386 /* CaptureButtonsView.swift */,
+				D974CABC2550752C004E6B24 /* CountdownView.swift */,
 				D9A98D0D251028BB00D0E386 /* FeedControlsView.swift */,
 				D9047819252286B800CB2E2E /* FontListView.swift */,
 				D9D410E62523A9C4000D2302 /* GestureControlView.swift */,
@@ -483,6 +486,7 @@
 				D98AF9C0253D0B8000231383 /* CameraViewController+Recording+Video.swift in Sources */,
 				D96BD93F25142C0F00F237BD /* ImageLoader.swift in Sources */,
 				D97B2A9725266738004610FA /* GestureHelper.swift in Sources */,
+				D974CABD2550752C004E6B24 /* CountdownView.swift in Sources */,
 				D9A550BC2514CF9A00B30EC3 /* FeedView.swift in Sources */,
 				D9A98D11251028D200D0E386 /* PreviewView.swift in Sources */,
 				D93146FE253DF3AD0067436D /* MusicClipView.swift in Sources */,

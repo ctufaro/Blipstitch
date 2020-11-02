@@ -10,6 +10,7 @@ import SwiftUI
 
 
 struct LongPressButtonView: View{
+    @Binding var showCountdown:Bool
     @State var isLongPressing = false
     @State var pauseVideoMethod: () -> Void
     @State var recordVideoMethod: () -> Void
@@ -23,7 +24,7 @@ struct LongPressButtonView: View{
                     self.pauseVideoMethod()
                     self.isLongPressing.toggle()
                 } else {
-                    //print("tap")
+                    self.showCountdown.toggle()
                 }
             }, label: {
                 Image("Circle")
@@ -57,8 +58,9 @@ struct LongPressButtonView_Previews: PreviewProvider {
     static func myfunc() -> Void {
         print("LongPressButtonView_Previews")
     }
+    @State static var showCountdown:Bool = false
     static var previews: some View {
-        LongPressButtonView(pauseVideoMethod: myfunc, recordVideoMethod: myfunc, playMusicMethod: myfunc, pauseMusicMethod: myfunc)
+        LongPressButtonView(showCountdown: $showCountdown, pauseVideoMethod: myfunc, recordVideoMethod: myfunc, playMusicMethod: myfunc, pauseMusicMethod: myfunc)
     }
 }
 

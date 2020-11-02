@@ -13,12 +13,14 @@ struct CameraView: View {
     @State var selection: Int? = nil
     @State var show = false
     @State var showMusicModal = false
+    @State var showCountdown = false
     @State var musicPlayer:MusicPlayer = MusicPlayer()
     var body: some View {
         NavigationView {
             ZStack {
                 AVCamView(cameraHelper:cameraHelper)
                 TextFlashView(flash: $cameraHelper.flashText, textToFlash: self.cameraHelper.filterName)
+                CountdownView(show:$showCountdown, recordVideoMethod:self.cameraHelper.startRecord, playMusicMethod:self.playMethod)
                 VStack{
                     Spacer()
                     HStack{
@@ -142,6 +144,7 @@ struct CameraView: View {
                     HStack(spacing: 0) {
                         Spacer()
                         CaptureButtons(
+                            showCountdown: $showCountdown,
                             captureMethod:self.cameraHelper.captureShot,
                             recordVideoMethod:self.cameraHelper.startRecord,
                             pauseVideoMethod: self.cameraHelper.pauseRecord,
@@ -151,7 +154,6 @@ struct CameraView: View {
                         Spacer()
                     }.padding(.bottom, 5)
                 }
-                    // due to all edges are ignored...
                     .navigationBarTitle("")
                     .navigationBarItems(leading:
                         Button(action: {
@@ -179,7 +181,6 @@ struct CameraView: View {
                             .offset(x:-10)
                         }
                     )
-                    //.navigationBarHidden(true)
                     .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
                     .padding(.bottom, (UIApplication.shared.windows.first?.safeAreaInsets.bottom)! + 5)
             }.background(Color.black.edgesIgnoringSafeArea(.all)).edgesIgnoringSafeArea(.all)

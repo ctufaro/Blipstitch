@@ -9,10 +9,11 @@
 import SwiftUI
 
 struct CaptureButtonsView: View {
+    @State var showCountdown = false
     var body: some View{
         ZStack {
             Color.purple.opacity(0.2).edgesIgnoringSafeArea(.all)
-            CaptureButtons(captureMethod: myfunc, recordVideoMethod: myfunc, pauseVideoMethod: myfunc, playMusicMethod: myfunc, pauseMusicMethod: myfunc)
+            CaptureButtons(showCountdown: $showCountdown, captureMethod: myfunc, recordVideoMethod: myfunc, pauseVideoMethod: myfunc, playMusicMethod: myfunc, pauseMusicMethod: myfunc)
         }
     }
     func myfunc() -> Void {
@@ -21,6 +22,7 @@ struct CaptureButtonsView: View {
 }
 
 struct CaptureButtons: View{
+    @Binding var showCountdown:Bool
     @State private var timer: Timer?
     @State var isLongPressing = false
     @State var captureMethod: () -> Void
@@ -56,7 +58,7 @@ struct CaptureButtons: View{
             })
         
             //Record Button In HStack
-            LongPressButtonView(pauseVideoMethod:self.pauseVideoMethod, recordVideoMethod:self.recordVideoMethod, playMusicMethod:self.playMusicMethod, pauseMusicMethod:self.pauseMusicMethod)
+            LongPressButtonView(showCountdown: $showCountdown,pauseVideoMethod:self.pauseVideoMethod, recordVideoMethod:self.recordVideoMethod, playMusicMethod:self.playMusicMethod, pauseMusicMethod:self.pauseMusicMethod)
         
         }
     }
