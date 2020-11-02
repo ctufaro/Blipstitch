@@ -47,12 +47,7 @@ extension CameraViewController {
         if let session = self.recordingSession {
             
             /// Add MP3 To Video
-            
-            /*let audioURL = Bundle.main.url(forResource: self.cameraHelper.selectedAudio, withExtension: "mp3")
-            let audio = NextLevelClip()
-            audio._asset = AVAsset(url: audioURL!)
-            session.add(clip: audio, at: 0)
-            session.appendClips(toComposition: <#T##AVMutableComposition#>, audioMix: <#T##AVMutableAudioMix?#>)*/
+            session.audioOverlay = self.cameraHelper.selectedAudio
             
             if session.clips.count > 1 {
                 session.mergeClips(usingPreset: AVAssetExportPresetHighestQuality, completionHandler: { (url: URL?, error: Error?) in
@@ -82,6 +77,8 @@ extension CameraViewController {
                 alertController.addAction(okAction)
                 self.present(alertController, animated: true, completion: nil)
             }
+            
+            session.removeAllClips()
         
         }
         

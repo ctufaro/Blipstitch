@@ -24,6 +24,8 @@ public class NextLevelSession {
     /// Output file extension for a session, see AVMediaFormat.h for supported extensions.
     public var fileExtension: String = "mp4"
     
+    public var audioOverlay: String? = nil
+    
     /// Unique identifier for a session.
     public var identifier: UUID {
         get {
@@ -788,43 +790,43 @@ extension NextLevelSession {
 extension NextLevelSession {
     
     internal func appendClips(toComposition composition: AVMutableComposition, audioMix: AVMutableAudioMix? = nil) {
-        //self.executeClosureSyncOnSessionQueueIfNecessary {
-            var videoTrack: AVMutableCompositionTrack? = nil
-            var audioTrack: AVMutableCompositionTrack? = nil
-            
-            var currentTime = composition.duration
-            
-            for clip: NextLevelClip in self._clips {
-                if let asset = clip.asset {
-                    let videoAssetTracks = asset.tracks(withMediaType: AVMediaType.video)
-                    let audioAssetTracks = asset.tracks(withMediaType: AVMediaType.audio)
-                 
-                    var maxRange = CMTime.invalid
-                    
-                    var videoTime = currentTime
-                    for videoAssetTrack in videoAssetTracks {
-                        if videoTrack == nil {
-                            let videoTracks = composition.tracks(withMediaType: AVMediaType.video)
-                            if videoTracks.count > 0 {
-                                videoTrack = videoTracks.first
-                            } else {
-                                videoTrack = composition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: kCMPersistentTrackID_Invalid)
-                                videoTrack?.preferredTransform = videoAssetTrack.preferredTransform
-                            }
-                        }
-                        
-                        if let foundTrack = videoTrack {
-                            videoTime = self.appendTrack(track: videoAssetTrack, toCompositionTrack: foundTrack, withStartTime: videoTime, range: maxRange)
-                            maxRange = videoTime
+        
+        var videoTrack: AVMutableCompositionTrack? = nil
+        var audioTrack: AVMutableCompositionTrack? = nil
+        
+        var currentTime = composition.duration
+        
+        for clip: NextLevelClip in self._clips {
+            if let asset = clip.asset {
+                let videoAssetTracks = asset.tracks(withMediaType: AVMediaType.video)
+                let audioAssetTracks = asset.tracks(withMediaType: AVMediaType.audio)
+                
+                var maxRange = CMTime.invalid
+                
+                var videoTime = currentTime
+                for videoAssetTrack in videoAssetTracks {
+                    if videoTrack == nil {
+                        let videoTracks = composition.tracks(withMediaType: AVMediaType.video)
+                        if videoTracks.count > 0 {
+                            videoTrack = videoTracks.first
+                        } else {
+                            videoTrack = composition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: kCMPersistentTrackID_Invalid)
+                            videoTrack?.preferredTransform = videoAssetTrack.preferredTransform
                         }
                     }
-                  
-                    if !clip.isMutedOnMerge {
-                        var audioTime = currentTime
-                        for audioAssetTrack in audioAssetTracks {
+                    
+                    if let foundTrack = videoTrack {
+                        videoTime = self.appendTrack(track: videoAssetTrack, toCompositionTrack: foundTrack, withStartTime: videoTime, range: maxRange)
+                        maxRange = videoTime
+                    }
+                }
+                
+                if !clip.isMutedOnMerge {
+                    var audioTime = currentTime
+                    for audioAssetTrack in audioAssetTracks {
                         if audioTrack == nil {
                             let audioTracks = composition.tracks(withMediaType: AVMediaType.audio)
-                          
+                            
                             if audioTracks.count > 0 {
                                 audioTrack = audioTracks.first
                             } else {
@@ -834,13 +836,22 @@ extension NextLevelSession {
                         if let foundTrack = audioTrack {
                             audioTime = self.appendTrack(track: audioAssetTrack, toCompositionTrack: foundTrack, withStartTime: audioTime, range: maxRange)
                         }
-                      }
                     }
-
-                    currentTime = composition.duration
                 }
+                
+                currentTime = composition.duration
             }
-        //}
+        }
+        
+        if let audioOverlay = self.audioOverlay {
+            let audioURL = Bundle.main.url(forResource: audioOverlay, withExtension: "mp3")
+            let audioAsset = AVURLAsset(url: audioURL!)
+            let audioTracks = audioAsset.tracks(withMediaType: .audio)
+            let audioCompositionTrack: AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
+            let newTimeRange = (audioTracks[0].timeRange.duration > videoTrack!.timeRange.duration) ? videoTrack!.timeRange : audioTracks[0].timeRange
+            try! audioCompositionTrack.insertTimeRange(newTimeRange, of: audioTracks[0], at: CMTime.zero)
+        }
+        
     }
     
     private func appendTrack(track: AVAssetTrack, toCompositionTrack compositionTrack: AVMutableCompositionTrack, withStartTime time: CMTime, range: CMTime) -> CMTime {
@@ -865,20 +876,6 @@ extension NextLevelSession {
         }
         
         return startTime
-    }
-    
-    internal func appendAudioToEnd(completedURL:URL, audioURL:URL) -> AVURLAsset{
-        let videoAsset = AVURLAsset(url: completedURL)
-        let videoTracks = videoAsset.tracks(withMediaType: .video)
-        let videoTrack = videoTracks[0]
-        let composition = AVMutableComposition()
-        let audioAsset = AVURLAsset(url: audioURL)
-        let audioTracks = audioAsset.tracks(withMediaType: .audio)
-        let audioTrack = audioTracks[0]
-        let audioCompositionTrack: AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
-        let newTimeRange = (audioTrack.timeRange.duration > videoTrack.timeRange.duration) ? videoTrack.timeRange : audioTrack.timeRange
-        try! audioCompositionTrack.insertTimeRange(newTimeRange, of: audioTrack, at: CMTime.zero)
-        return videoAsset
     }
     
 }

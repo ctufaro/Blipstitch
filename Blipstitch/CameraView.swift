@@ -88,14 +88,14 @@ struct CameraView: View {
                                     self.cameraHelper.stopRecord()
                                 }) {
                                     VStack(spacing: 8) {
-                                        Image("Stop")
+                                        Image("Done")
                                             .renderingMode(.template)
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: UIScreen.screenWidth / 10, height: UIScreen.screenWidth / 10)
                                             .font(.title)
                                             .foregroundColor(.white)
-                                        Text("Stop")
+                                        Text("Done")
                                             .foregroundColor(.white)
                                     }
                                 }
@@ -141,7 +141,7 @@ struct CameraView: View {
 
                     HStack(spacing: 0) {
                         Spacer()
-                        ButtonPress(
+                        CaptureButtons(
                             captureMethod:self.cameraHelper.captureShot,
                             recordVideoMethod:self.cameraHelper.startRecord,
                             pauseVideoMethod: self.cameraHelper.pauseRecord,
@@ -187,7 +187,9 @@ struct CameraView: View {
     }
 
     func playMethod()->Void {
-        self.musicPlayer.play(name: self.cameraHelper.selectedAudio)
+        if let selectedAudio = self.cameraHelper.selectedAudio {
+            self.musicPlayer.play(name: selectedAudio)
+        }
     }
 }
 

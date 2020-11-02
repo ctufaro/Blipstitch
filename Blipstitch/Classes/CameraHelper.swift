@@ -19,7 +19,7 @@ class CameraHelper : ObservableObject{
     @Published var flashText:Bool = false
     @Published var filterName : String = ""
     @Published var count:Int
-    @Published var selectedAudio : String = ""
+    @Published var selectedAudio : String? = nil
     @Published var micOn:Bool = false
     
     init(){

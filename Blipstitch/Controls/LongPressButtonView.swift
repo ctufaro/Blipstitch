@@ -54,9 +54,11 @@ struct ScaleButtonStyle: ButtonStyle {
 
 
 struct LongPressButtonView_Previews: PreviewProvider {
+    static func myfunc() -> Void {
+        print("LongPressButtonView_Previews")
+    }
     static var previews: some View {
-        //LongPressButtonView()
-        Text("Fix This")
+        LongPressButtonView(pauseVideoMethod: myfunc, recordVideoMethod: myfunc, playMusicMethod: myfunc, pauseMusicMethod: myfunc)
     }
 }
 

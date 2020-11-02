@@ -8,11 +8,11 @@
 
 import SwiftUI
 
-struct ButtonPressView: View {
+struct CaptureButtonsView: View {
     var body: some View{
         ZStack {
             Color.purple.opacity(0.2).edgesIgnoringSafeArea(.all)
-            ButtonPress(captureMethod: myfunc, recordVideoMethod: myfunc, pauseVideoMethod: myfunc, playMusicMethod: myfunc, pauseMusicMethod: myfunc)
+            CaptureButtons(captureMethod: myfunc, recordVideoMethod: myfunc, pauseVideoMethod: myfunc, playMusicMethod: myfunc, pauseMusicMethod: myfunc)
         }
     }
     func myfunc() -> Void {
@@ -20,7 +20,7 @@ struct ButtonPressView: View {
     }
 }
 
-struct ButtonPress: View{
+struct CaptureButtons: View{
     @State private var timer: Timer?
     @State var isLongPressing = false
     @State var captureMethod: () -> Void
@@ -62,9 +62,9 @@ struct ButtonPress: View{
     }
 }
 
-struct ButtonPressView_Previews: PreviewProvider {
+struct CaptureButtonsView_Previews: PreviewProvider {
     static var previews: some View {
-        ButtonPressView()
+        CaptureButtonsView()
     }
 }
 

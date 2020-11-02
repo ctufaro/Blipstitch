@@ -58,7 +58,7 @@
 		D9A98D0E251028BB00D0E386 /* FeedControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D0D251028BB00D0E386 /* FeedControlsView.swift */; };
 		D9A98D11251028D200D0E386 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D10251028D200D0E386 /* PreviewView.swift */; };
 		D9A98D13251028E000D0E386 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D12251028E000D0E386 /* ProfileView.swift */; };
-		D9A98D15251028F900D0E386 /* ButtonPressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D14251028F900D0E386 /* ButtonPressView.swift */; };
+		D9A98D15251028F900D0E386 /* CaptureButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D14251028F900D0E386 /* CaptureButtonsView.swift */; };
 		D9A98D172510290B00D0E386 /* PopOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D162510290B00D0E386 /* PopOverView.swift */; };
 		D9A98D192510291C00D0E386 /* TextFlashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D182510291C00D0E386 /* TextFlashView.swift */; };
 		D9A98D1B2510292C00D0E386 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D1A2510292C00D0E386 /* TimerView.swift */; };
@@ -130,7 +130,7 @@
 		D9A98D0D251028BB00D0E386 /* FeedControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedControlsView.swift; sourceTree = "<group>"; };
 		D9A98D10251028D200D0E386 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		D9A98D12251028E000D0E386 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		D9A98D14251028F900D0E386 /* ButtonPressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonPressView.swift; sourceTree = "<group>"; };
+		D9A98D14251028F900D0E386 /* CaptureButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureButtonsView.swift; sourceTree = "<group>"; };
 		D9A98D162510290B00D0E386 /* PopOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverView.swift; sourceTree = "<group>"; };
 		D9A98D182510291C00D0E386 /* TextFlashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFlashView.swift; sourceTree = "<group>"; };
 		D9A98D1A2510292C00D0E386 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
@@ -310,7 +310,7 @@
 			children = (
 				D9CFF5872512751E00ECA8D9 /* AvatarView.swift */,
 				D9A98D1C2510294000D0E386 /* BottomMenuView.swift */,
-				D9A98D14251028F900D0E386 /* ButtonPressView.swift */,
+				D9A98D14251028F900D0E386 /* CaptureButtonsView.swift */,
 				D9A98D0D251028BB00D0E386 /* FeedControlsView.swift */,
 				D9047819252286B800CB2E2E /* FontListView.swift */,
 				D9D410E62523A9C4000D2302 /* GestureControlView.swift */,
@@ -449,7 +449,7 @@
 				D9A98D062510283000D0E386 /* CameraHelper.swift in Sources */,
 				D9DA22052548727100FFD859 /* NextLevelConfiguration.swift in Sources */,
 				D95359F22515A87C00F06FD7 /* SideMenuView.swift in Sources */,
-				D9A98D15251028F900D0E386 /* ButtonPressView.swift in Sources */,
+				D9A98D15251028F900D0E386 /* CaptureButtonsView.swift in Sources */,
 				D9A98D082510285000D0E386 /* ImageToVideo.swift in Sources */,
 				D9532DDF25104D9A0034000E /* FeedItem.swift in Sources */,
 				D9A98D172510290B00D0E386 /* PopOverView.swift in Sources */,
