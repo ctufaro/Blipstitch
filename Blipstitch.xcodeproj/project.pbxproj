@@ -57,7 +57,7 @@
 		D9A98D0A2510286E00D0E386 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D092510286E00D0E386 /* PlayerView.swift */; };
 		D9A98D0C251028A900D0E386 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D0B251028A900D0E386 /* CameraView.swift */; };
 		D9A98D0E251028BB00D0E386 /* FeedControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D0D251028BB00D0E386 /* FeedControlsView.swift */; };
-		D9A98D11251028D200D0E386 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D10251028D200D0E386 /* PreviewView.swift */; };
+		D9A98D11251028D200D0E386 /* ImagePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D10251028D200D0E386 /* ImagePreviewView.swift */; };
 		D9A98D13251028E000D0E386 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D12251028E000D0E386 /* ProfileView.swift */; };
 		D9A98D15251028F900D0E386 /* CaptureButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D14251028F900D0E386 /* CaptureButtonsView.swift */; };
 		D9A98D172510290B00D0E386 /* PopOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9A98D162510290B00D0E386 /* PopOverView.swift */; };
@@ -74,6 +74,7 @@
 		D9DA220B2548736200FFD859 /* NextLevel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DA220A2548736200FFD859 /* NextLevel+Extensions.swift */; };
 		D9EA19152519350500032184 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EA19142519350500032184 /* LoadingView.swift */; };
 		D9EA19172519353200032184 /* LongPressButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EA19162519353200032184 /* LongPressButtonView.swift */; };
+		D9EE9DD12551894400CD79A0 /* VideoPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EE9DD02551894400CD79A0 /* VideoPreviewView.swift */; };
 		D9FD8447251E444600A41DED /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FD8446251E444600A41DED /* Settings.swift */; };
 		D9FEE0CF2535F2E2007DB292 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = D9FEE0CE2535F2E2007DB292 /* NavigationStack */; };
 /* End PBXBuildFile section */
@@ -130,7 +131,7 @@
 		D9A98D092510286E00D0E386 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		D9A98D0B251028A900D0E386 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		D9A98D0D251028BB00D0E386 /* FeedControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedControlsView.swift; sourceTree = "<group>"; };
-		D9A98D10251028D200D0E386 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
+		D9A98D10251028D200D0E386 /* ImagePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewView.swift; sourceTree = "<group>"; };
 		D9A98D12251028E000D0E386 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		D9A98D14251028F900D0E386 /* CaptureButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureButtonsView.swift; sourceTree = "<group>"; };
 		D9A98D162510290B00D0E386 /* PopOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOverView.swift; sourceTree = "<group>"; };
@@ -147,6 +148,7 @@
 		D9DA220A2548736200FFD859 /* NextLevel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NextLevel+Extensions.swift"; sourceTree = "<group>"; };
 		D9EA19142519350500032184 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		D9EA19162519353200032184 /* LongPressButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressButtonView.swift; sourceTree = "<group>"; };
+		D9EE9DD02551894400CD79A0 /* VideoPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPreviewView.swift; sourceTree = "<group>"; };
 		D9FD8446251E444600A41DED /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -226,9 +228,10 @@
 				D9A98CCF251024EB00D0E386 /* ContentView.swift */,
 				D9A550BB2514CF9A00B30EC3 /* FeedView.swift */,
 				D93146FD253DF3AD0067436D /* MusicClipView.swift */,
-				D9A98D10251028D200D0E386 /* PreviewView.swift */,
+				D9A98D10251028D200D0E386 /* ImagePreviewView.swift */,
 				D9A98D12251028E000D0E386 /* ProfileView.swift */,
 				D9A98CCD251024EB00D0E386 /* SceneDelegate.swift */,
+				D9EE9DD02551894400CD79A0 /* VideoPreviewView.swift */,
 				D9532DE22511A9BC0034000E /* VideoPlayerView.swift */,
 				D9A98CD9251024EC00D0E386 /* Info.plist */,
 				D9A98CD6251024EC00D0E386 /* LaunchScreen.storyboard */,
@@ -475,6 +478,7 @@
 				D9DA22022548720600FFD859 /* NextLevelClip.swift in Sources */,
 				D9A98CF6251026D000D0E386 /* EmptyRenderer.swift in Sources */,
 				D9DA220B2548736200FFD859 /* NextLevel+Extensions.swift in Sources */,
+				D9EE9DD12551894400CD79A0 /* VideoPreviewView.swift in Sources */,
 				D9A98D022510273800D0E386 /* PassThrough.metal in Sources */,
 				D98AF9CD253D11D200231383 /* CameraViewController+Extensions.swift in Sources */,
 				D9CFF5882512751E00ECA8D9 /* AvatarView.swift in Sources */,
@@ -488,7 +492,7 @@
 				D97B2A9725266738004610FA /* GestureHelper.swift in Sources */,
 				D974CABD2550752C004E6B24 /* CountdownView.swift in Sources */,
 				D9A550BC2514CF9A00B30EC3 /* FeedView.swift in Sources */,
-				D9A98D11251028D200D0E386 /* PreviewView.swift in Sources */,
+				D9A98D11251028D200D0E386 /* ImagePreviewView.swift in Sources */,
 				D93146FE253DF3AD0067436D /* MusicClipView.swift in Sources */,
 				D9A98CE6251025A500D0E386 /* AVCamView.swift in Sources */,
 				D9A98CD0251024EB00D0E386 /* ContentView.swift in Sources */,

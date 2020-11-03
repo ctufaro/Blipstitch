@@ -11,7 +11,7 @@ import UIKit
 import AVFoundation
 import Photos
 
-struct PreviewView: View {
+struct ImagePreviewView: View {
     @Binding var shots: Array<UIImage>!
     @ObservedObject var gestureHelper = GestureHelper()
     @State var duration: Double = 1
@@ -191,7 +191,7 @@ struct PreviewView: View {
         }
     }
     
-    struct PreviewView_Previews: PreviewProvider {
+    struct ImagePreviewView_Previews: PreviewProvider {
         static var images: Array<UIImage>! = [
             UIImage(named: "Us1")!,
             UIImage(named: "Us2")!,
@@ -202,7 +202,7 @@ struct PreviewView: View {
         @State static var shots:Array<UIImage>! = images + images.reversed()
         
         static var previews: some View {
-            PreviewView(shots:$shots)
+            ImagePreviewView(shots:$shots)
         }
     }
 }

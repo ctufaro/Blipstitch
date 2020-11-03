@@ -25,7 +25,7 @@ struct CameraView: View {
                     Spacer()
                     HStack{
                         if self.cameraHelper.capturedImage != nil {
-                            NavigationLink(destination: PreviewView(shots:$cameraHelper.shots), tag: 1, selection: $selection) {
+                            NavigationLink(destination: ImagePreviewView(shots:$cameraHelper.shots), tag: 1, selection: $selection) {
                                 Button(action: {
                                     self.selection = 1
                                 }) {
