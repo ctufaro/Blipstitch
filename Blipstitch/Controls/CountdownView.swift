@@ -58,11 +58,13 @@ struct CountdownView: View {
 
 struct CountdownView_Previews: PreviewProvider {
     @State static var show = false
+    static func myfunc() -> Void {
+        print("LongPressButtonView_Previews")
+    }
     static var previews: some View {
         ZStack {
             Color(.black).ignoresSafeArea(.all)
-            //CountdownView(show:$show)
-            Text("Fix This")
+            CountdownView(show: $show, recordVideoMethod: myfunc, playMusicMethod: myfunc)
         }
     }
 }
